@@ -1,0 +1,50 @@
+﻿@import 'vars';
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h7,
+.h8 {
+    color: $text-01;
+    font-family: $font-family-sans-serif-display;
+    font-weight: $font-weight-bold;
+}
+
+h1 {
+    font-size: rem(65px);
+    letter-spacing: 2px;
+    line-height: 81px;
+}
+
+h2 {
+    font-size: rem(48px);
+    letter-spacing: 1px;
+    line-height: 60px;
+}
+
+h3 {
+    font-size: rem(42px);
+    letter-spacing: 1px;
+    line-height: 52px;
+}
+
+h4 {
+    font-size: rem(36px);
+    letter-spacing: 1px;
+    line-height: 45px;
+}
+
+h5 {
+    font-size: rem(32px);
+    letter-spacing: 1px;
+    line-height: 40px;
+}
+
+h6 {
+    font-size: rem(24px);
+    letter-spacing: 0.5px;
+    line-height: 30px;
+}

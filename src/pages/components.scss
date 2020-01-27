@@ -1,0 +1,13 @@
+@import "../scss/main.scss";
+
+.components-list-item {
+    border-bottom: 2px solid $ui-03;
+    padding: 1em 0; 
+    p {
+        margin: 0;
+
+        &.large {
+            font-size: 200%;
+        }
+    }
+}

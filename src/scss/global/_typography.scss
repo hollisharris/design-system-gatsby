@@ -1,0 +1,21 @@
+@import 'vars';
+
+$font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+$font-family-sans-serif-display-name: 'Bergen Sans';
+$font-family-sans-serif-display: $font-family-sans-serif-display-name, $font-family-sans-serif;
+
+
+$font-weight-light: 300 !default;
+$font-weight-regular: 400 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+
+$font-size-root: 16; // no units, you assume the font size base of most browsers is 16px.
+
+@function strip-unit($num) {
+    @return $num / ($num * 0 + 1);
+}
+
+@function rem($px, $base: $font-size-root) {
+    @return strip-unit($px) / $base * 1rem;
+}

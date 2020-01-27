@@ -1,0 +1,63 @@
+﻿//---------------------------------------------------------------
+// MAIN.SCSS
+//---------------------------------------------------------------
+
+
+//---------------------------------------------------------------
+// Vendor
+//---------------------------------------------------------------
+
+$css--font-face: true;
+$css--reset: true;
+$css--source-sans-pro: true;
+
+@import 'node_modules/uta-prototype/bundle/scss/uta-style';
+
+
+//---------------------------------------------------------------
+// Global
+//---------------------------------------------------------------
+
+@import 'global/typography';
+@import 'global/vars';
+@import 'global/mixins';
+@import 'global/layout';
+@import 'global/tables';
+@import 'global/grid';
+@import 'global/css--typography';
+@import 'global/404';
+@import 'global/pages';
+
+
+// //----------------------------------------------------------------
+// // Internal components
+// //----------------------------------------------------------------
+
+// @import '../components/internal/CodeExample/code-example.scss';
+// @import '../components/internal/CodePage/code-page.scss';
+// @import '../components//internal/ComponentExample/component-example.scss';
+// @import '../components//internal/ComponentExample/component-overrides.scss';
+// @import '../components/internal/Header/header.scss';
+// @import '../components/internal/MarkdownPage/markdown-page.scss';
+// @import '../components/internal/Page/page.scss';
+// @import '../components/internal/PageHeader/page-header.scss';
+// @import '../components/internal/SideNav/sidenav.scss';
+// @import '../components/internal/SideNavToggle/toggle-btn.scss';
+
+
+// //----------------------------------------------------------------
+// // Custom components
+// //----------------------------------------------------------------
+
+// @import '../components/custom/ColorBox/color-box.scss';
+// @import '../components/custom/ColorCard/color-card.scss';
+// @import '../components/custom/IconCard/icon-card.scss';
+// @import '../components/custom/TypographyCard/typography-card.scss';
+
+// //----------------------------------------------------------------
+// // Pages
+// //----------------------------------------------------------------
+
+// @import '../pages/ComponentStatus/component-status.scss';
+// @import '../pages/PageLayouts/page-layouts.scss';
+// @import '../pages/Overview/overview.scss';

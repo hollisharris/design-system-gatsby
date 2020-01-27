@@ -1,0 +1,31 @@
+/// STYLE/TYPOGRAPHY
+main[data-page='style-typography'] {
+    > .container,
+    > .container-fluid {
+        > .row {
+            margin-bottom: rem(50px);
+        }
+    }
+
+    .typography-header {
+        @include font-size(14);
+        @include font-weight(regular);
+        border-bottom: 2px solid $color-blue;
+        margin-bottom: rem(20px);
+        padding-bottom: rem(5px);
+    
+        p {
+            margin-bottom: 0;
+        }
+    }
+}
+
+/// STYLE/COLOR
+main[data-page='style-color'] {
+    > .container,
+    > .container-fluid {
+        > .row {
+            margin-bottom: rem(100px);
+        }
+    }
+}

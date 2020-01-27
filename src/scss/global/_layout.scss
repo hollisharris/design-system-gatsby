@@ -1,0 +1,85 @@
+//--------------------
+// GLOBAL LAYOUT
+// Includes styles for body, link, wrapper and container.
+//--------------------
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins/breakpoints';
+@import 'typography';
+@import 'colors';
+
+body {
+    background-color: $color__white;
+    color: $color__blue-5;
+    font-family: $font-family-sans-serif;
+    margin: 0;
+
+    hr {
+        display: none;
+    }
+}
+
+* {
+  &::selection {
+    background: #b4d8fb; /* WebKit/Blink Browsers */
+  }
+}
+
+#maincontent {
+    padding-bottom: 23rem;
+    min-height: 100vh;
+
+    > .container, > .container-fluid {
+        padding-left: ($side-nav__closed--padding-left / 2);
+
+        @include media-breakpoint-up(lg) {
+            padding-left: $side-nav__closed--padding-left;
+        }
+    }
+}
+
+.maincontentwrapper {
+    width: 100%;
+    margin-left: 0;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: $height--header;
+    transition-duration: $uta--standard-duration;
+    transition-timing-function: $uta--standard-easing;
+    transition-property: margin-left, width;
+
+    @include media-breakpoint-up(lg) {
+        margin-left: $width--side-nav !important;
+        width: calc(100% - #{$width--side-nav}) !important;
+    }
+
+    &--expanded {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    main {
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+svg {
+  transition: fill 250ms;
+}
+
+
+body hr.divider {
+  display: block;
+  margin: 3rem 0;
+  max-width: 38rem;
+}
+
+iframe {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}

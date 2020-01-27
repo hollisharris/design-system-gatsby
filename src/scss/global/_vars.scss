@@ -1,0 +1,41 @@
+@import 'colors';
+@import 'node_modules/uta-prototype/bundle/scss/base/colors';
+
+$prefix: 'uta' !default;
+
+$uta--ease-in: cubic-bezier(0.25, 0, 1, 1); // Used primarily for removing elements from the screen.
+$uta--ease-out: cubic-bezier( 0, 0, 0.25, 1 ); // Used for adding elements to the screen or changing on-screen states at a users's input.
+$uta--standard-easing: cubic-bezier(0.5, 0, 0.1, 1); // Used for the majority of animations.
+$uta--standard-duration: 200ms;
+
+// Color Theme Variables
+$brand-01: $color-blue !default;
+$brand-02: $color-blue-secondary !default;
+$brand-03: $primary-color !default;
+$ui-01: $color-white !default;
+$ui-02: $color-light-gray-background !default;
+$ui-03: #F8F8F8 !default;
+$ui-04: #EDEDED !default;
+$ui-05: #D2D2D2 !default;
+$ui-06: #757575 !default;
+$ui-07: #84ABD8 !default;
+$text-01: $body-text !default;
+$text-02: $color-dark-gray !default;
+$text-03: $color-white !default;
+$text-04: $color-orange !default;
+$text-05: $color-blue !default;
+$field-01: #f4f7fb !default;
+$field-02: $color-white !default;
+$support-01: #E0182D !default;
+$support-02: #5AA700 !default;
+$support-03: #EFC100 !default;
+
+
+//--------------------
+// GLOBAL VARIABLES
+//--------------------
+$height--header: rem(60px);
+$width--side-nav: rem(260px);
+$side-nav__closed--padding-left: rem(100px);
+$max-content-width: rem(800px);
+$max-text-width: $max-content-width;

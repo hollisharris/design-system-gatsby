@@ -1,0 +1,21 @@
+@import "../scss/main.scss";
+
+.component-example {
+    .frame {
+        border: 3px solid $ui-03;
+    }
+    
+    .component-toolbar {
+        border: 3px solid $ui-03;
+        border-top: 0;
+        width: 100%;
+    }
+
+    .uta-btn-ghost {
+        color: $text-05;
+
+        &.active {
+            background-color: $ui-03;
+        }
+    }
+}

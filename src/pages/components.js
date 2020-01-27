@@ -44,7 +44,7 @@ const ComponentsPage = ({data}) => {
         <div className="components-list" key={index}>
             <div className="components-list-item">
                 <Link to={`/components/${item.node.slug}`}><p className="large">{item.node.name}</p></Link>
-                <p><span className="version"><strong>Version:</strong> {item.node.version}</span> <span className="status"><strong>Status:</strong> {item.node.status}</span></p>
+                <p className="component-details"><span className="version"><strong>Version:</strong> {item.node.version}</span> <span className="status"><strong>Status:</strong> {item.node.status}</span></p>
             </div>
         </div>
     )
@@ -55,7 +55,7 @@ const ComponentsPage = ({data}) => {
         <div className="components-list" key={index}>
             <div className="components-list-item">
                 <Link to={`/components/${item.node.slug}`}><p className="large">{item.node.name}</p></Link>
-                <p><span className="version"><strong>Version:</strong> {item.node.version}</span> <span className="status"><strong>Status:</strong> {item.node.status}</span></p>
+                <p className="component-details"><span className="version"><strong>Version:</strong> {item.node.version}</span> <span className="status"><strong>Status:</strong> {item.node.status}</span></p>
             </div>
         </div>
     )
@@ -77,10 +77,10 @@ const ComponentsPage = ({data}) => {
                   </div>
               </section>
                     
-          <h4>Usable Components</h4>
+          <h4 className="list-header">Usable Components</h4>
           {usableComponentsList}
 
-          <h4>Global Components</h4>
+          <h4 className="list-header">Global Components</h4>
           {globalComponentsList}
         </div>
         </div>

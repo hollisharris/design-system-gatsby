@@ -4,6 +4,12 @@
     margin-top: 2em;
 }
 
+.filters {
+    label {
+        display: block;
+    }
+}
+
 .components-list-item {
     border-bottom: 2px solid $ui-03;
     padding: 1em 0; 

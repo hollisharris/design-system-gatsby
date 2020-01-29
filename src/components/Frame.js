@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
-import ReactDOM, { createPortal } from 'react-dom'
+import React, { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 const IFrame = ({ htmlFile, styles, frameWidth }) => {
   const [contentRef, setContentRef] = useState(null)

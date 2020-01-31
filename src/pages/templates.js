@@ -4,6 +4,7 @@ import { Link } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Hero from "../components/Hero"
+import VerticalListing from "../components/VerticalListing"
 
 import { graphql } from 'gatsby';
 
@@ -26,24 +27,16 @@ const Templates = ({data}) => {
   console.log(doc)
 
   if (!doc) return null;
-
-    const templateList = doc.edges.map((item, index)  => {
-        return (
-            <div className="list-item" key={index}>
-                <Link to={`/tutorials/${item.node.slug}`}><p className="large">{item.node.name}</p></Link>
-            </div>
-        )
-    })
   
   return (
     <Layout>
       <SEO title="Tutorials" />
         <section className="page-content col">
             <div className="row">
-                <Hero title="Templates" description="UTA's Sitecore available templates"/>
+                <Hero title="Templates" description="See examples and use cases of UTA's Sitecore templates"/>
 
                 <div className="col-lg-9">
-                    {templateList}
+                    <VerticalListing list={doc.edges}/>
                 </div>      
             </div>
         </section>

@@ -34,6 +34,14 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
+        allContentfulTutorialPage {
+          edges {
+            node {
+              id
+              slug
+            }
+          }
+        }
       }
     `
   ).then(result => {
@@ -42,11 +50,22 @@ exports.createPages = ({ graphql, actions }) => {
       }
       // Resolve the paths to our template
       const componentPageTemplate = path.resolve("./src/templates/component.js");
+      const tutorialPageTemplate = path.resolve("./src/templates/tutorial.js");
       // Then for each result we create a page.
       result.data.allContentfulComponentPage.edges.forEach(edge => {
         createPage({
           path: `/components/${edge.node.slug}/`,
           component: slash(componentPageTemplate),
+          context: {
+            slug: edge.node.slug,
+            id: edge.node.id
+          }
+        });
+      });
+      result.data.allContentfulTutorialPage.edges.forEach(edge => {
+        createPage({
+          path: `/tutorials/${edge.node.slug}/`,
+          component: slash(tutorialPageTemplate),
           context: {
             slug: edge.node.slug,
             id: edge.node.id

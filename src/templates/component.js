@@ -58,18 +58,18 @@ const ComponentPage = ({data}) => {
                     <div className="col-lg-9 richtext">
 
                         <ol className="breadcrumb" style={{backgroundColor: 'transparent', marginLeft: 0, paddingLeft: 0}}>
-                            <li className="breadcrumb-item"><Link to="/components">All Components</Link></li>
+                            <li className="breadcrumb-item"><Link to="/components">Components</Link></li>
                             <li className="breadcrumb-item">{doc.name}</li>
                         </ol>
 
-                        {doc.useCases.json &&
+                        {doc.useCases &&
                             <div className="use-cases ">
                                 <h5>Use Cases</h5>
                                 {documentToReactComponents(doc.useCases.json)}
                             </div>
                         }
 
-                        {doc.placeholders.json &&
+                        {doc.placeholders &&
                             <div className="placeholders">
                                 <h5>Placeholders</h5>
                                 {documentToReactComponents(doc.placeholders.json)}

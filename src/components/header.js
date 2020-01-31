@@ -10,6 +10,30 @@ const Header = ({ siteTitle }) => (
         <Link to="/" className="navbar-brand">
           {siteTitle}
         </Link>
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link to="/components" className="nav-link">
+                Components
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/templates" className="nav-link">
+                Templates
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/styles" className="nav-link">
+                Styles
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/tutorials" className="nav-link">
+                Tutorials
+              </Link>
+            </li>
+          </ul>
+        </div>
       </nav>
     </div>
   </header>

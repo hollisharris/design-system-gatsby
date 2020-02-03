@@ -20,6 +20,7 @@ export const query = graphql`
                 status
                 buttons
                 richtext
+                images
             }
         }
     }
@@ -44,6 +45,8 @@ const ComponentsPage = ({data}) => {
     let [filteredList, setFilteredList] = useState([]);
     let [buttons, buttonsChecked] = useState(false);
     let [buttonsCount, setButtonsCount] = useState();
+    let [images, imagesChecked] = useState(false);
+    let [imageCount, setimageCount] = useState();
     let [richtext, richtextChecked] = useState(false);
     let [showAll, setShowAll] = useState(true);
 
@@ -54,11 +57,19 @@ const ComponentsPage = ({data}) => {
     }, [buttons, buttonsCount])
 
     useEffect(() => {
+        if(!images && imageCount > 0) {
+            setimageCount(false)
+        }
+    }, [images, imageCount])
+
+    useEffect(() => {
         let result = usableComponents.edges.filter(
             component => 
                 (!buttons || component.node.buttons > 0) &&
                 (!richtext || component.node.richtext === richtext) &&
-                (!buttonsCount || component.node.buttons >= buttonsCount) 
+                (!buttonsCount || component.node.buttons >= buttonsCount) &&
+                (!images || component.node.images > 0) &&
+                (!imageCount || component.node.images >= imageCount) 
         );
 
         result = result.sort(function(a, b){
@@ -68,18 +79,29 @@ const ComponentsPage = ({data}) => {
         })
         setFilteredList(result);
 
-    }, [buttons, richtext, buttonsCount, usableComponents])
+    }, [buttons, richtext, buttonsCount, usableComponents, images, imageCount])
     
-    const toggleButtonFilter = () => {
-        buttonsChecked(!buttons)
-    };
-
+    // Richtext
     const toggleRichtextFilter = () => {
         richtextChecked(!richtext)
     };
 
+    // Buttons
+    const toggleButtonFilter = () => {
+        buttonsChecked(!buttons)
+    };
+
     const changeButtonCount = (event) => {
         setButtonsCount(event.target.value)
+    };
+
+    // Images
+    const toggleImageFilter = () => {
+        imagesChecked(!images)
+    };
+
+    const changeImageCount = (event) => {
+        setimageCount(event.target.value)
     };
 
   if (!usableComponents || !globalComponents) return null;
@@ -117,7 +139,7 @@ const ComponentsPage = ({data}) => {
             </div>
 
             <div className="col-lg-3 filters">
-                <section className="cta-detail">
+                <section className="cta-detail" style={{position: 'sticky', top: 0}}>
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col">
@@ -135,6 +157,14 @@ const ComponentsPage = ({data}) => {
                                     {buttons && <label>
                                         Number of Buttons
                                         <input type="number" name="quantity" min="1" max="2" defaultValue="1" value={buttonsCount} onChange={changeButtonCount}/>
+                                    </label>}
+                                    <label>
+                                        <input type="checkbox" name="images" checked={images} onChange={toggleImageFilter}/>
+                                        Images
+                                    </label>
+                                    {images && <label>
+                                        Number of Images
+                                        <input type="number" name="quantity" min="1" max="4" defaultValue="1" value={imageCount} onChange={changeImageCount}/>
                                     </label>}
                                 </form>
                                 </div>

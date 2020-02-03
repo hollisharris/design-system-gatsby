@@ -23,14 +23,19 @@ const Header = ({ siteTitle }) => (
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/styles" className="nav-link">
-                Styles
+              <Link to="/style" className="nav-link">
+                Style
               </Link>
             </li>
             <li className="nav-item">
               <Link to="/tutorials" className="nav-link">
                 Tutorials
               </Link>
+            </li>
+            <li className="nav-item">
+              <a href="https://blog.uta.edu/redesign" className="nav-link">
+                About Web Mod
+              </a>
             </li>
           </ul>
         </div>

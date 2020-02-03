@@ -1,0 +1,9 @@
+@import "../scss/main.scss";
+
+.vertical-listing {
+    .details {
+        &.badge {
+            margin-bottom: .75em;
+        }
+    }
+}

@@ -3,6 +3,8 @@ import { Link } from "gatsby"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Hero from "../components/Hero"
+import VerticalListing from "../components/VerticalListing"
 
 import { graphql } from 'gatsby';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
@@ -26,26 +28,21 @@ export const query = graphql`
 
 const IndexPage = ({data}) => {
   const doc = data.contentfulLanding
-  const featuredLinksMap = doc.featuredLinks;
-  if (!doc) return null;
 
-  const featuredLinks = featuredLinksMap.map((item, index)  => {
-    return (
-        <div className="featured-links row" key={index}>
-            {item.path && <div className="featured-link">
-            <Link to={item.path}><h3>{item.sectionTitle}</h3></Link>
-              <p>{item.sectionDescription.sectionDescription}</p>
-            </div>
-            }
-        </div>
-    )
-  })
+  if (!doc) return null;
   
   return (
     <Layout>
       <SEO title="Home" />
-      {documentToReactComponents(doc.hero.json)}
-      {featuredLinks}
+      <section className="page-content col">
+        <div className="row">
+            <Hero title="UTA Sitecore Design System" />
+           
+            <div className="col-lg-9">
+              <VerticalListing list={doc.featuredLinks} />
+            </div>
+        </div>
+      </section>
     </Layout>
   )
 }

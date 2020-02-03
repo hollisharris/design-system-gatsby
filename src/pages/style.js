@@ -5,14 +5,14 @@ import Layout from "../components/layout"
 import Hero from '../components/Hero'
 import SEO from "../components/seo"
 
-const Styles = ({data}) => {
+const Style = ({data}) => {
   
   return (
     <Layout>
-      <SEO title="Tutorials" />
+      <SEO title="Style" />
         <section className="page-content col">
             <div className="row">
-                <Hero title="Styles" />
+                <Hero title="Style" />
                 
             </div>
         </section>
@@ -21,4 +21,4 @@ const Styles = ({data}) => {
   )
 }
 
-export default Styles
+export default Style

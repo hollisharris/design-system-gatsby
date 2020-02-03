@@ -138,8 +138,8 @@ const ComponentsPage = ({data}) => {
                 {globalComponentsList}
             </div>
 
-            <div className="col-lg-3 filters">
-                <section className="cta-detail" style={{position: 'sticky', top: 0}}>
+            <div className="col-lg-3 filters" style={{position: 'sticky', top: 0}}>
+                <section className="cta-detail">
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col">

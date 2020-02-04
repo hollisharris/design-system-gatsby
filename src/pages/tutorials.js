@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 
 import Layout from "../components/layout"
+import Container from "../components/Container"
 import SEO from "../components/seo"
 import Hero from "../components/Hero"
 
@@ -44,6 +45,7 @@ const Tutorials = ({data}) => {
   return (
     <Layout>
       <SEO title="Tutorials" />
+      <Container>
         <section className="page-content col">
             <div className="row">
                 <Hero title="Tutorials" description="Quick guides to help you work efficiently in UTA's Sitecore CMS"/>
@@ -75,6 +77,7 @@ const Tutorials = ({data}) => {
                 
             </div>
         </section>
+        </Container>
       
     </Layout>
   )

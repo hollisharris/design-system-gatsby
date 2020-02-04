@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 
 import Layout from "../components/layout"
+import Container from "../components/Container"
 import SEO from "../components/seo"
 import ComponentListItem from '../components/ComponentListItem'
 import Hero from '../components/Hero'
@@ -126,55 +127,57 @@ const ComponentsPage = ({data}) => {
   return (
     <Layout>
       <SEO title="Components" />
-      <section className="page-content col">
-        <div className="row">
-            <Hero title="Components" description="Components are building blocks you can assemble to make unique page layouts" />
-           
-            <div className="col-lg-9">
-                <h4 className="list-header">Page Components</h4>
-                {usableComponentsList}
+        <Container>
+            <section className="page-content col">
+                <div className="row">
+                    <Hero title="Components" description="Components are building blocks you can assemble to make unique page layouts" />
+                
+                    <div className="col-lg-9">
+                        <h4 className="list-header">Page Components</h4>
+                        {usableComponentsList}
 
-                <h4 className="list-header">Global Components</h4>
-                {globalComponentsList}
-            </div>
+                        <h4 className="list-header">Global Components</h4>
+                        {globalComponentsList}
+                    </div>
 
-            <div className="col-lg-3 filters" style={{position: 'sticky', top: 0}}>
-                <section className="cta-detail">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col">
-                                <h2 className="cta-detail-title">Filters</h2>
-                                <div className="cta-detail-description">
-                                <form>
-                                    <label>
-                                        <input type="checkbox" name="richtext" checked={richtext} onChange={toggleRichtextFilter}/>
-                                        Rich Text
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="buttons" checked={buttons} onChange={toggleButtonFilter}/>
-                                        Buttons
-                                    </label>
-                                    {buttons && <label>
-                                        Number of Buttons
-                                        <input type="number" name="quantity" min="1" max="2" defaultValue="1" value={buttonsCount} onChange={changeButtonCount}/>
-                                    </label>}
-                                    <label>
-                                        <input type="checkbox" name="images" checked={images} onChange={toggleImageFilter}/>
-                                        Images
-                                    </label>
-                                    {images && <label>
-                                        Number of Images
-                                        <input type="number" name="quantity" min="1" max="4" defaultValue="1" value={imageCount} onChange={changeImageCount}/>
-                                    </label>}
-                                </form>
+                    <div className="col-lg-3 filters" style={{position: 'sticky', top: 0}}>
+                        <section className="cta-detail">
+                            <div className="container-fluid">
+                                <div className="row">
+                                    <div className="col">
+                                        <h2 className="cta-detail-title">Filters</h2>
+                                        <div className="cta-detail-description">
+                                        <form>
+                                            <label>
+                                                <input type="checkbox" name="richtext" checked={richtext} onChange={toggleRichtextFilter}/>
+                                                Rich Text
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="buttons" checked={buttons} onChange={toggleButtonFilter}/>
+                                                Buttons
+                                            </label>
+                                            {buttons && <label>
+                                                Number of Buttons
+                                                <input type="number" name="quantity" min="1" max="2" defaultValue="1" value={buttonsCount} onChange={changeButtonCount}/>
+                                            </label>}
+                                            <label>
+                                                <input type="checkbox" name="images" checked={images} onChange={toggleImageFilter}/>
+                                                Images
+                                            </label>
+                                            {images && <label>
+                                                Number of Images
+                                                <input type="number" name="quantity" min="1" max="4" defaultValue="1" value={imageCount} onChange={changeImageCount}/>
+                                            </label>}
+                                        </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
-                </section>
-            </div>
-        </div>
-      </section>
+                </div>
+            </section>
+        </Container>
 
      
     </Layout>

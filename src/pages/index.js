@@ -1,6 +1,7 @@
 import React from "react"
 
 import Layout from "../components/layout"
+import Container from "../components/Container"
 import SEO from "../components/seo"
 import Hero from "../components/Hero"
 import VerticalListing from "../components/VerticalListing"
@@ -33,6 +34,7 @@ const IndexPage = ({data}) => {
   return (
     <Layout>
       <SEO title="Home" />
+      <Container>
       <section className="page-content col">
         <div className="row">
             <Hero title={doc.headline} description={doc.description.description}/>
@@ -42,6 +44,7 @@ const IndexPage = ({data}) => {
             </div>
         </div>
       </section>
+      </Container>
     </Layout>
   )
 }

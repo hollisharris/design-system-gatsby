@@ -11,7 +11,6 @@ const ComponentExample = ({ htmlFile }) => {
 
     return (
         <div className="component-example">
-            <h5>Component Example</h5>
             <div className="frame" style={{margin: 'auto', padding: '2rem 2rem 2.5rem'}}>
                 <IFrame
                     title="iframe"

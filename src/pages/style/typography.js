@@ -1,6 +1,7 @@
 import React from "react"
 
 import Layout from "../../components/layout"
+import Container from "../../components/Container"
 import Hero from '../../components/Hero'
 import SEO from "../../components/seo"
 import StyleNav from "../../components/StyleNav"
@@ -11,6 +12,7 @@ const Typography = ({data}) => {
   return (
     <Layout>
       <SEO title="Typography" />
+      <Container>
         <section className="page-content col">
             <div className="row">
                 <Hero title="Typography" />
@@ -209,6 +211,7 @@ const Typography = ({data}) => {
                 </div>
             </div>
         </section>
+        </Container>
       
     </Layout>
   )

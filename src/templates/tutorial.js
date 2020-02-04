@@ -3,6 +3,7 @@ import { Link } from "gatsby"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Container from "../components/Container"
 
 import { graphql } from 'gatsby'
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
@@ -29,6 +30,7 @@ const Tutorial = ({data}) => {
     return (
         <Layout>
             <SEO title={doc.title} />
+            <Container>
             <section className="page-content col">
                 <div className="row">
                     <div className="col-12">
@@ -54,6 +56,7 @@ const Tutorial = ({data}) => {
                     </div>
                 </div>
             </section>
+            </Container>
         </Layout>
     )
 }

@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 
 import Layout from "../components/layout"
+import Container from "../components/Container"
 import SEO from "../components/seo"
 
 import { graphql } from 'gatsby'
@@ -40,6 +41,7 @@ const ComponentPage = ({data}) => {
     return (
         <Layout>
             <SEO title="Components" />
+            <Container>
             <section className="page-content col">
                 <div className="row">
                     <div className="col-12">
@@ -101,9 +103,11 @@ const ComponentPage = ({data}) => {
                     </div>
                 </div>
 
+                <h5>Component Example</h5>
                 <ComponentExample htmlFile={componentHTML} />
                 
             </section>
+            </Container>
             
         </Layout>
     )

@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 
 import Layout from "../components/layout"
+import Container from "../components/Container"
 import SEO from "../components/seo"
 import Hero from '../components/Hero'
 import IFrame from '../components/Frame'
@@ -227,6 +228,7 @@ const Template = ({data}) => {
     return (
         <Layout>
             <SEO title={doc.name} />
+            <Container>
             <section className="page-content col">
                 <div className="row">
                     <div className="col-12">
@@ -256,6 +258,7 @@ const Template = ({data}) => {
                     </div>
                 </div>
             </section>
+            </Container>
         </Layout>
     )
 }

@@ -1,6 +1,7 @@
 import React from "react"
 
 import Layout from "../components/layout"
+import Container from "../components/Container"
 import SEO from "../components/seo"
 import Hero from "../components/Hero"
 import VerticalListing from "../components/VerticalListing"
@@ -30,6 +31,7 @@ const Templates = ({data}) => {
   return (
     <Layout>
       <SEO title="Tutorials" />
+        <Container>
         <section className="page-content col">
             <div className="row">
                 <Hero title="Templates" description="See examples and use cases of UTA's Sitecore templates"/>
@@ -39,6 +41,7 @@ const Templates = ({data}) => {
                 </div>      
             </div>
         </section>
+        </Container>
       
     </Layout>
   )

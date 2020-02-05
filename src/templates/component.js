@@ -36,7 +36,13 @@ const ComponentPage = ({data}) => {
     const doc = data.contentfulComponentPage;
     if (!doc) return null;
 
-    let componentHTML = require(`uta-prototype/bundle/html/${doc.uid}.html`);
+    let componentHTML;
+
+    try {
+        componentHTML = require(`uta-prototype/bundle/html/${doc.uid}.html`);
+    } catch(e) {
+        componentHTML = '<p>Component not available for previewing</p>';
+    }
 
     return (
         <Layout>
@@ -103,8 +109,10 @@ const ComponentPage = ({data}) => {
                     </div>
                 </div>
 
+                 
                 <h5>Component Example</h5>
                 <ComponentExample htmlFile={componentHTML} />
+                
                 
             </section>
             </Container>

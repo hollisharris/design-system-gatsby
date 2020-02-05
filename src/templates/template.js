@@ -33,7 +33,6 @@ query pageLayoutQuery($slug: String!) {
 
 const Template = ({data}) => {
     const doc = data.contentfulPageLayout;
-    console.log(doc)
 
     if (!doc) return null;
 

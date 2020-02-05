@@ -1,0 +1,6 @@
+{
+    "id": "layoutBuilder",
+    "name": "Sitecore Layout Builder",
+    "src": "./index.html",
+    "fieldTypes": ["array"]
+  }

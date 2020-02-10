@@ -16,8 +16,8 @@ export const query = graphql`
         description
       }
       featuredLinks {
-        path
         sectionTitle
+        path
         sectionDescription {
           sectionDescription
         }

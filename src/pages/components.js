@@ -22,6 +22,9 @@ export const query = graphql`
                 buttons
                 richtext
                 images
+                links
+                listing
+                listLimit
             }
         }
     }
@@ -44,33 +47,54 @@ const ComponentsPage = ({data}) => {
 
 //   Filters
     let [filteredList, setFilteredList] = useState([]);
-    let [buttons, buttonsChecked] = useState(false);
-    let [buttonsCount, setButtonsCount] = useState();
-    let [images, imagesChecked] = useState(false);
-    let [imageCount, setimageCount] = useState();
-    let [richtext, richtextChecked] = useState(false);
-    let [showAll, setShowAll] = useState(true);
+
+    const [formData, setFormData] = useState({
+        richtext: false,
+        buttons: false,
+        buttonsCount: null,
+        images: false,
+        imagesCount: null,
+        links: false,
+        listing: false
+    })
+
+    const handleInputChange = (event) => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+    
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    }
 
     useEffect(() => {
-        if(!buttons && buttonsCount > 0) {
-            setButtonsCount(false)
+        if(!formData.buttons && formData.buttonsCount > 0) {
+            setFormData({
+                ...formData,
+                buttonsCount: null
+            });
         }
-    }, [buttons, buttonsCount])
 
-    useEffect(() => {
-        if(!images && imageCount > 0) {
-            setimageCount(false)
+        if(!formData.images && formData.imageCount > 0) {
+            setFormData({
+                ...formData,
+                imageCount: null
+            });
         }
-    }, [images, imageCount])
+    }, [formData])
 
     useEffect(() => {
         let result = usableComponents.edges.filter(
             component => 
-                (!buttons || component.node.buttons > 0) &&
-                (!richtext || component.node.richtext === richtext) &&
-                (!buttonsCount || component.node.buttons >= buttonsCount) &&
-                (!images || component.node.images > 0) &&
-                (!imageCount || component.node.images >= imageCount) 
+                (!formData.buttons || component.node.buttons > 0) &&
+                (!formData.richtext || component.node.richtext === formData.richtext) &&
+                (!formData.links || component.node.links === "Links optional" || component.node.links === "Links required") &&
+                (!formData.buttonsCount || component.node.buttons >= formData.buttonsCount) &&
+                (!formData.images || component.node.images > 0) &&
+                (!formData.imageCount || component.node.images >= formData.imageCount) &&
+                (!formData.listing || component.node.listing === "Limited" || component.node.listing === "Unlimited")
         );
 
         result = result.sort(function(a, b){
@@ -80,120 +104,107 @@ const ComponentsPage = ({data}) => {
         })
         setFilteredList(result);
 
-    }, [buttons, richtext, buttonsCount, usableComponents, images, imageCount])
-    
-    // Richtext
-    const toggleRichtextFilter = () => {
-        richtextChecked(!richtext)
-    };
+    }, [formData, usableComponents])
 
-    // Buttons
-    const toggleButtonFilter = () => {
-        buttonsChecked(!buttons)
-    };
+    if (!usableComponents || !globalComponents) return null;
 
-    const changeButtonCount = (event) => {
-        setButtonsCount(event.target.value)
-    };
+    let usableComponentsList = null;
+    if(filteredList.length > 0) {
+        usableComponentsList = filteredList.map((item, index)  => {
+            return (
+                <ComponentListItem key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
+            )
+        })
+    } else {
+        usableComponentsList = <p>No components found. Request a new component.</p>
+    }
 
-    // Images
-    const toggleImageFilter = () => {
-        imagesChecked(!images)
-    };
-
-    const changeImageCount = (event) => {
-        setimageCount(event.target.value)
-    };
-
-  if (!usableComponents || !globalComponents) return null;
-
-  let usableComponentsList = null;
-  if(filteredList.length > 0) {
-    usableComponentsList = filteredList.map((item, index)  => {
-        return (
-            <ComponentListItem key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
-        )
+    const globalComponentsList = globalComponents.edges.map((item, index)  => {
+            return (
+                <ComponentListItem key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
+            )
     })
-  } else {
-    usableComponentsList = <p>No components found. Request a new component.</p>
-  }
-
-  const globalComponentsList = globalComponents.edges.map((item, index)  => {
-        return (
-            <ComponentListItem key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
-        )
-  })
   
-  return (
-    <Layout>
-      <SEO title="Components" />
-        <Container>
-            <section className="page-content col">
-                <div className="row">
-                    <Hero title="Components" description="Components are building blocks you can assemble to make unique page layouts" />
-                
-                    <div className="col-lg-9">
-                        <h4 className="list-header">Page Components</h4>
-                        {usableComponentsList}
+    return (
+        <Layout>
+        <SEO title="Components" />
+            <Container>
+                <section className="page-content col">
+                    <div className="row">
+                        <Hero title="Components" description="Components are building blocks you can assemble to make unique page layouts" />
+                    
+                        <div className="col-lg-9">
+                            <h4 className="list-header">Page Components</h4>
+                            {usableComponentsList}
 
-                        <h4 className="list-header">Global Components</h4>
-                        {globalComponentsList}
-                    </div>
+                            <h4 className="list-header">Global Components</h4>
+                            {globalComponentsList}
+                        </div>
 
-                    <div className="col-lg-3 filters" style={{position: 'sticky', top: 0}}>
-                        <section className="cta-detail">
-                            <div className="container-fluid">
-                                <div className="row">
-                                    <div className="col">
-                                        <h2 className="cta-detail-title">Filters</h2>
-                                        <div className="cta-detail-description">
-                                        <form>
-                                                <label>
-                                                    <input type="checkbox" name="richtext" checked={richtext} onChange={toggleRichtextFilter}/>
-                                                    Rich Text
-                                                </label>
+                        <div className="col-lg-3 filters" style={{position: 'sticky', top: 0}}>
+                            <section className="cta-detail">
+                                <div className="container-fluid">
+                                    <div className="row">
+                                        <div className="col">
+                                            <h2 className="cta-detail-title">Filters</h2>
+                                            <div className="cta-detail-description">
+                                            <form>
+                                                    <label>
+                                                        <input type="checkbox" name="richtext" checked={formData.richtext} onChange={handleInputChange}/>
+                                                        Rich Text
+                                                    </label>
 
-                                                <label>
-                                                    <input type="checkbox" name="buttons" checked={buttons} onChange={toggleButtonFilter}/>
-                                                    Buttons
-                                                </label>
-                                                {buttons &&
-                                                    <div className="form-group d-flex">
-                                                        <input class="toggle-radio" type="radio" id="buttons-one" name="buttons" value="1" /><label htmlFor="buttons-one">1</label>
-                                                        <input class="toggle-radio" type="radio" id="buttons-two" name="buttons" value="2" /><label htmlFor="buttons-two">2</label>
+                                                    <label>
+                                                        <input type="checkbox" name="buttons" checked={formData.buttons} onChange={handleInputChange}/>
+                                                        Buttons
+                                                    </label>
+                                                    {formData.buttons &&
+                                                        <div className="form-group d-flex">
+                                                            <input class="toggle-radio" type="radio" id="buttons-one" name="buttonsCount" value="1" onChange={handleInputChange} defaultChecked={formData.buttons}/><label htmlFor="buttons-one">1</label>
+                                                            <input class="toggle-radio" type="radio" id="buttons-two" name="buttonsCount" value="2" onChange={handleInputChange} /><label htmlFor="buttons-two">2</label>
 
-                                                        {/* <input type="number" name="quantity" min="1" max="2" defaultValue="1" value={buttonsCount} onChange={changeButtonCount}/> */}
-                                                    </div>
-                                                }
+                                                            {/* <input type="number" name="quantity" min="1" max="2" defaultValue="1" value={buttonsCount} onChange={changeButtonCount}/> */}
+                                                        </div>
+                                                    }
 
-                                            <label>
-                                                <input type="checkbox" name="images" checked={images} onChange={toggleImageFilter}/>
-                                                Images
-                                            </label>
-                                            {images && 
-                                                <div className="form-group  d-flex">
-                                                    <input class="toggle-radio" type="radio" id="images-one" name="images" value="1" /><label htmlFor="images-one">1</label>
-                                                    <input class="toggle-radio" type="radio" id="images-two" name="images" value="2" /><label htmlFor="images-two">2</label>
-                                                    <input class="toggle-radio" type="radio" id="images-three" name="images" value="2" /><label htmlFor="images-three">3</label>
-                                                    <input class="toggle-radio" type="radio" id="images-four" name="images" value="2" /><label htmlFor="images-four">4</label>
-                                                
-                                                    {/* <input type="number" name="quantity" min="1" max="4" defaultValue="1" value={imageCount} onChange={changeImageCount}/> */}
-                                                </div>
-                                            }
-                                        </form>
+                                                    <label>
+                                                        <input type="checkbox" name="images" checked={formData.images} onChange={handleInputChange}/>
+                                                        Images
+                                                    </label>
+                                                    {formData.images && 
+                                                        <div className="form-group  d-flex">
+                                                            <input class="toggle-radio" type="radio" id="images-one" name="imageCount" value="1" onChange={handleInputChange} defaultChecked={formData.images}/><label htmlFor="images-one">1</label>
+                                                            <input class="toggle-radio" type="radio" id="images-two" name="imageCount" value="2" onChange={handleInputChange} /><label htmlFor="images-two">2</label>
+                                                            <input class="toggle-radio" type="radio" id="images-three" name="imageCount" value="3" onChange={handleInputChange} /><label htmlFor="images-three">3</label>
+                                                            <input class="toggle-radio" type="radio" id="images-four" name="imageCount" value="4" onChange={handleInputChange} /><label htmlFor="images-four">4</label>
+                                                        
+                                                            {/* <input type="number" name="quantity" min="1" max="4" defaultValue="1" value={imageCount} onChange={changeImageCount}/> */}
+                                                        </div>
+                                                    }
+                                       
+                                                    <label>
+                                                        <input type="checkbox" name="links" checked={formData.links} onChange={handleInputChange}/>
+                                                        Links
+                                                    </label>
+
+                                                    <label>
+                                                        <input type="checkbox" name="listing" checked={formData.listing} onChange={handleInputChange}/>
+                                                        Listing
+                                                    </label>
+                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
+                        </div>
                     </div>
-                </div>
-            </section>
-        </Container>
+                </section>
+            </Container>
 
-     
-    </Layout>
-  )
+        
+        </Layout>
+    )
 }
 
 export default ComponentsPage

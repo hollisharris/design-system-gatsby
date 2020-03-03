@@ -1,6 +1,6 @@
 {
-    "id": "layoutBuilder",
-    "name": "Sitecore Layout Builder",
-    "src": "./index.html",
-    "fieldTypes": ["array"]
-  }
+  "id": "layouts",
+  "name": "layouts",
+  "srcdoc": "./index.html",
+  "fieldTypes": ["Text"]
+}

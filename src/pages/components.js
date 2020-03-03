@@ -148,26 +148,38 @@ const ComponentsPage = ({data}) => {
                                         <h2 className="cta-detail-title">Filters</h2>
                                         <div className="cta-detail-description">
                                         <form>
-                                            <label>
-                                                <input type="checkbox" name="richtext" checked={richtext} onChange={toggleRichtextFilter}/>
-                                                Rich Text
-                                            </label>
-                                            <label>
-                                                <input type="checkbox" name="buttons" checked={buttons} onChange={toggleButtonFilter}/>
-                                                Buttons
-                                            </label>
-                                            {buttons && <label>
-                                                Number of Buttons
-                                                <input type="number" name="quantity" min="1" max="2" defaultValue="1" value={buttonsCount} onChange={changeButtonCount}/>
-                                            </label>}
+                                                <label>
+                                                    <input type="checkbox" name="richtext" checked={richtext} onChange={toggleRichtextFilter}/>
+                                                    Rich Text
+                                                </label>
+
+                                                <label>
+                                                    <input type="checkbox" name="buttons" checked={buttons} onChange={toggleButtonFilter}/>
+                                                    Buttons
+                                                </label>
+                                                {buttons &&
+                                                    <div className="form-group d-flex">
+                                                        <input class="toggle-radio" type="radio" id="buttons-one" name="buttons" value="1" /><label htmlFor="buttons-one">1</label>
+                                                        <input class="toggle-radio" type="radio" id="buttons-two" name="buttons" value="2" /><label htmlFor="buttons-two">2</label>
+
+                                                        {/* <input type="number" name="quantity" min="1" max="2" defaultValue="1" value={buttonsCount} onChange={changeButtonCount}/> */}
+                                                    </div>
+                                                }
+
                                             <label>
                                                 <input type="checkbox" name="images" checked={images} onChange={toggleImageFilter}/>
                                                 Images
                                             </label>
-                                            {images && <label>
-                                                Number of Images
-                                                <input type="number" name="quantity" min="1" max="4" defaultValue="1" value={imageCount} onChange={changeImageCount}/>
-                                            </label>}
+                                            {images && 
+                                                <div className="form-group  d-flex">
+                                                    <input class="toggle-radio" type="radio" id="images-one" name="images" value="1" /><label htmlFor="images-one">1</label>
+                                                    <input class="toggle-radio" type="radio" id="images-two" name="images" value="2" /><label htmlFor="images-two">2</label>
+                                                    <input class="toggle-radio" type="radio" id="images-three" name="images" value="2" /><label htmlFor="images-three">3</label>
+                                                    <input class="toggle-radio" type="radio" id="images-four" name="images" value="2" /><label htmlFor="images-four">4</label>
+                                                
+                                                    {/* <input type="number" name="quantity" min="1" max="4" defaultValue="1" value={imageCount} onChange={changeImageCount}/> */}
+                                                </div>
+                                            }
                                         </form>
                                         </div>
                                     </div>

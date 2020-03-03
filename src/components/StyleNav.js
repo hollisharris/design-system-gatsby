@@ -14,10 +14,7 @@ const SideNav = ({ data }) => {
                     <div className="col">
                         <ul className="right-rail-linklist-list">
                             <li>
-                                <Link to="/style/color" role="button" className="uta-btn uta-btn-ghost-secondary"><span>Color</span></Link>
-                            </li>
-                            <li>
-                                <Link to="" role="button" className="uta-btn uta-btn-ghost-secondary"><span>Iconography</span></Link>
+                                <Link to="/style/icons" role="button" className="uta-btn uta-btn-ghost-secondary"><span>Iconography</span></Link>
                             </li>
                             <li>
                                 <Link to="/style/typography" role="button" className="uta-btn uta-btn-ghost-secondary"><span>Typography</span></Link>

@@ -1,0 +1,116 @@
+.page-layout {
+    border: 1px solid rgba($color__black, .3);
+    box-shadow: 0 .5rem 1rem rgba($color__black, .15);
+    margin: $spacing-xl $spacing-md;
+    max-width: calc(1400px + #{$spacing-md * 2});
+    width: calc(100% - #{$spacing-md * 2});
+
+    > iframe {
+        border: none;
+        display: block;
+        overflow: hidden;
+        width: 100%;
+
+        .horizontal-header-nav {
+            position: static;
+        }
+    }
+
+    &__component {
+        align-content: flex-start;
+        display: flex;
+        position: relative;
+        z-index: 0;
+
+        &:first-child .page-layout__description {
+            border-top: none;
+        }
+
+        &:hover {
+            z-index: 1;
+            
+            .page-layout {
+                &__description {
+                    opacity: 1;
+                }
+
+                &__html {
+                    outline: 5px solid $color-orange;
+                }
+            }
+        }
+    }
+
+    &__description {
+        background-color: $ui-01;
+        border-color: $color-orange;
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        color: $ui-01;
+        flex-grow: 0;
+        flex-shrink: 0;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        transition-property: opacity;
+        transition-duration: $uta--standard-duration;
+        transition-timing-function: $uta--standard-easing;
+        z-index: 1;
+
+        p {
+            margin-bottom: 0;
+
+            .dropdown-item:hover {
+                background-color: none;
+            }
+
+            a {
+                @include font-size(12);
+                @include font-weight(bold);
+                color: $text-01;
+                padding: $spacing-sm;
+                text-decoration: none;
+                text-transform: uppercase;
+                transition-property: color;
+                transition-duration: $uta--standard-duration;
+                transition-timing-function: $uta--standard-easing;
+                margin-bottom: 0;
+
+                &:hover,
+                &:active,
+                &:focus {
+                    color: $color-orange;
+                }
+            }
+        }
+
+        .dropdown-toggle {
+            @include border-radius(0);
+            @include button-reset;
+            @include font-size(12);
+            @include font-weight(bold);
+            color: $text-01;
+            padding: $spacing-sm;
+            text-transform: uppercase;
+            margin-bottom: 0;
+        }
+    }
+
+    &__html {
+        flex-grow: 1;
+        flex-shrink: 1;
+        max-width: 1440px;
+        outline: 5px solid transparent;
+        position: relative;
+        transition-property: outline;
+        transition-duration: $uta--standard-duration;
+        transition-timing-function: $uta--standard-easing;
+        width: 100%;
+        z-index: 0;
+    }
+}
+
+.frame-content {
+    padding: 5px;
+}

@@ -1,0 +1,99 @@
+@import "../../scss/main.scss";
+$icon-box-size: rem(80px);
+
+.icon-container {
+    border-color: $ui-02;;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+
+    @media (min-width: 1600px) {
+        max-width: calc(#{$icon-box-size * 15} + 1px);
+    }
+}
+
+
+.icon {
+    flex: 1 1 $icon-box-size;
+    max-width: $icon-box-size;
+    height: $icon-box-size;
+
+    h5 {
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        line-height: 1.25;
+        color: $text-01;
+        font-weight: $font-weight-semibold;
+        margin-top: rem(16px);
+        margin-bottom: rem(5px);
+    }
+
+    span {
+        color: $text-02;
+        font-size: rem(16px);
+        line-height: 1.5;
+    }
+
+    &:hover,
+    &:active {
+        .icon__actions {
+            cursor: pointer;
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.icon__actions {
+    position: absolute;
+    top: rem(10px);
+    right: rem(10px);
+    bottom: rem(10px);
+    left: rem(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition-property: opacity, visibility;
+    transition-duration: $uta--standard-duration, 0s;
+    transition-timing-function: $uta--standard-easing;
+
+    button {
+        border: 0;
+        font-size: rem(14px);
+        background-color: $brand-02;
+        font-weight: $font-weight-regular;
+        text-align: center;
+        cursor: pointer;
+        display: block;
+        color: $ui-01;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.icon__card {
+    border-color: $ui-02;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    height: $icon-box-size;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover,
+    &:focus,
+    .icon__actions:focus,
+    button:focus,
+    a:focus {
+        .icon__actions {
+            opacity: 1;
+        }
+    }
+}

@@ -18,4 +18,41 @@
             background-color: $ui-03;
         }
     }
+
+    .component-toolbar__layouts {
+        display: flex;
+        flex: 2;
+        flex-direction: column;
+    
+        @include media-breakpoint-up(md) {
+            flex-direction: row;
+            height: 100%;
+            padding-left: 1rem;
+        }
+    
+        a {
+            @include font-size(12);
+            @include font-weight(bold);
+            color: $brand-02;
+            display: flex;
+            letter-spacing: 0.86px;
+            line-height: 1.25;
+            padding: rem(8px);
+            height: 100%;
+            align-items: center;
+            text-decoration: none;
+            text-transform: uppercase;
+    
+            @include media-breakpoint-up(md) {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+    
+            &:hover,
+            &:focus,
+            &:active {
+                color: $color-orange;
+            }
+        }
+    }
 }

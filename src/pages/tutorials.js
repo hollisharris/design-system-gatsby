@@ -5,6 +5,8 @@ import Layout from "../components/layout"
 import Container from "../components/Container"
 import SEO from "../components/seo"
 import Hero from "../components/Hero"
+import CtaRightRailAccent from "../components/CtaRightRailAccent"
+import './tutorials.scss'
 
 import { graphql } from 'gatsby';
 
@@ -35,9 +37,12 @@ const Tutorials = ({data}) => {
 
     const tutorialsList = doc.edges.map((item, index)  => {
         return (
-            <div className="list-item" key={index}>
-                <Link to={`/tutorials/${item.node.slug}`}><p className="large">{item.node.title}</p></Link>
-                {item.node.description && <p className="description">{item.node.description.description}</p>}
+            <div className="row align-items-center" key={index}>
+                <div className="col-md-7">
+                    <Link to={`/tutorials/${item.node.slug}`}><h2 className="vertical-listing-title">{item.node.title}</h2>
+                        {item.node.description && <p className="description">{item.node.description.description}</p>}
+                    </Link>
+                </div>
             </div>
         )
     })
@@ -46,34 +51,19 @@ const Tutorials = ({data}) => {
     <Layout>
       <SEO title="Tutorials" />
       <Container>
-        <section className="page-content col">
+        <section className="page-content col tutorials">
             <div className="row">
                 <Hero title="Tutorials" description="Quick guides to help you work efficiently in UTA's Sitecore CMS"/>
 
-                <div className="col-lg-9">
-                    {tutorialsList}
+                <div className="col-lg-9 vertical-listing">
+                    <div className="container-fluid">
+                        {tutorialsList}
+                    </div>
                 </div>
 
                 <div className="col-lg-3">
-                    <section class="cta-accent cta-accent__rightrail">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="ghost-header">
-                                        <h2 class="ghost-header-title">Sign up for Training</h2>
-                                    </div>
-
-                                    <div class="cta-accent-description">
-                                        <p>From Sitecore to Cascade 8 to Campus Press, get the right training for</p>
-                                    </div>
-                                    
-                                    <a href="https://webapps.uta.edu/oittraining/" class="uta-btn uta-btn-inverse" role="button"><span>Upcoming Classes</span></a>                    
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <CtaRightRailAccent headline="Sign up for Training" description="From Sitecore to Cascade 8 to Campus Press, get the right training for you." url="https://webapps.uta.edu/oittraining/" linkText="Upcoming Classes"/>
                 </div>
-
                 
             </div>
         </section>

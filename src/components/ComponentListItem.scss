@@ -9,23 +9,20 @@
     }
     
     .component-details {
-        font-size: .8rem;
+        // font-size: .8rem;
         color: $text-02;
     }
 }
 
 .status {
+    color: #fff;
     &.ready {
-        color: $support-02;
+        background-color: $support-02;
     }
     &.deprecated {
-        color: $support-01;
+        background-color: $support-01;
     }
     &.under-review {
-        color: $support-03;
-    }
-
-    strong {
-        color: $text-02;
+        background-color: $support-03;
     }
 }

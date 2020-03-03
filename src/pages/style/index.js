@@ -26,11 +26,7 @@ improve the overall user experience.</p>
                         <div className="col-lg-4 offset-lg-1">
                           <ul className="list-unstyled">
                             <li>
-                              <Link to="/style/color" role="button" className="uta-btn uta-btn-ghost-secondary"><span>Color</span></Link>
-
-                            </li>
-                            <li>
-                              <Link role="button" className="uta-btn uta-btn-ghost-secondary"><span>Iconography</span></Link>
+                              <Link to="/style/icons" role="button" className="uta-btn uta-btn-ghost-secondary"><span>Iconography</span></Link>
 
                             </li>
                             <li>

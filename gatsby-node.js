@@ -59,7 +59,7 @@ exports.createPages = ({ graphql, actions }) => {
       // Resolve the paths to our template
       const componentPageTemplate = path.resolve("./src/templates/component.js");
       const tutorialPageTemplate = path.resolve("./src/templates/tutorial.js");
-      const templatePageTemplate = path.resolve("./src/templates/template.js");
+      const templatePageTemplate = path.resolve("./src/templates/template-v2.js");
       // Then for each result we create a page.
       result.data.allContentfulComponentPage.edges.forEach(edge => {
         createPage({

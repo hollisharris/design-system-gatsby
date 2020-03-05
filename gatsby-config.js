@@ -10,6 +10,7 @@ module.exports = {
       options: {
         spaceId: `i6v50j2fhdxg`,
         accessToken: `Ga8u-Xm5Rfiuq4J8ppPs8vHYJI7rsW_05GX4aq7BZXs`,
+        forceFullSync: true
       },
     },
     `gatsby-plugin-react-helmet`,

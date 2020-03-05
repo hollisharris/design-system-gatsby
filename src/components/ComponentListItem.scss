@@ -3,6 +3,9 @@
 .components-list-item {
     border-bottom: 2px solid $ui-03;
     padding: 1em 0; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     p {
         margin: 0;
@@ -24,5 +27,8 @@
     }
     &.under-review {
         background-color: $support-03;
+    }
+    &.new {
+        background-color: $support-02;
     }
 }

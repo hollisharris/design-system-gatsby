@@ -43,7 +43,7 @@ export const query = graphql`
 
 const ComponentsPage = ({data}) => {
   const usableComponents = data.usableComponents;
-  const globalComponents = data.globalComponents;
+  let globalComponents = data.globalComponents;
 
 //   Filters
     let [filteredList, setFilteredList] = useState([]);
@@ -97,12 +97,12 @@ const ComponentsPage = ({data}) => {
                 (!formData.listing || component.node.listing === "Limited" || component.node.listing === "Unlimited")
         );
 
-        result = result.sort(function(a, b){
-            if(a.node.name < b.node.name) { return -1; }
-            if(a.node.name > b.node.name) { return 1; }
+        let alphabetizeResult = result.sort(function(a, b){
+            if(a.node.slug < b.node.slug) { return -1; }
+            if(a.node.slug > b.node.slug) { return 1; }
             return 0;
         })
-        setFilteredList(result);
+        setFilteredList(alphabetizeResult);
 
     }, [formData, usableComponents])
 
@@ -119,7 +119,14 @@ const ComponentsPage = ({data}) => {
         usableComponentsList = <p>No components found. Request a new component.</p>
     }
 
-    const globalComponentsList = globalComponents.edges.map((item, index)  => {
+    // Alphabetize Results
+    globalComponents = globalComponents.edges.sort(function(a, b){
+        if(a.node.slug < b.node.slug) { return -1; }
+        if(a.node.slug > b.node.slug) { return 1; }
+        return 0;
+    })
+
+    const globalComponentsList = globalComponents.map((item, index)  => {
             return (
                 <ComponentListItem key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
             )
@@ -141,7 +148,7 @@ const ComponentsPage = ({data}) => {
                             {globalComponentsList}
                         </div>
 
-                        <div className="col-lg-3 filters" style={{position: 'sticky', top: 0}}>
+                        <div className="col-lg-3 filters">
                             <section className="cta-detail">
                                 <div className="container-fluid">
                                     <div className="row">

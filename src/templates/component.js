@@ -6,6 +6,7 @@ import Container from "../components/Container"
 import SEO from "../components/seo"
 
 import { graphql } from 'gatsby'
+import { INLINES } from '@contentful/rich-text-types';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import ComponentExample from '../components/ComponentExample'
 
@@ -28,9 +29,29 @@ query MyQuery($slug: String!) {
         links
         images
         buttons
+        globalComponent
+        similarComponents {
+            name
+            slug
+        }
     }
 }
 `
+
+const options = {
+    renderNode: {
+      [INLINES.ENTRY_HYPERLINK]: (node) => {
+        const { name, slug } = node.data.target.fields;
+        if(node.data.target.sys.contentType.sys.id === "componentPage") {
+            return <Link to={`components/${slug['en-US']}`}>{name['en-US']}</Link>
+        } else if(node.data.target.sys.contentType.sys.id === "tutorialPage") {
+            return <Link to={`tutorials/${slug['en-US']}`}>{name['en-US']}</Link>
+        } else if(node.data.target.sys.contentType.sys.id === "pageLayout") {
+            return <Link to={`templates/${slug['en-US']}`}>{name['en-US']}</Link>
+        }
+      }
+    }
+  };
 
 const ComponentPage = ({data}) => {
     const doc = data.contentfulComponentPage;
@@ -70,22 +91,23 @@ const ComponentPage = ({data}) => {
                             <li className="breadcrumb-item">{doc.name}</li>
                         </ol>
 
-                        {doc.useCases &&
+                        {doc.useCases && !doc.globalComponent &&
                             <div className="use-cases ">
                                 <h5>Use Cases</h5>
-                                {documentToReactComponents(doc.useCases.json)}
+                                {documentToReactComponents(doc.useCases.json, options)}
                             </div>
                         }
 
-                        {doc.placeholders &&
+                        {doc.placeholders && !doc.globalComponent &&
                             <div className="placeholders">
                                 <h5>Placeholders</h5>
-                                {documentToReactComponents(doc.placeholders.json)}
+                                {documentToReactComponents(doc.placeholders.json, options)}
                             </div>
                         }
                     </div>
 
                     <div className="col-lg-3">
+                        {!doc.globalComponent &&
                         <section className="cta-detail">
                             <div className="container-fluid">
                                 <div className="row">
@@ -106,14 +128,33 @@ const ComponentPage = ({data}) => {
                                 </div>
                             </div>
                         </section>
+                        }
                     </div>
                 </div>
 
                  
                 <h5>Component Example</h5>
                 <ComponentExample htmlFile={componentHTML} />
-                
-                
+
+                {doc.similarComponents &&
+                <section className="related-links" style={{marginTop: '2em'}}>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col" style={{padding: '0'}}>
+                                <div className="related-links-wrapper">
+                                    <h2 className="related-links-title">Similar Components</h2>
+                                    <div className="uta-btn-group">
+                                        {doc.similarComponents.map((component, index) => (
+                                            <Link role="button" className="uta-btn uta-btn-inverse-ghost-secondary" to={`components/${component.slug}`}>{component.name}</Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                }
+
             </section>
             </Container>
             

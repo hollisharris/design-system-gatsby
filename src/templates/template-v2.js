@@ -124,7 +124,7 @@ const Template = ({data}) => {
 
                                                 <p className="dropdown-header">Displayed Component</p>
                                                 <Link to={`/components/${component.slug}`} className="dropdown-item"><span>{component.name}</span></Link>
-                                                {useableComponents.length > 1 &&
+                                                {useableComponents.length > 0 &&
                                                     <>
                                                         <div className="dropdown-divider"></div>
                                                         <p className="dropdown-header">Useable {useableComponents.length > 1 ? 'Components': 'Component'}</p>

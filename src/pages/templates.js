@@ -30,7 +30,7 @@ const Templates = ({data}) => {
   
   return (
     <Layout>
-      <SEO title="Tutorials" />
+      <SEO title="Templates" />
         <Container>
         <section className="page-content col">
             <div className="row">

@@ -90,16 +90,16 @@ const Template = ({data}) => {
         const placeholder = data.placeholder;
         const visible = data.visible;
 
-        console.log(placeholder)
-
         if(components) {
              const id = Math.floor(Math.random() * 50000) + 1;
             //  const hidePopover = data.hidePopover
             let visibleComponents;
-            if(visible > 0) {
+            if(visible) {
+                // Limit displayed components
                 visibleComponents = components.filter((component, index) => index <= visible);
-            } else {
-                visibleComponents = components;
+            } else {    
+                // Display first component
+                visibleComponents = [components[0]];
             }
             
 

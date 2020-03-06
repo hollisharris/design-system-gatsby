@@ -32,27 +32,26 @@ const ComponentPage = ({data}) => {
     if (!doc) return null;
 
     const placeholders = [
-        data.headerReference,
-        data.heroReference,
-        data.pageContentReference,
-        data.leftRailReference,
-        data.rightRailReference,
-        data.prefooterReference,
+        data.headerReference.edges[0],
+        data.heroReference.edges[0],
+        data.pageContentReference.edges[0],
+        data.leftRailReference.edges[0],
+        data.rightRailReference.edges[0],
+        data.prefooterReference.edges[0],
     ];
 
-    const componentPlaceholders = placeholders.map((templates, index) => {
-        if(templates.edges.length > 0) {
-            return (templates.edges.map((template, index) => {
-                console.log(template.node)
-                template.node['placeholder'] = template.node.headerPlaceholder || template.node.pageContentPlaceholder || template.node.heroPlaceholder || template.node.leftRailPlaceholder || template.node.prefooterPlaceholders;
-                return (
-                    <div className="list-group-item px-0" key={index}>
-                        <p className="mb-0"><Link to={`/templates/${template.node.slug}`}><strong>{template.node.name}</strong></Link><br />
-                        <small>{template.node.placeholder}</small></p>
-                    </div>
-                )
-            })
-        )}
+    console.log(placeholders)
+
+    const componentPlaceholders = placeholders.map((template, index) => {
+        if(template) {
+            template.node['placeholder'] = placeholders[index].node.headerPlaceholder || placeholders[index].node.pageContentPlaceholder || placeholders[index].node.heroPlaceholder || placeholders[index].node.leftRailPlaceholder || placeholders[index].node.rightRailPlaceholder|| placeholders[index].node.prefooterPlaceholders;
+            return (
+                <div className="list-group-item px-0" key={index}>
+                    <p className="mb-0"><Link to={`/templates/${template.node.slug}`}><strong>{template.node.name}</strong></Link><br />
+                    <small>{template.node.placeholder}</small></p>
+                </div>
+            )
+        }
     })
 
 
@@ -98,7 +97,7 @@ const ComponentPage = ({data}) => {
 
                         {!doc.globalComponent &&
                             <div className="placeholders">
-                                <h5>Placeholders</h5>
+                                <h5>Templates</h5>
                                 {/* {documentToReactComponents(doc.placeholders.json, options)} */}
                                 <div className="list-group list-group-flush border-bottom">
                                     {componentPlaceholders}

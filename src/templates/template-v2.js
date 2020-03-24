@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Container from "../components/Container"
@@ -7,14 +7,14 @@ import SEO from "../components/seo"
 import Hero from '../components/Hero'
 import IFrame from '../components/Frame'
 
-import { graphql } from 'gatsby'
+import { INLINES } from '@contentful/rich-text-types';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 
 export const query = graphql`
 query pageLayoutV2Query($slug: String!) {
     contentfulPageLayout(slug: { eq: $slug }) {
-        collegedeptLayout
+        isCollegedept
         name
         updatedAt
         createdAt
@@ -64,6 +64,21 @@ query pageLayoutV2Query($slug: String!) {
 }
 `
 
+const options = {
+    renderNode: {
+      [INLINES.ENTRY_HYPERLINK]: (node) => {
+        const { name, slug } = node.data.target.fields;
+        if(node.data.target.sys.contentType.sys.id === "componentPage") {
+            return <Link to={`components/${slug['en-US']}`}>{name['en-US']}</Link>
+        } else if(node.data.target.sys.contentType.sys.id === "tutorialPage") {
+            return <Link to={`tutorials/${slug['en-US']}`}>{name['en-US']}</Link>
+        } else if(node.data.target.sys.contentType.sys.id === "pageLayout") {
+            return <Link to={`templates/${slug['en-US']}`}>{name['en-US']}</Link>
+        }
+      }
+    }
+  };
+
 const Template = ({data}) => {
     const doc = data.contentfulPageLayout;
     // console.log(doc)
@@ -96,7 +111,7 @@ const Template = ({data}) => {
             let visibleComponents;
             if(visible) {
                 // Limit displayed components
-                visibleComponents = components.filter((component, index) => index <= visible);
+                visibleComponents = components.filter((component, index) => index <= (visible - 1));
             } else {    
                 // Display first component
                 visibleComponents = [components[0]];
@@ -321,7 +336,7 @@ const Template = ({data}) => {
                 {doc.pageContent &&
                     <div className="row richtext">
                         <div className="col-12">
-                            {documentToReactComponents(doc.pageContent.json)}
+                            {documentToReactComponents(doc.pageContent.json, options)}
                         </div>
                     </div>
                 }

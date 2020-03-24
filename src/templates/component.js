@@ -1,11 +1,10 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Container from "../components/Container"
 import SEO from "../components/seo"
 
-import { graphql } from 'gatsby'
 import { INLINES } from '@contentful/rich-text-types';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import ComponentExample from '../components/ComponentExample'
@@ -31,7 +30,7 @@ const ComponentPage = ({data}) => {
     const doc = data.contentfulComponentPage;
     if (!doc) return null;
 
-    const placeholders = [
+    let placeholders = [
         data.headerReference.edges[0],
         data.heroReference.edges[0],
         data.pageContentReference.edges[0],
@@ -39,18 +38,41 @@ const ComponentPage = ({data}) => {
         data.rightRailReference.edges[0],
         data.prefooterReference.edges[0],
     ];
+    placeholders = placeholders.filter(x => x !== undefined)
 
-    console.log(placeholders)
+    let combinedPlaceholders = [];
+    placeholders.map((template, index) => {
+            template.node['placeholder'] = template.node.headerPlaceholder || template.node.pageContentPlaceholder || template.node.heroPlaceholder || template.node.leftRailPlaceholder || template.node.rightRailPlaceholder|| template.node.prefooterPlaceholders;
+            
+            let sameNameIndex = combinedPlaceholders.findIndex(x => x.slug === template.node.slug);
+            // let sameNameIndex;
+            
+            
+            if(sameNameIndex >= 0) {
+                return combinedPlaceholders[sameNameIndex].placeholders.push(template.node.placeholder)
+            } else {
+                return combinedPlaceholders.push({
+                    name: template.node.name,
+                    slug: template.node.slug,
+                    placeholders: [
+                        template.node.placeholder
+                    ]
+                }) 
+            }
+    })
+    console.log(combinedPlaceholders)
 
-    const componentPlaceholders = placeholders.map((template, index) => {
+    const componentPlaceholders = combinedPlaceholders.map((template, index) => {
         if(template) {
-            template.node['placeholder'] = placeholders[index].node.headerPlaceholder || placeholders[index].node.pageContentPlaceholder || placeholders[index].node.heroPlaceholder || placeholders[index].node.leftRailPlaceholder || placeholders[index].node.rightRailPlaceholder|| placeholders[index].node.prefooterPlaceholders;
             return (
                 <div className="list-group-item px-0" key={index}>
-                    <p className="mb-0"><Link to={`/templates/${template.node.slug}`}><strong>{template.node.name}</strong></Link><br />
-                    <small>{template.node.placeholder}</small></p>
+                    <p className="mb-0"><Link to={`/templates/${template.slug}`}><strong>{template.name}</strong></Link><br />
+                    <ul>{template.placeholders.map((placeholder, index) => { return <li key={index}>{placeholder}</li>})}</ul>
+                    </p>
                 </div>
             )
+        } else {
+            return null
         }
     })
 
@@ -88,7 +110,7 @@ const ComponentPage = ({data}) => {
                             <li className="breadcrumb-item">{doc.name}</li>
                         </ol>
 
-                        {!doc.globalComponent &&
+                        {!doc.globalComponent && doc.useCases &&
                             <div className="use-cases ">
                                 <h5>Use Cases</h5>
                                 {documentToReactComponents(doc.useCases.json, options)}

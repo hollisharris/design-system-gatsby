@@ -14,9 +14,9 @@ const ComponentListItem = ({ slug, name, version, status }) => {
     return (
         <div className="components-list">
             <div className="components-list-item">
-                <Link to={`/components/${slug}`}><p className="large">{name}</p></Link>
+                <Link to={slug}><p className="large">{name}</p></Link>
                 {/* <p className="component-details"><span className="version"><strong>Version:</strong> {version}</span> {status !== 'Ready' && <span className={`status badge ${convertToClass(status)}`}>{status}</span>}</p> */}
-                <p className="component-details">{status !== 'Ready' && <span className={`status badge ${convertToClass(status)}`}>{status}</span>}</p>
+                <p className="component-details">{status && status !== 'Ready' && <span className={`status badge ${convertToClass(status)}`}>{status}</span>}</p>
             </div>
         </div>
     )

@@ -112,7 +112,7 @@ const ComponentsPage = ({data}) => {
     if(filteredList.length > 0) {
         usableComponentsList = filteredList.map((item, index)  => {
             return (
-                <ComponentListItem key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
+                <ComponentListItem key={index} slug={`/components/${item.node.slug}`} name={item.node.name} version={item.node.version} status={item.node.status}/>
             )
         })
     } else {

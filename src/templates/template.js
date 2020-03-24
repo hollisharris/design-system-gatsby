@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Container from "../components/Container"
@@ -7,14 +7,12 @@ import SEO from "../components/seo"
 import Hero from '../components/Hero'
 import IFrame from '../components/Frame'
 
-import { graphql } from 'gatsby'
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-
 
 export const query = graphql`
 query pageLayoutQuery($slug: String!) {
     contentfulPageLayout(slug: { eq: $slug }) {
-        collegedeptLayout
+        isCollegedept
         name
         updatedAt
         createdAt

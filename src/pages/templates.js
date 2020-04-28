@@ -11,7 +11,7 @@ import { graphql } from 'gatsby';
 
 export const query = graphql`
   {
-    marketing: allContentfulPageLayout(filter: {isCollegedept: {in: "Marketing"}}) {
+    marketing: allContentfulTemplate(filter: {isCollegedept: {in: "Marketing"}}) {
         edges {
             node {
                 name
@@ -20,7 +20,7 @@ export const query = graphql`
             }
         }
     }
-    dept: allContentfulPageLayout(filter: {isCollegedept: {in: "Dept/College"}}) {
+    dept: allContentfulTemplate(filter: {isCollegedept: {in: "Dept/College"}}) {
       edges {
           node {
               name

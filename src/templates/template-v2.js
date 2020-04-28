@@ -10,10 +10,9 @@ import IFrame from '../components/Frame'
 import { INLINES } from '@contentful/rich-text-types';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
-
 export const query = graphql`
 query pageLayoutV2Query($slug: String!) {
-    contentfulPageLayout(slug: { eq: $slug }) {
+    contentfulTemplate(slug: { eq: $slug }) {
         isCollegedept
         name
         updatedAt
@@ -80,13 +79,12 @@ const options = {
   };
 
 const Template = ({data}) => {
-    const doc = data.contentfulPageLayout;
+    const doc = data.contentfulTemplate;
     // console.log(doc)
 
     if (!doc) return null;
 
     const styles = require('!!css-loader!sass-loader!../scss/main.scss')
-    // const jsonLayout = JSON.parse(doc.layoutBuilder.internal.content)
 
     function renderHTML(component) {
         let html;
@@ -119,7 +117,13 @@ const Template = ({data}) => {
             
 
              return visibleComponents.map((component, index) => {
-                    const useableComponents = components.filter((other, index) => other.slug !== component.slug);
+                    let useableComponents = components.filter((other, index) => other.slug !== component.slug);
+
+                    useableComponents = useableComponents.sort(function(a, b){
+                        if(a.slug < b.slug) { return -1; }
+                        if(a.slug > b.slug) { return 1; }
+                        return 0;
+                    })
 
                     return (
                         <div key={index} className="page-layout__component">

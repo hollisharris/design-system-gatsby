@@ -208,7 +208,7 @@ query MyQuery($slug: String!) {
             slug
         }
     }
-    headerReference: allContentfulPageLayout(filter: {
+    headerReference: allContentfulTemplate(filter: {
         header: {elemMatch: {slug: {eq: $slug}}}
     }) {
         edges {
@@ -219,7 +219,7 @@ query MyQuery($slug: String!) {
           }
         }
     }
-    heroReference: allContentfulPageLayout(filter: {
+    heroReference: allContentfulTemplate(filter: {
         heroComponents: {elemMatch: {slug: {eq: $slug}}}
     }) {
         edges {
@@ -230,7 +230,7 @@ query MyQuery($slug: String!) {
           }
         }
     }
-    leftRailReference: allContentfulPageLayout(filter: {
+    leftRailReference: allContentfulTemplate(filter: {
         leftRailComponents: {elemMatch: {slug: {eq: $slug}}}
     }) {
         edges {
@@ -241,7 +241,7 @@ query MyQuery($slug: String!) {
           }
         }
     }
-    rightRailReference: allContentfulPageLayout(filter: {
+    rightRailReference: allContentfulTemplate(filter: {
         rightRailComponents: {elemMatch: {slug: {eq: $slug}}}
     }) {
         edges {
@@ -252,7 +252,7 @@ query MyQuery($slug: String!) {
           }
         }
     }
-    pageContentReference: allContentfulPageLayout(filter: {
+    pageContentReference: allContentfulTemplate(filter: {
         pageContentComponents: {elemMatch: {slug: {eq: $slug}}}
     }) {
         edges {
@@ -263,7 +263,7 @@ query MyQuery($slug: String!) {
           }
         }
     }
-    prefooterReference: allContentfulPageLayout(filter: {
+    prefooterReference: allContentfulTemplate(filter: {
         prefooterComponents: {elemMatch: {slug: {eq: $slug}}}
     }) {
         edges {

@@ -42,7 +42,7 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
-        allContentfulPageLayout {
+        allContentfulTemplate {
           edges {
             node {
               id
@@ -81,7 +81,7 @@ exports.createPages = ({ graphql, actions }) => {
           }
         });
       });
-      result.data.allContentfulPageLayout.edges.forEach(edge => {
+      result.data.allContentfulTemplate.edges.forEach(edge => {
         createPage({
           path: `/templates/${edge.node.slug}/`,
           component: slash(templatePageTemplate),

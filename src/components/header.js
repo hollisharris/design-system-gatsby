@@ -14,22 +14,22 @@ const Header = ({ siteTitle }) => (
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link to="/components" className="nav-link">
+              <Link to="/components/" className="nav-link">
                 Components
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/templates" className="nav-link">
+              <Link to="/templates/" className="nav-link">
                 Templates
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/style" className="nav-link">
+              <Link to="/style/" className="nav-link">
                 Style
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/tutorials" className="nav-link">
+              <Link to="/tutorials/" className="nav-link">
                 Tutorials
               </Link>
             </li>

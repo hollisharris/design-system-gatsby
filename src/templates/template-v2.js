@@ -68,11 +68,11 @@ const options = {
       [INLINES.ENTRY_HYPERLINK]: (node) => {
         const { name, slug } = node.data.target.fields;
         if(node.data.target.sys.contentType.sys.id === "componentPage") {
-            return <Link to={`components/${slug['en-US']}`}>{name['en-US']}</Link>
+            return <Link to={`components/${slug['en-US']}/`}>{name['en-US']}</Link>
         } else if(node.data.target.sys.contentType.sys.id === "tutorialPage") {
-            return <Link to={`tutorials/${slug['en-US']}`}>{name['en-US']}</Link>
+            return <Link to={`tutorials/${slug['en-US']}/`}>{name['en-US']}</Link>
         } else if(node.data.target.sys.contentType.sys.id === "pageLayout") {
-            return <Link to={`templates/${slug['en-US']}`}>{name['en-US']}</Link>
+            return <Link to={`templates/${slug['en-US']}/`}>{name['en-US']}</Link>
         }
       }
     }
@@ -142,12 +142,12 @@ const Template = ({data}) => {
                                                 <div className="dropdown-divider"></div>
 
                                                 <p className="dropdown-header">Displayed Component</p>
-                                                <Link to={`/components/${component.slug}`} className="dropdown-item"><span>{component.name}</span></Link>
+                                                <Link to={`/components/${component.slug}/`} className="dropdown-item"><span>{component.name}</span></Link>
                                                 {useableComponents.length > 0 &&
                                                     <>
                                                         <div className="dropdown-divider"></div>
                                                         <p className="dropdown-header">Useable {useableComponents.length > 1 ? 'Components': 'Component'}</p>
-                                                        {useableComponents.map(other => <Link to={`/components/${other.slug}`} key={other.slug} className="dropdown-item"><span>{other.name}</span></Link>)}
+                                                        {useableComponents.map(other => <Link to={`/components/${other.slug}/`} key={other.slug} className="dropdown-item"><span>{other.name}</span></Link>)}
                                                     </>
                                                 }
                                             </div>

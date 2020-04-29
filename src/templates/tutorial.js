@@ -47,7 +47,7 @@ const Tutorial = ({data}) => {
 
                     <div className="col-lg-9 richtext">
                         <ol className="breadcrumb" style={{backgroundColor: 'transparent', marginLeft: 0, paddingLeft: 0}}>
-                            <li className="breadcrumb-item"><Link to="/tutorials">Tutorials</Link></li>
+                            <li className="breadcrumb-item"><Link to="/tutorials/">Tutorials</Link></li>
                             <li className="breadcrumb-item">{doc.title}</li>
                         </ol>
 

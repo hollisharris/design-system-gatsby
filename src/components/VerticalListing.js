@@ -10,7 +10,7 @@ const VerticalListing = ({ list }) => {
                     <div className="col-md-7 offset-md-4">
                         <h2 className="vertical-listing-title">{item.node.name}</h2>
                         {item.node.description && <p>{item.node.description}</p>}
-                        <div className="uta-btn-group"><a href={`/templates/${item.node.slug}`} className="uta-btn uta-btn-compact-primary" role="button"><span>Template Details</span></a></div>
+                        <div className="uta-btn-group"><a href={`/templates/${item.node.slug}/`} className="uta-btn uta-btn-compact-primary" role="button"><span>Template Details</span></a></div>
                     </div>
                 </div>
             )

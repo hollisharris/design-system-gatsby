@@ -16,11 +16,11 @@ const options = {
       [INLINES.ENTRY_HYPERLINK]: (node) => {
         const { name, slug } = node.data.target.fields;
         if(node.data.target.sys.contentType.sys.id === "componentPage") {
-            return <Link to={`components/${slug['en-US']}`}>{name['en-US']}</Link>
+            return <Link to={`components/${slug['en-US']}/`}>{name['en-US']}</Link>
         } else if(node.data.target.sys.contentType.sys.id === "tutorialPage") {
-            return <Link to={`tutorials/${slug['en-US']}`}>{name['en-US']}</Link>
+            return <Link to={`tutorials/${slug['en-US']}/`}>{name['en-US']}</Link>
         } else if(node.data.target.sys.contentType.sys.id === "pageLayout") {
-            return <Link to={`templates/${slug['en-US']}`}>{name['en-US']}</Link>
+            return <Link to={`templates/${slug['en-US']}/`}>{name['en-US']}</Link>
         }
       }
     }
@@ -66,7 +66,7 @@ const ComponentPage = ({data}) => {
         if(template) {
             return (
                 <div className="list-group-item px-0" key={index}>
-                    <p className="mb-0"><Link to={`/templates/${template.slug}`}><strong>{template.name}</strong></Link><br />
+                    <p className="mb-0"><Link to={`/templates/${template.slug}/`}><strong>{template.name}</strong></Link><br />
                     <ul>{template.placeholders.map((placeholder, index) => { return <li key={index}>{placeholder}</li>})}</ul>
                     </p>
                 </div>
@@ -106,7 +106,7 @@ const ComponentPage = ({data}) => {
                     <div className="col-lg-9 richtext">
 
                         <ol className="breadcrumb" style={{backgroundColor: 'transparent', marginLeft: 0, paddingLeft: 0}}>
-                            <li className="breadcrumb-item"><Link to="/components">Components</Link></li>
+                            <li className="breadcrumb-item"><Link to="/components/">Components</Link></li>
                             <li className="breadcrumb-item">{doc.name}</li>
                         </ol>
 

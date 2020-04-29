@@ -39,7 +39,7 @@ const Tutorials = ({data}) => {
         return (
             <div className="row align-items-center" key={index}>
                 <div className="col-md-7">
-                    <Link to={`/tutorials/${item.node.slug}`}><h2 className="vertical-listing-title">{item.node.title}</h2>
+                    <Link to={`/tutorials/${item.node.slug}/`}><h2 className="vertical-listing-title">{item.node.title}</h2>
                         {item.node.description && <p className="description">{item.node.description.description}</p>}
                     </Link>
                 </div>

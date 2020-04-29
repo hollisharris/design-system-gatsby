@@ -7,7 +7,7 @@
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^13.4.0",
     "contentful": "^7.14.0",
-    "gatsby": "^2.19.28",
+    "gatsby": "^2.21.5",
     "gatsby-image": "^2.2.43",
     "gatsby-plugin-manifest": "^2.2.44",
     "gatsby-plugin-meta-redirect": "^1.1.1",

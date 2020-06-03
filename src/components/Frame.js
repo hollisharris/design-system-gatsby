@@ -21,7 +21,8 @@ const IFrame = ({ html, htmlFile, styles, frameWidth }) => {
     <Frame
       title="Component Example"
       ref={iframeRef}
-      style={{maxWidth: frameWidth, width: '100%', height: iframeHeight, display: 'block', margin: 'auto'}}
+      scrolling="no"
+      style={{maxWidth: frameWidth, width: '100%', height: iframeHeight, display: 'block', margin: 'auto', overflow: 'hidden'}}
       initialContent={`<!DOCTYPE html>
                     <html>
                         <head>

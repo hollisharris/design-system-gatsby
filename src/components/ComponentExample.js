@@ -15,6 +15,8 @@ const ComponentExample = ({ htmlFile }) => {
                 <IFrame
                     title="iframe"
                     styles={styles}
+                    style={{overflow:'hidden'}}
+                    scrolling="no"
                     frameWidth={frameWidth}
                     htmlFile={htmlFile}>      
                 </IFrame>

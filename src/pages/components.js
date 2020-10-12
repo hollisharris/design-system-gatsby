@@ -3,16 +3,16 @@ import React, { useState, useEffect } from "react"
 import Layout from "../components/layout"
 import Container from "../components/Container"
 import SEO from "../components/seo"
-import ComponentListItem from '../components/ComponentListItem'
+import Card from '../components/Card'
 import Hero from '../components/Hero'
 
 import { graphql } from 'gatsby'
 
-import "./components.scss"
+// import "./components.scss"
 
 export const query = graphql`
 {
-    usableComponents: allContentfulComponentPage(filter: {globalComponent: {eq: false}}) {
+    usableComponents: allContentfulComponentPage(filter: {globalComponent: {eq: false}, status: {nin: "Deprecated"}}) {
         edges {
             node {
                 name
@@ -25,6 +25,12 @@ export const query = graphql`
                 links
                 listing
                 listLimit
+                thumbnail {
+                    title
+                    fluid(maxWidth: 300) {
+                        ...GatsbyContentfulFluid
+                    }
+                }
             }
         }
     }
@@ -42,27 +48,50 @@ export const query = graphql`
 `
 
 const ComponentsPage = ({data}) => {
-  const usableComponents = data.usableComponents;
-  let globalComponents = data.globalComponents;
+    const usableComponents = data.usableComponents;
+    let globalComponents = data.globalComponents;
+
+    const reset = event => {
+        if(event === 'all') {
+            setFormData(initialState);
+        } else {
+            setFormData({
+                ...formData,
+                [event]: 0
+            });
+        }
+    };
 
 //   Filters
     let [filteredList, setFilteredList] = useState([]);
+    let [formChanged, setFormChanged] = useState(false);
 
-    const [formData, setFormData] = useState({
+    const initialState = {
+        searchTerm: "",
         richtext: false,
         buttons: false,
-        buttonsCount: null,
+        buttonsCount: 0,
         images: false,
-        imagesCount: null,
+        imagesCount: 0,
         links: false,
         listing: false
-    })
+      };
+
+    const [formData, setFormData] = useState(initialState)
+
+    const buttonValues = [
+        '1','2'
+    ]
+
+    const imagesValues = [
+        '1','2','3','4'
+    ]
 
     const handleInputChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-    
+        
         setFormData({
             ...formData,
             [name]: value
@@ -70,30 +99,13 @@ const ComponentsPage = ({data}) => {
     }
 
     useEffect(() => {
-        if(!formData.buttons && formData.buttonsCount > 0) {
-            setFormData({
-                ...formData,
-                buttonsCount: null
-            });
-        }
-
-        if(!formData.images && formData.imageCount > 0) {
-            setFormData({
-                ...formData,
-                imageCount: null
-            });
-        }
-    }, [formData])
-
-    useEffect(() => {
         let result = usableComponents.edges.filter(
             component => 
-                (!formData.buttons || component.node.buttons > 0) &&
                 (!formData.richtext || component.node.richtext === formData.richtext) &&
                 (!formData.links || component.node.links === "Links optional" || component.node.links === "Links required") &&
                 (!formData.buttonsCount || component.node.buttons >= formData.buttonsCount) &&
-                (!formData.images || component.node.images > 0) &&
-                (!formData.imageCount || component.node.images >= formData.imageCount) &&
+                (!formData.searchTerm || component.node.name.toLowerCase().includes(formData.searchTerm.toLowerCase())) &&
+                (!formData.imagesCount || component.node.images >= formData.imagesCount) &&
                 (!formData.listing || component.node.listing === "Limited" || component.node.listing === "Unlimited")
         );
 
@@ -104,7 +116,32 @@ const ComponentsPage = ({data}) => {
         })
         setFilteredList(alphabetizeResult);
 
-    }, [formData, usableComponents])
+    }, [formData, usableComponents]);
+
+    useEffect(() => {
+        // Compare object values
+        // Ignoring Buttons and Images keys checkbox triggered dropdowns 
+        function shallowEqual(object1, object2) {
+            if(
+                (object1['searchTerm'] !== object2['searchTerm']) ||
+                (object1['richtext'] !== object2['richtext']) ||
+                (object1['buttonsCount'] !== object2['buttonsCount']) ||
+                (object1['imagesCount'] !== object2['imagesCount']) ||
+                (object1['links'] !== object2['links']) ||
+                (object1['listing'] !== object2['listing'])
+            ) {
+                return false
+            } else {
+                return true
+            }
+          }
+
+        if(shallowEqual(formData,initialState)){
+            setFormChanged(true);
+        } else {
+            setFormChanged(false)
+        }
+    }, [formData, initialState]);
 
     if (!usableComponents || !globalComponents) return null;
 
@@ -112,7 +149,13 @@ const ComponentsPage = ({data}) => {
     if(filteredList.length > 0) {
         usableComponentsList = filteredList.map((item, index)  => {
             return (
-                <ComponentListItem key={index} slug={`/components/${item.node.slug}`} name={item.node.name} version={item.node.version} status={item.node.status}/>
+                <Card
+                    key={index}
+                    slug={`/components/${item.node.slug}`}
+                    name={item.node.name}
+                    version={item.node.version}
+                    status={item.node.status}
+                    thumbnail={item.node.thumbnail}/>
             )
         })
     } else {
@@ -127,9 +170,9 @@ const ComponentsPage = ({data}) => {
     })
 
     const globalComponentsList = globalComponents.map((item, index)  => {
-            return (
-                <ComponentListItem key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
-            )
+        return (
+            <Card key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
+        )
     })
   
     return (
@@ -140,71 +183,89 @@ const ComponentsPage = ({data}) => {
                     <div className="row">
                         <Hero title="Components" description="Components are building blocks you can assemble to make unique page layouts" />
                     
-                        <div className="col-lg-9">
-                            <h4 className="list-header">Page Components</h4>
-                            {usableComponentsList}
-
-                            <h4 className="list-header">Global Components</h4>
-                            {globalComponentsList}
-                        </div>
-
-                        <div className="col-lg-3 filters">
-                            <section className="cta-detail">
-                                <div className="container-fluid">
-                                    <div className="row">
-                                        <div className="col">
-                                            <h2 className="cta-detail-title">Filters</h2>
-                                            <div className="cta-detail-description">
-                                            <form>
-                                                    <label>
-                                                        <input type="checkbox" name="richtext" checked={formData.richtext} onChange={handleInputChange}/>
-                                                        Rich Text
-                                                    </label>
-
-                                                    <label>
-                                                        <input type="checkbox" name="buttons" checked={formData.buttons} onChange={handleInputChange}/>
-                                                        Buttons
-                                                    </label>
-                                                    {formData.buttons &&
-                                                        <div className="form-group d-flex">
-                                                            <input class="toggle-radio" type="radio" id="buttons-one" name="buttonsCount" value="1" onChange={handleInputChange} defaultChecked={formData.buttons}/><label htmlFor="buttons-one">1</label>
-                                                            <input class="toggle-radio" type="radio" id="buttons-two" name="buttonsCount" value="2" onChange={handleInputChange} /><label htmlFor="buttons-two">2</label>
-
-                                                            {/* <input type="number" name="quantity" min="1" max="2" defaultValue="1" value={buttonsCount} onChange={changeButtonCount}/> */}
-                                                        </div>
-                                                    }
-
-                                                    <label>
-                                                        <input type="checkbox" name="images" checked={formData.images} onChange={handleInputChange}/>
-                                                        Images
-                                                    </label>
-                                                    {formData.images && 
-                                                        <div className="form-group  d-flex">
-                                                            <input class="toggle-radio" type="radio" id="images-one" name="imageCount" value="1" onChange={handleInputChange} defaultChecked={formData.images}/><label htmlFor="images-one">1</label>
-                                                            <input class="toggle-radio" type="radio" id="images-two" name="imageCount" value="2" onChange={handleInputChange} /><label htmlFor="images-two">2</label>
-                                                            <input class="toggle-radio" type="radio" id="images-three" name="imageCount" value="3" onChange={handleInputChange} /><label htmlFor="images-three">3</label>
-                                                            <input class="toggle-radio" type="radio" id="images-four" name="imageCount" value="4" onChange={handleInputChange} /><label htmlFor="images-four">4</label>
-                                                        
-                                                            {/* <input type="number" name="quantity" min="1" max="4" defaultValue="1" value={imageCount} onChange={changeImageCount}/> */}
-                                                        </div>
-                                                    }
-                                       
-                                                    <label>
-                                                        <input type="checkbox" name="links" checked={formData.links} onChange={handleInputChange}/>
-                                                        Links
-                                                    </label>
-
-                                                    <label>
-                                                        <input type="checkbox" name="listing" checked={formData.listing} onChange={handleInputChange}/>
-                                                        Listing
-                                                    </label>
-                                            </form>
+                        <div className="col-lg-12 filters sticky-top bg-white py-3 border-bottom d-none d-md-block">
+                            <form className="d-flex">
+                                    <input
+                                        name="searchTerm"
+                                        className="search-box border rounded px-3 py-2 mr-2"
+                                        type="text"
+                                        placeholder="Search components"
+                                        value={formData.searchTerm}
+                                        onChange={handleInputChange}
+                                    />
+      
+                                    <label className="border rounded px-3 py-2 mr-2">
+                                        <input type="checkbox" name="richtext" checked={formData.richtext} onChange={handleInputChange}/>
+                                        Rich Text
+                                    </label>
+                                    
+                                    <div className="position-relative mr-2">
+                                        <label className="border rounded px-3 py-2">
+                                            <span className={`dropdown-arrow mr-2 ${formData.buttons ? 'up' : 'down'}`}></span>
+                                            <input hidden type="checkbox" name="buttons" checked={formData.buttons} onChange={handleInputChange}/>
+                                            Buttons  {formData.buttonsCount > 0 && <span className="badge badge-primary badge-pill">{formData.buttonsCount}</span>}
+                                        </label>
+                                        
+                                            <div className={`${formData.buttons ? 'visible': 'invisible'} form-group radio-group bg-white border p-2 rounded`}>
+                                                {
+                                                    buttonValues.map(value => (
+                                                        <label  key={`buttons-${value}`}>
+                                                            <input className="toggle-radio" type="radio" id={`buttons-${value}`} name="buttonsCount" value={value} checked={value === formData.buttonsCount ? true : false} onChange={handleInputChange}/> {value}
+                                                        </label>
+                                                    ))
+                                                }
+                                                <button className={`border rounded px-3 py-2 mb-2   bg-white border-0 btn-block ${formData.buttonsCount !== 0 ? 'text-primary' : 'text-gray' }`} disabled={formData.buttonsCount !== 0 ? false : true } onClick={()=>reset('buttonsCount')}>Reset</button>
                                             </div>
+                                    </div>
+
+                                    <div className="position-relative  mr-2">
+                                        <label className="border rounded px-3 py-2">
+                                            <span className={`dropdown-arrow mr-2 ${formData.images ? 'up' : 'down'}`}></span>
+                                            <input hidden type="checkbox" name="images" checked={formData.images} onChange={handleInputChange}/>
+                                            Images {formData.imagesCount > 0 && <span className="badge badge-primary badge-pill">{formData.imagesCount}</span>}
+                                        </label>
+                                    
+                                        <div className={`${formData.images ? 'visible': 'invisible'} form-group radio-group bg-white border p-2 rounded`}>
+                                            {
+                                                imagesValues.map(value => (
+                                                    <label key={`images-${value}`}>
+                                                        <input className="toggle-radio" type="radio" id={`images-${value}`} name="imagesCount" value={value} checked={value === formData.imagesCount ? true : false} onChange={handleInputChange}/> {value}
+                                                    </label>
+                                                ))
+                                            }
+                                            <button className={`border rounded px-3 py-2 mb-2 bg-white border-0  btn-block ${formData.imagesCount !== 0 ? 'text-primary' : 'text-gray' }`} disabled={formData.imagesCount !== 0 ? false : true } onClick={()=>reset('imagesCount')}>Reset</button>
                                         </div>
                                     </div>
-                                </div>
-                            </section>
+                        
+                                    <label className="border rounded px-3 py-2 mr-2">
+                                        <input type="checkbox" name="links" checked={formData.links} onChange={handleInputChange}/>
+                                        Links
+                                    </label>
+
+                                    <label className="border rounded px-3 py-2 mr-2">
+                                        <input type="checkbox" name="listing" checked={formData.listing} onChange={handleInputChange}/>
+                                        Listing
+                                    </label>
+
+                                    <button className={`rounded px-3 py-2 mb-2  bg-white border-0 ${formChanged ? 'text-gray' : 'text-primary' }`} disabled={formChanged} onClick={()=>reset('all')}>Reset</button>
+                            </form>
                         </div>
+                        
+
+                        <div className="col-lg-12">
+                            <h2 className="mt-5">Page Components</h2>
+                            <small className="text-muted text-small">{usableComponentsList.length} of {usableComponents.edges.length} components</small>
+                            <div className="row  mt-4">
+                                {usableComponentsList}
+                            </div>
+
+                            <h2 className="mt-5">Global Components</h2>
+                            <div className="row">
+                                {globalComponentsList}
+                            </div>
+                        </div>
+
+                        
                     </div>
                 </section>
             </Container>

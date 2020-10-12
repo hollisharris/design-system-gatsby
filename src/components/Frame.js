@@ -1,28 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Frame, { FrameContextConsumer } from 'react-frame-component';
+import Frame from 'react-frame-component';
 
 const IFrame = ({ html, htmlFile, styles, frameWidth }) => {
   const iframeRef = useRef(null)
-  const [iframeHeight, setIframeHeight] = useState(null)
-  const [iframeDoc, setIframeDoc] = useState(null)
+  const [iframeHeight, setIframeHeight] = useState('500px')
+  const [iframeReady, setIframeReady] = useState(false)
 
-  // const mountNode = contentRef && contentRef.contentWindow.document.body
 
   useEffect(() => {
-    if(iframeDoc) {
-      setTimeout(()=>{
-        let height = iframeDoc.body.scrollHeight;
-        setIframeHeight(height+'px')
-      }, 250)
-    }
-  }, [iframeDoc])
+      setIframeHeight(iframeRef.current.node.contentWindow.document.body.scrollHeight)
+  }, [iframeReady,iframeRef,frameWidth]);
+
 
   return (
     <Frame
       title="Component Example"
       ref={iframeRef}
       scrolling="no"
-      style={{maxWidth: frameWidth, width: '100%', height: iframeHeight, display: 'block', margin: 'auto', overflow: 'hidden'}}
+      onLoad={() => setIframeReady(true)}
+      style={{maxWidth: frameWidth, width: '100%', height: iframeHeight, display: 'block', minHeight: '200px', margin: 'auto', overflow: 'hidden'}}
       initialContent={`<!DOCTYPE html>
                     <html>
                         <head>
@@ -30,7 +26,7 @@ const IFrame = ({ html, htmlFile, styles, frameWidth }) => {
                         </head>
                         <body>
                             <div class="frame-root"></div>
-                            <script src="/assets/scripts/uta-prototype-components.js"></script>
+                            <script src="/assets/scripts/uta-prototype-components.min.js"></script>
                         </body>
                     </html>`
       }
@@ -46,14 +42,6 @@ const IFrame = ({ html, htmlFile, styles, frameWidth }) => {
             />
         </React.Fragment>
       }>
-        <FrameContextConsumer>
-        {
-          ({document, window}) => {
-            // Render Children
-            setIframeDoc(document)
-          }
-        }
-      </FrameContextConsumer>
       <React.Fragment>
         {htmlFile &&
         <div dangerouslySetInnerHTML={{ __html: htmlFile }}/>}

@@ -29,6 +29,15 @@ const Layout = ({ children }) => {
       <div>
         {children}
       </div>
+      {/* <footer className="border-top py-3">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
+              <a className="text-muted" href="https://blog.uta.edu/redesign">About Web Mod</a>
+            </div>
+          </div>
+        </div>
+      </footer> */}
     </>
   )
 }

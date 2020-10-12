@@ -1,0 +1,199 @@
+.template-icon-container {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows:repeat(10, 1fr);
+    column-gap: 3px;
+    row-gap: 3px;
+    justify-content: stretch; 
+    justify-items: stretch;
+    align-content: stretch; 
+    align-items: stretch;
+
+    height: 200px;
+    // width: 100%;
+    max-width: calc(100% - 9px);
+
+    .template-icon {
+        // $color-blue
+        background-color: $color-gradient-blue-start;
+
+        &.icon-navigation {
+            background: $color-blue-teirtary;
+            grid-column: 1 / 5;
+            grid-row: 1 / 1;
+        }
+
+        &.icon-hero {
+            background: $header-color-block;
+            grid-column: 1 / 5;
+            grid-row: 2 / 5;
+        }
+
+        &.icon-prefooter {
+            background: $color-blue-teirtary;
+            grid-column: 1 / 5;
+            grid-row: 10 / 10;
+        }
+
+    }
+
+    // Section Landing
+    &.section-landing {
+        .icon-center,
+        .leftNav {
+            display: none;
+        }
+
+        .icon-left {
+            grid-column: 1 / 3;
+            grid-row: 5 / 10;
+        }
+
+        .icon-right {
+            grid-column: 3 / 5;
+            grid-row: 5 / 10;
+        }
+    }
+
+    // Experience Interior with Nav
+    &.experience-interior-nav-page {
+        .icon-navigation,
+        .icon-prefooter {
+            display: none;
+        }
+
+        .icon-hero {
+            grid-column: 1 / 5;
+            grid-row: 1 / 4;
+        }
+
+        .icon-center {
+            grid-column: 2 / 4;
+            grid-row: 4 / 11;
+        }
+
+        .icon-right {
+            grid-column: 4 / 5;
+            grid-row: 4 / 11;
+        }
+
+        .icon-left {
+            grid-column: 1 / 2;
+            grid-row: 7 / 11;
+        }
+
+        .icon-leftNav {
+            grid-column: 1 / 2;
+            grid-row: 4 / 7;
+        }
+    }
+
+    // Experience Right Rail
+    &.experience-right-rail-page {
+        .icon-navigation,
+        .icon-prefooter,
+        .icon-leftNav,
+        .icon-left {
+            display: none;
+        }
+
+        .icon-hero {
+            grid-column: 1 / 5;
+            grid-row: 1 / 4;
+        }
+
+        .icon-center {
+            grid-column: 1 / 4;
+            grid-row: 4 / 11;
+        }
+
+        .icon-right {
+            grid-column: 4 / 5;
+            grid-row: 4 / 11;
+        }
+    }
+
+    // Article Detail
+    &.article-detail-page {
+        .leftNav {
+            display: none;
+        }
+
+        .icon-left {
+            grid-column: 1 / 4;
+            grid-row: 5 / 8;
+        }
+
+        .icon-right {
+            grid-column: 4 / 5;
+            grid-row: 5 / 8;
+        }
+
+        .icon-center {
+            grid-column: 1 / 5;
+            grid-row: 8 / 10;
+        }
+    }
+
+    // Experience Landing
+    &.experience-landing {
+        .icon-navigation,
+        .icon-prefooter,
+        .icon-leftNav,
+        .icon-left,
+        .icon-right {
+            display: none;
+        }
+
+        .icon-hero {
+            grid-column: 1 / 5;
+            grid-row: 1 / 4;
+        }
+
+        .icon-center {
+            grid-column: 1 / 5;
+            grid-row: 4 / 11;
+        }
+    }
+
+    // Experience Landing with Nav
+    &.experience-landing-with-nav {
+        .icon-leftNav,
+        .icon-left,
+        .icon-right {
+            display: none;
+        }
+
+        .icon-center {
+            grid-column: 1 / 5;
+            grid-row: 5 / 10;
+        }
+    }
+
+    // Experience Interior with Nav
+    &.detail-page {
+        .icon-right {
+            display: none;
+        }
+
+        .icon-hero {
+            grid-column: 1 / 5;
+            grid-row: 2 / 5;
+        }
+
+        .icon-center {
+            grid-column: 2 / 5;
+            grid-row: 5 / 10;
+        }
+
+        .icon-left {
+            grid-column: 1 / 2;
+            grid-row: 8 / 10;
+        }
+
+        .icon-leftNav {
+            grid-column: 1 / 2;
+            grid-row: 5 / 8;
+        }
+    }
+}

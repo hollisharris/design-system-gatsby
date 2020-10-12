@@ -1,21 +1,23 @@
-@import "../scss/main.scss";
-
 .component-example {
     .frame {
-        border: 3px solid $ui-03;
+        border: 1px solid $color-light-gray;
+
+        iframe {
+            border: none;
+        }
     }
     
     .component-toolbar {
-        border: 3px solid $ui-03;
+        border: 1px solid $color-light-gray;
         border-top: 0;
         width: 100%;
     }
 
     .uta-btn-ghost {
-        color: $text-05;
+        color: $body-text;
 
         &.active {
-            background-color: $ui-03;
+            background-color: $color-light-gray-background;
         }
     }
 
@@ -33,7 +35,7 @@
         a {
             @include font-size(12);
             @include font-weight(bold);
-            color: $brand-02;
+            color: $color-blue;
             display: flex;
             letter-spacing: 0.86px;
             line-height: 1.25;

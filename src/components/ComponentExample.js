@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IFrame from './Frame'
-import "./ComponentExample.scss"
+
 const styles = require('!!css-loader!sass-loader!../scss/main.scss') // eslint-disable-line import/no-webpack-loader-syntax
     
 
-
-const ComponentExample = ({ htmlFile }) => {
+const ComponentExample = ({ htmlFile, defaultMobile }) => {
     let [frameWidth, resizeFrame] = useState('100%');
-    let [activeSize, setActiveSize] = useState('desktop');
+    let [activeSize, setActiveSize] = useState(defaultMobile || 'desktop');
+
+    useEffect(()=> {
+        if(activeSize === 'mobile') {
+            resizeFrame('320px')
+        } else if (activeSize === 'tablet') {
+            resizeFrame('50%')
+        } else {
+            resizeFrame('100%')
+        }
+    }, [activeSize])
 
     return (
         <div className="component-example">
@@ -18,13 +27,13 @@ const ComponentExample = ({ htmlFile }) => {
                     style={{overflow:'hidden'}}
                     scrolling="no"
                     frameWidth={frameWidth}
-                    htmlFile={htmlFile}>      
+                    htmlFile={htmlFile}>  
                 </IFrame>
             </div>
-            <div className="component-toolbar uta-btn-group">
-                <button className={`uta-btn uta-btn-ghost ${activeSize === 'mobile' ? 'active' : ''}`} onClick={() => {resizeFrame('320px'); setActiveSize('mobile');}}>Mobile</button>
-                <button className={`uta-btn uta-btn-ghost ${activeSize === 'tablet' ? 'active' : ''}`} onClick={() => {resizeFrame('50%'); setActiveSize('tablet');}}>Tablet</button>
-                <button className={`uta-btn uta-btn-ghost ${activeSize === 'desktop' ? 'active' : ''}`} onClick={() => {resizeFrame('100%'); setActiveSize('desktop');}}>Desktop</button>
+            <div className="component-toolbar uta-btn-group d-none d-sm-block">
+                <button className={`uta-btn uta-btn-ghost mx-0 ${activeSize === 'mobile' ? 'active' : ''}`} onClick={() => {setActiveSize('mobile');}}>Mobile</button>
+                <button className={`uta-btn uta-btn-ghost mx-0 ${activeSize === 'tablet' ? 'active' : ''}`} onClick={() => {setActiveSize('tablet');}}>Tablet</button>
+                <button className={`uta-btn uta-btn-ghost mx-0 ${activeSize === 'desktop' ? 'active' : ''}`} onClick={() => {setActiveSize('desktop');}}>Desktop</button>
             </div>
         </div>
     )

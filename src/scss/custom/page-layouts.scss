@@ -1,9 +1,8 @@
 .page-layout {
-    border: 1px solid rgba($color__black, .3);
-    box-shadow: 0 .5rem 1rem rgba($color__black, .15);
-    margin: $spacing-xl $spacing-md;
-    max-width: calc(1400px + #{$spacing-md * 2});
-    width: calc(100% - #{$spacing-md * 2});
+    border: 1px solid $color-light-gray;
+    // margin: $spacing-xl $spacing-md;
+    // max-width: calc(1400px + #{$spacing-md * 2});
+    // width: calc(100% - #{$spacing-md * 2});
 
     > iframe {
         border: none;
@@ -42,11 +41,11 @@
     }
 
     &__description {
-        background-color: $ui-01;
+        background-color: $color-white;
         border-color: $color-orange;
         border-style: solid;
         border-width: 0 1px 1px 0;
-        color: $ui-01;
+        color: $color-blue;
         flex-grow: 0;
         flex-shrink: 0;
         left: 0;
@@ -54,8 +53,8 @@
         position: absolute;
         top: 0;
         transition-property: opacity;
-        transition-duration: $uta--standard-duration;
-        transition-timing-function: $uta--standard-easing;
+        transition-duration: .3s;
+        transition-timing-function: ease;
         z-index: 1;
 
         p {
@@ -68,13 +67,13 @@
             a {
                 @include font-size(12);
                 @include font-weight(bold);
-                color: $text-01;
-                padding: $spacing-sm;
+                color: $body-text;
+                padding: .5rem 1rem; 
                 text-decoration: none;
                 text-transform: uppercase;
                 transition-property: color;
-                transition-duration: $uta--standard-duration;
-                transition-timing-function: $uta--standard-easing;
+                transition-duration: .3s;
+                transition-timing-function: ease;
                 margin-bottom: 0;
 
                 &:hover,
@@ -90,8 +89,8 @@
             @include button-reset;
             @include font-size(12);
             @include font-weight(bold);
-            color: $text-01;
-            padding: $spacing-sm;
+            color: $body-text;
+            padding: .5rem 1rem; 
             text-transform: uppercase;
             margin-bottom: 0;
         }
@@ -104,8 +103,8 @@
         outline: 5px solid transparent;
         position: relative;
         transition-property: outline;
-        transition-duration: $uta--standard-duration;
-        transition-timing-function: $uta--standard-easing;
+        transition-duration: .3s;
+        transition-timing-function: ease;
         width: 100%;
         z-index: 0;
     }

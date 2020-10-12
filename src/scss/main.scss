@@ -11,22 +11,38 @@ $css--font-face: true;
 $css--reset: true;
 $css--source-sans-pro: true;
 
-@import 'node_modules/uta-prototype/bundle/scss/uta-style';
+@import '~uta-prototype/bundle/scss/uta-style.scss';
 
+@import './custom/ComponentExample.scss';
+@import './custom/ComponentListItem.scss';
+@import './custom/components.scss';
+@import './custom/iconcard.scss';
+@import './custom/tutorials.scss';
+@import './custom/VerticalListing.scss';
+@import './custom/page-layouts.scss';
+@import './custom/component-overrides.scss';
+@import './custom/ComponentTemplate.scss';
+@import './custom/UpdateTemplate.scss';
+@import './custom/template-icon.scss';
+
+
+body {
+    background-color: $color-white !important;
+}
 
 //---------------------------------------------------------------
 // Global
 //---------------------------------------------------------------
 
-@import 'global/typography';
-@import 'global/vars';
-@import 'global/mixins';
-@import 'global/layout';
-@import 'global/tables';
-@import 'global/grid';
-@import 'global/css--typography';
-@import 'global/404';
-@import 'global/pages';
+// @import 'global/typography';
+// @import 'global/vars';
+// @import 'global/mixins';
+// @import 'global/layout';
+// @import 'global/tables';
+// @import 'global/grid';
+// @import 'global/css--typography';
+// @import 'global/404';
+// @import 'global/pages';
 
 
 // //----------------------------------------------------------------
@@ -36,7 +52,7 @@ $css--source-sans-pro: true;
 // @import '../components/internal/CodeExample/code-example.scss';
 // @import '../components/internal/CodePage/code-page.scss';
 // @import '../components//internal/ComponentExample/component-example.scss';
-@import '../components/component-overrides.scss';
+// @import '../components/component-overrides.scss';
 // @import '../components/internal/Header/header.scss';
 // @import '../components/internal/MarkdownPage/markdown-page.scss';
 // @import '../components/internal/Page/page.scss';
@@ -59,5 +75,5 @@ $css--source-sans-pro: true;
 // //----------------------------------------------------------------
 
 // @import '../pages/ComponentStatus/component-status.scss';
-@import './page-layouts.scss';
+// @import './page-layouts.scss';
 // @import '../pages/Overview/overview.scss';

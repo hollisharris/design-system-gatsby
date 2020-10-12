@@ -1,7 +1,5 @@
-@import "../scss/main.scss";
-
 .components-list-item {
-    border-bottom: 2px solid $ui-03;
+    border-bottom: 2px solid $color-border;
     padding: 1em 0; 
     display: flex;
     justify-content: space-between;
@@ -13,22 +11,22 @@
     
     .component-details {
         // font-size: .8rem;
-        color: $text-02;
+        color: $color-gray;
     }
 }
 
 .status {
-    color: #fff;
+    // color: #fff;
     &.ready {
-        background-color: $support-02;
+        // background-color: $support-02;
     }
     &.deprecated {
-        background-color: $support-01;
+        // background-color: $support-01;
     }
     &.under-review {
-        background-color: $support-03;
+        // background-color: $support-03;
     }
     &.new {
-        background-color: $support-02;
+        // background-color: $support-02;
     }
 }

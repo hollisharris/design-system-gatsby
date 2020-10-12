@@ -1,0 +1,57 @@
+.list-header:not(:first-child) {
+    margin-top: 2em;
+}
+
+.dropdown-arrow:before {
+    font-family: Font Awesome\ 5 Free;
+    font-weight: 900;
+    color: $color-blue;
+    content: "\f107";
+}
+
+.dropdown-arrow.up:before {
+    content: "\f106";
+}
+
+
+.filters {
+    .search-box {
+        flex: 1 1 auto;
+        margin-bottom: 8px;
+    }
+    .cta-detail {
+        position: sticky;
+        top: 2em;
+    }
+
+    label {
+        display: block;
+    }
+
+    input {
+        display: inline-block;
+
+        &[type="checkbox"] {
+            margin-right: .5em;
+        }
+
+        &[type="number"] {
+            margin-left: .5em;
+        }
+
+    }
+
+    .radio-group {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 3em;
+
+        label {
+            display: block;
+            width: 100%;
+        }
+    }
+}
+

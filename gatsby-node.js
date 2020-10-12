@@ -26,7 +26,7 @@ exports.createPages = ({ graphql, actions }) => {
   return graphql(
     `
       {
-        allContentfulComponentPage {
+        allContentfulComponentPage(filter: {status: {nin: "Deprecated"}}) {
           edges {
             node {
               id
@@ -35,6 +35,14 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
         allContentfulTutorialPage {
+          edges {
+            node {
+              id
+              slug
+            }
+          }
+        }
+        allContentfulUpdate {
           edges {
             node {
               id
@@ -60,6 +68,7 @@ exports.createPages = ({ graphql, actions }) => {
       const componentPageTemplate = path.resolve("./src/templates/component.js");
       const tutorialPageTemplate = path.resolve("./src/templates/tutorial.js");
       const templatePageTemplate = path.resolve("./src/templates/template-v2.js");
+      const updatePageTemplate = path.resolve("./src/templates/update.js");
       // Then for each result we create a page.
       result.data.allContentfulComponentPage.edges.forEach(edge => {
         createPage({
@@ -85,6 +94,16 @@ exports.createPages = ({ graphql, actions }) => {
         createPage({
           path: `/templates/${edge.node.slug}/`,
           component: slash(templatePageTemplate),
+          context: {
+            slug: edge.node.slug,
+            id: edge.node.id
+          }
+        });
+      });
+      result.data.allContentfulUpdate.edges.forEach(edge => {
+        createPage({
+          path: `/updates/${edge.node.slug}/`,
+          component: slash(updatePageTemplate),
           context: {
             slug: edge.node.slug,
             id: edge.node.id

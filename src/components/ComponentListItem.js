@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "gatsby"
 
-import './ComponentListItem.scss'
+// import './ComponentListItem.scss'
     
 const ComponentListItem = ({ slug, name, version, status }) => {
 

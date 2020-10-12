@@ -2,6 +2,8 @@ var UTAComponents = (function (exports) {
   'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -83,6 +85,19 @@ var UTAComponents = (function (exports) {
     return _setPrototypeOf(o, p);
   }
 
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function _assertThisInitialized(self) {
     if (self === void 0) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -97,6 +112,25 @@ var UTAComponents = (function (exports) {
     }
 
     return _assertThisInitialized(self);
+  }
+
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
   }
 
   function _superPropBase(object, property) {
@@ -130,19 +164,15 @@ var UTAComponents = (function (exports) {
   }
 
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _arrayWithHoles(arr) {
@@ -150,10 +180,11 @@ var UTAComponents = (function (exports) {
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
+    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -179,12 +210,29 @@ var UTAComponents = (function (exports) {
     return _arr;
   }
 
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   /*!
@@ -1052,10 +1100,10 @@ var UTAComponents = (function (exports) {
   };
 
   function createComponent (ToMix) {
-    var Component =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var Component = /*#__PURE__*/function (_ToMix) {
       _inherits(Component, _ToMix);
+
+      var _super = _createSuper(Component);
 
       /**
        * The component instances managed by this component.
@@ -1078,7 +1126,7 @@ var UTAComponents = (function (exports) {
 
         _classCallCheck(this, Component);
 
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Component).call(this, element, options));
+        _this = _super.call(this, element, options);
 
         _defineProperty(_assertThisInitialized(_this), "children", []);
 
@@ -1141,15 +1189,15 @@ var UTAComponents = (function (exports) {
      * Mix-in class to instantiate components by searching for their root elements.
      * @class InitComponentBySearch
      */
-    var InitComponentBySearch =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var InitComponentBySearch = /*#__PURE__*/function (_ToMix) {
       _inherits(InitComponentBySearch, _ToMix);
+
+      var _super = _createSuper(InitComponentBySearch);
 
       function InitComponentBySearch() {
         _classCallCheck(this, InitComponentBySearch);
 
-        return _possibleConstructorReturn(this, _getPrototypeOf(InitComponentBySearch).apply(this, arguments));
+        return _super.apply(this, arguments);
       }
 
       _createClass(InitComponentBySearch, null, [{
@@ -1197,14 +1245,12 @@ var UTAComponents = (function (exports) {
      * @class Handles
      * @implements Handle
      */
-    var Handles =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var Handles = /*#__PURE__*/function (_ToMix) {
       _inherits(Handles, _ToMix);
 
-      function Handles() {
-        var _getPrototypeOf2;
+      var _super = _createSuper(Handles);
 
+      function Handles() {
         var _this;
 
         _classCallCheck(this, Handles);
@@ -1213,7 +1259,7 @@ var UTAComponents = (function (exports) {
           args[_key] = arguments[_key];
         }
 
-        _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Handles)).call.apply(_getPrototypeOf2, [this].concat(args)));
+        _this = _super.call.apply(_super, [this].concat(args));
 
         _defineProperty(_assertThisInitialized(_this), "handles", new Set());
 
@@ -1300,9 +1346,7 @@ var UTAComponents = (function (exports) {
 
     return flatten(mixinfns).reduce(function (Class, mixinfn) {
       return mixinfn(Class);
-    },
-    /*#__PURE__*/
-    function () {
+    }, /*#__PURE__*/function () {
       function _class() {
         _classCallCheck(this, _class);
       }
@@ -1315,17 +1359,17 @@ var UTAComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var ComponentSubjectCarousel =
-  /*#__PURE__*/
-  function (_mixin) {
+  var ComponentSubjectCarousel = /*#__PURE__*/function (_mixin) {
     _inherits(ComponentSubjectCarousel, _mixin);
+
+    var _super = _createSuper(ComponentSubjectCarousel);
 
     function ComponentSubjectCarousel(element, options) {
       var _this;
 
       _classCallCheck(this, ComponentSubjectCarousel);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ComponentSubjectCarousel).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.slides = toArray(_this.element.querySelectorAll(_this.options.selectorSlide));
       _this.slide = 0;
 
@@ -1401,7 +1445,7 @@ var UTAComponents = (function (exports) {
 
   var jquery = createCommonjsModule(function (module) {
     /*!
-     * jQuery JavaScript Library v3.3.1
+     * jQuery JavaScript Library v3.4.1
      * https://jquery.com/
      *
      * Includes Sizzle.js
@@ -1411,7 +1455,7 @@ var UTAComponents = (function (exports) {
      * Released under the MIT license
      * https://jquery.org/license
      *
-     * Date: 2018-01-20T17:24Z
+     * Date: 2019-05-01T21:04Z
      */
     (function (global, factory) {
 
@@ -1463,19 +1507,33 @@ var UTAComponents = (function (exports) {
       var preservedScriptAttributes = {
         type: true,
         src: true,
+        nonce: true,
         noModule: true
       };
 
-      function DOMEval(code, doc, node) {
+      function DOMEval(code, node, doc) {
         doc = doc || document;
         var i,
+            val,
             script = doc.createElement("script");
         script.text = code;
 
         if (node) {
           for (i in preservedScriptAttributes) {
-            if (node[i]) {
-              script[i] = node[i];
+            // Support: Firefox 64+, Edge 18+
+            // Some browsers don't support the "nonce" property on scripts.
+            // On the other hand, just using `getAttribute` is not enough as
+            // the `nonce` attribute is reset to an empty string whenever it
+            // becomes browsing-context connected.
+            // See https://github.com/whatwg/html/issues/2369
+            // See https://html.spec.whatwg.org/#nonce-attributes
+            // The `node.getAttribute` check was added for the sake of
+            // `jQuery.globalEval` so that it can fake a nonce-containing node
+            // via an object.
+            val = node[i] || node.getAttribute && node.getAttribute(i);
+
+            if (val) {
+              script.setAttribute(i, val);
             }
           }
         }
@@ -1496,7 +1554,7 @@ var UTAComponents = (function (exports) {
       // unguarded in another place, it seems safer to define global only for this module
 
 
-      var version = "3.3.1",
+      var version = "3.4.1",
           // Define a local copy of jQuery
       jQuery = function jQuery(selector, context) {
         // The jQuery object is actually just the init constructor 'enhanced'
@@ -1605,22 +1663,26 @@ var UTAComponents = (function (exports) {
           if ((options = arguments[i]) != null) {
             // Extend the base object
             for (name in options) {
-              src = target[name];
-              copy = options[name]; // Prevent never-ending loop
+              copy = options[name]; // Prevent Object.prototype pollution
+              // Prevent never-ending loop
 
-              if (target === copy) {
+              if (name === "__proto__" || target === copy) {
                 continue;
               } // Recurse if we're merging plain objects or arrays
 
 
               if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = Array.isArray(copy)))) {
-                if (copyIsArray) {
-                  copyIsArray = false;
-                  clone = src && Array.isArray(src) ? src : [];
-                } else {
-                  clone = src && jQuery.isPlainObject(src) ? src : {};
-                } // Never move original objects, clone them
+                src = target[name]; // Ensure proper type for the source value
 
+                if (copyIsArray && !Array.isArray(src)) {
+                  clone = [];
+                } else if (!copyIsArray && !jQuery.isPlainObject(src)) {
+                  clone = {};
+                } else {
+                  clone = src;
+                }
+
+                copyIsArray = false; // Never move original objects, clone them
 
                 target[name] = jQuery.extend(deep, clone, copy); // Don't bring in undefined values
               } else if (copy !== undefined) {
@@ -1662,8 +1724,6 @@ var UTAComponents = (function (exports) {
           return typeof Ctor === "function" && fnToString.call(Ctor) === ObjectFunctionString;
         },
         isEmptyObject: function isEmptyObject(obj) {
-          /* eslint-disable no-unused-vars */
-          // See https://github.com/eslint/eslint/issues/6125
           var name;
 
           for (name in obj) {
@@ -1673,8 +1733,10 @@ var UTAComponents = (function (exports) {
           return true;
         },
         // Evaluates a script in a global context
-        globalEval: function globalEval(code) {
-          DOMEval(code);
+        globalEval: function globalEval(code, options) {
+          DOMEval(code, {
+            nonce: options && options.nonce
+          });
         },
         each: function each(obj, callback) {
           var length,
@@ -1815,14 +1877,14 @@ var UTAComponents = (function (exports) {
 
       var Sizzle =
       /*!
-       * Sizzle CSS Selector Engine v2.3.3
+       * Sizzle CSS Selector Engine v2.3.4
        * https://sizzlejs.com/
        *
-       * Copyright jQuery Foundation and other contributors
+       * Copyright JS Foundation and other contributors
        * Released under the MIT license
-       * http://jquery.org/license
+       * https://js.foundation/
        *
-       * Date: 2016-08-08
+       * Date: 2019-04-08
        */
       function (window) {
         var i,
@@ -1853,6 +1915,7 @@ var UTAComponents = (function (exports) {
             classCache = createCache(),
             tokenCache = createCache(),
             compilerCache = createCache(),
+            nonnativeSelectorCache = createCache(),
             sortOrder = function sortOrder(a, b) {
           if (a === b) {
             hasDuplicate = true;
@@ -1901,7 +1964,7 @@ var UTAComponents = (function (exports) {
             rtrim = new RegExp("^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$", "g"),
             rcomma = new RegExp("^" + whitespace + "*," + whitespace + "*"),
             rcombinators = new RegExp("^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace + "*"),
-            rattributeQuotes = new RegExp("=" + whitespace + "*([^\\]'\"]*?)" + whitespace + "*\\]", "g"),
+            rdescend = new RegExp(whitespace + "|>"),
             rpseudo = new RegExp(pseudos),
             ridentifier = new RegExp("^" + identifier + "$"),
             matchExpr = {
@@ -1916,6 +1979,7 @@ var UTAComponents = (function (exports) {
           // We use this for POS matching in `select`
           "needsContext": new RegExp("^" + whitespace + "*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(" + whitespace + "*((?:-\\d)?\\d*)" + whitespace + "*\\)|)(?=[^-]|$)", "i")
         },
+            rhtml = /HTML$/i,
             rinputs = /^(?:input|select|textarea|button)$/i,
             rheader = /^h\d$/i,
             rnative = /^[^{]+\{\s*\[native \w/,
@@ -1958,8 +2022,8 @@ var UTAComponents = (function (exports) {
         unloadHandler = function unloadHandler() {
           setDocument();
         },
-            disabledAncestor = addCombinator(function (elem) {
-          return elem.disabled === true && ("form" in elem || "label" in elem);
+            inDisabledFieldset = addCombinator(function (elem) {
+          return elem.disabled === true && elem.nodeName.toLowerCase() === "fieldset";
         }, {
           dir: "parentNode",
           next: "legend"
@@ -2054,14 +2118,17 @@ var UTAComponents = (function (exports) {
               } // Take advantage of querySelectorAll
 
 
-              if (support.qsa && !compilerCache[selector + " "] && (!rbuggyQSA || !rbuggyQSA.test(selector))) {
-                if (nodeType !== 1) {
-                  newContext = context;
-                  newSelector = selector; // qSA looks outside Element context, which is not what we want
-                  // Thanks to Andrew Dupont for this workaround technique
-                  // Support: IE <=8
-                  // Exclude object elements
-                } else if (context.nodeName.toLowerCase() !== "object") {
+              if (support.qsa && !nonnativeSelectorCache[selector + " "] && (!rbuggyQSA || !rbuggyQSA.test(selector)) && ( // Support: IE 8 only
+              // Exclude object elements
+              nodeType !== 1 || context.nodeName.toLowerCase() !== "object")) {
+                newSelector = selector;
+                newContext = context; // qSA considers elements outside a scoping root when evaluating child or
+                // descendant combinators, which is not what we want.
+                // In such cases, we work around the behavior by prefixing every selector in the
+                // list with an ID selector referencing the scope context.
+                // Thanks to Andrew Dupont for this technique.
+
+                if (nodeType === 1 && rdescend.test(selector)) {
                   // Capture the context ID, setting it first if necessary
                   if (nid = context.getAttribute("id")) {
                     nid = nid.replace(rcssescape, fcssescape);
@@ -2082,14 +2149,14 @@ var UTAComponents = (function (exports) {
                   newContext = rsibling.test(selector) && testContext(context.parentNode) || context;
                 }
 
-                if (newSelector) {
-                  try {
-                    push.apply(results, newContext.querySelectorAll(newSelector));
-                    return results;
-                  } catch (qsaError) {} finally {
-                    if (nid === expando) {
-                      context.removeAttribute("id");
-                    }
+                try {
+                  push.apply(results, newContext.querySelectorAll(newSelector));
+                  return results;
+                } catch (qsaError) {
+                  nonnativeSelectorCache(selector, true);
+                } finally {
+                  if (nid === expando) {
+                    context.removeAttribute("id");
                   }
                 }
               }
@@ -2256,7 +2323,7 @@ var UTAComponents = (function (exports) {
                 return elem.isDisabled === disabled || // Where there is no isDisabled, check manually
 
                 /* jshint -W018 */
-                elem.isDisabled !== !disabled && disabledAncestor(elem) === disabled;
+                elem.isDisabled !== !disabled && inDisabledFieldset(elem) === disabled;
               }
 
               return elem.disabled === disabled; // Try to winnow out elements that can't be disabled before trusting the disabled property.
@@ -2312,10 +2379,12 @@ var UTAComponents = (function (exports) {
          */
 
         isXML = Sizzle.isXML = function (elem) {
-          // documentElement is verified for cases where it doesn't yet exist
-          // (such as loading iframes in IE - #4833)
-          var documentElement = elem && (elem.ownerDocument || elem).documentElement;
-          return documentElement ? documentElement.nodeName !== "HTML" : false;
+          var namespace = elem.namespaceURI,
+              docElem = (elem.ownerDocument || elem).documentElement; // Support: IE <=8
+          // Assume HTML when documentElement doesn't yet exist, such as inside loading iframes
+          // https://bugs.jquery.com/ticket/4833
+
+          return !rhtml.test(namespace || docElem && docElem.nodeName || "HTML");
         };
         /**
          * Sets document-related variables once based on the current document
@@ -2683,12 +2752,9 @@ var UTAComponents = (function (exports) {
           // Set document vars if needed
           if ((elem.ownerDocument || elem) !== document) {
             setDocument(elem);
-          } // Make sure that attribute selectors are quoted
+          }
 
-
-          expr = expr.replace(rattributeQuotes, "='$1']");
-
-          if (support.matchesSelector && documentIsHTML && !compilerCache[expr + " "] && (!rbuggyMatches || !rbuggyMatches.test(expr)) && (!rbuggyQSA || !rbuggyQSA.test(expr))) {
+          if (support.matchesSelector && documentIsHTML && !nonnativeSelectorCache[expr + " "] && (!rbuggyMatches || !rbuggyMatches.test(expr)) && (!rbuggyQSA || !rbuggyQSA.test(expr))) {
             try {
               var ret = matches.call(elem, expr); // IE 9's matchesSelector returns false on disconnected nodes
 
@@ -2697,7 +2763,9 @@ var UTAComponents = (function (exports) {
               elem.document && elem.document.nodeType !== 11) {
                 return ret;
               }
-            } catch (e) {}
+            } catch (e) {
+              nonnativeSelectorCache(expr, true);
+            }
           }
 
           return Sizzle(expr, document, null, [elem]).length > 0;
@@ -3093,7 +3161,7 @@ var UTAComponents = (function (exports) {
             "contains": markFunction(function (text) {
               text = text.replace(runescape, funescape);
               return function (elem) {
-                return (elem.textContent || elem.innerText || getText(elem)).indexOf(text) > -1;
+                return (elem.textContent || getText(elem)).indexOf(text) > -1;
               };
             }),
             // "Whether an element is represented by a :lang() selector
@@ -3215,7 +3283,7 @@ var UTAComponents = (function (exports) {
               return matchIndexes;
             }),
             "lt": createPositionalPseudo(function (matchIndexes, length, argument) {
-              var i = argument < 0 ? argument + length : argument;
+              var i = argument < 0 ? argument + length : argument > length ? length : argument;
 
               for (; --i >= 0;) {
                 matchIndexes.push(i);
@@ -4170,7 +4238,7 @@ var UTAComponents = (function (exports) {
           return _siblings(elem.firstChild);
         },
         contents: function contents(elem) {
-          if (nodeName(elem, "iframe")) {
+          if (typeof elem.contentDocument !== "undefined") {
             return elem.contentDocument;
           } // Support: IE 9 - 11 only, iOS 7 only, Android Browser <=4.3 only
           // Treat the template element as a regular one in browsers that
@@ -5269,6 +5337,25 @@ var UTAComponents = (function (exports) {
       var pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source;
       var rcssNum = new RegExp("^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i");
       var cssExpand = ["Top", "Right", "Bottom", "Left"];
+      var documentElement = document.documentElement;
+
+      var isAttached = function isAttached(elem) {
+        return jQuery.contains(elem.ownerDocument, elem);
+      },
+          composed = {
+        composed: true
+      }; // Support: IE 9 - 11+, Edge 12 - 18+, iOS 10.0 - 10.2 only
+      // Check attachment across shadow DOM boundaries when possible (gh-3504)
+      // Support: iOS 10.0-10.2 only
+      // Early iOS 10 versions support `attachShadow` but not `getRootNode`,
+      // leading to errors. We need to check for `getRootNode`.
+
+
+      if (documentElement.getRootNode) {
+        isAttached = function isAttached(elem) {
+          return jQuery.contains(elem.ownerDocument, elem) || elem.getRootNode(composed) === elem.ownerDocument;
+        };
+      }
 
       var isHiddenWithinTree = function isHiddenWithinTree(elem, el) {
         // isHiddenWithinTree might be called from jQuery#filter function;
@@ -5279,7 +5366,7 @@ var UTAComponents = (function (exports) {
         // Support: Firefox <=43 - 45
         // Disconnected elements can have computed display: none, so first confirm that elem is
         // in the document.
-        jQuery.contains(elem.ownerDocument, elem) && jQuery.css(elem, "display") === "none";
+        isAttached(elem) && jQuery.css(elem, "display") === "none";
       };
 
       var swap = function swap(elem, options, callback, args) {
@@ -5313,7 +5400,7 @@ var UTAComponents = (function (exports) {
             initial = currentValue(),
             unit = valueParts && valueParts[3] || (jQuery.cssNumber[prop] ? "" : "px"),
             // Starting value computation is required for potential unit mismatches
-        initialInUnit = (jQuery.cssNumber[prop] || unit !== "px" && +initial) && rcssNum.exec(jQuery.css(elem, prop));
+        initialInUnit = elem.nodeType && (jQuery.cssNumber[prop] || unit !== "px" && +initial) && rcssNum.exec(jQuery.css(elem, prop));
 
         if (initialInUnit && initialInUnit[3] !== unit) {
           // Support: Firefox <=54
@@ -5453,7 +5540,7 @@ var UTAComponents = (function (exports) {
         }
       });
       var rcheckableType = /^(?:checkbox|radio)$/i;
-      var rtagName = /<([a-z][^\/\0>\x20\t\r\n\f]+)/i;
+      var rtagName = /<([a-z][^\/\0>\x20\t\r\n\f]*)/i;
       var rscriptType = /^$|^module$|\/(?:java|ecma)script/i; // We have to close these tags to support XHTML (#13200)
 
       var wrapMap = {
@@ -5510,7 +5597,7 @@ var UTAComponents = (function (exports) {
             tmp,
             tag,
             wrap,
-            contains,
+            attached,
             j,
             fragment = context.createDocumentFragment(),
             nodes = [],
@@ -5566,11 +5653,11 @@ var UTAComponents = (function (exports) {
             continue;
           }
 
-          contains = jQuery.contains(elem.ownerDocument, elem); // Append to fragment
+          attached = isAttached(elem); // Append to fragment
 
           tmp = getAll(fragment.appendChild(elem), "script"); // Preserve script evaluation history
 
-          if (contains) {
+          if (attached) {
             setGlobalEval(tmp);
           } // Capture executables
 
@@ -5610,7 +5697,6 @@ var UTAComponents = (function (exports) {
         support.noCloneChecked = !!div.cloneNode(true).lastChild.defaultValue;
       })();
 
-      var documentElement = document.documentElement;
       var rkeyEvent = /^key/,
           rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
           rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
@@ -5621,8 +5707,19 @@ var UTAComponents = (function (exports) {
 
       function returnFalse() {
         return false;
+      } // Support: IE <=9 - 11+
+      // focus() and blur() are asynchronous, except when they are no-op.
+      // So expect focus to be synchronous when the element is already active,
+      // and blur to be synchronous when the element is not already active.
+      // (focus and blur are always synchronous in other supported browsers,
+      // this just defines when we can count on it).
+
+
+      function expectSync(elem, type) {
+        return elem === safeActiveElement() === (type === "focus");
       } // Support: IE <=9 only
-      // See #13393 for more info
+      // Accessing document.activeElement can throw unexpectedly
+      // https://bugs.jquery.com/ticket/13393
 
 
       function safeActiveElement() {
@@ -5917,9 +6014,9 @@ var UTAComponents = (function (exports) {
             j = 0;
 
             while ((handleObj = matched.handlers[j++]) && !event.isImmediatePropagationStopped()) {
-              // Triggered event must either 1) have no namespace, or 2) have namespace(s)
-              // a subset or equal to those in the bound event (both can have no namespace).
-              if (!event.rnamespace || event.rnamespace.test(handleObj.namespace)) {
+              // If the event is namespaced, then each handler is only invoked if it is
+              // specially universal or its namespaces are a superset of the event's.
+              if (!event.rnamespace || handleObj.namespace === false || event.rnamespace.test(handleObj.namespace)) {
                 event.handleObj = handleObj;
                 event.data = handleObj.data;
                 ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
@@ -6033,36 +6130,38 @@ var UTAComponents = (function (exports) {
             // Prevent triggered image.load events from bubbling to window.load
             noBubble: true
           },
-          focus: {
-            // Fire native event if possible so blur/focus sequence is correct
-            trigger: function trigger() {
-              if (this !== safeActiveElement() && this.focus) {
-                this.focus();
-                return false;
-              }
-            },
-            delegateType: "focusin"
-          },
-          blur: {
-            trigger: function trigger() {
-              if (this === safeActiveElement() && this.blur) {
-                this.blur();
-                return false;
-              }
-            },
-            delegateType: "focusout"
-          },
           click: {
-            // For checkbox, fire native event so checked state will be right
-            trigger: function trigger() {
-              if (this.type === "checkbox" && this.click && nodeName(this, "input")) {
-                this.click();
-                return false;
-              }
+            // Utilize native event to ensure correct state for checkable inputs
+            setup: function setup(data) {
+              // For mutual compressibility with _default, replace `this` access with a local var.
+              // `|| data` is dead code meant only to preserve the variable through minification.
+              var el = this || data; // Claim the first handler
+
+              if (rcheckableType.test(el.type) && el.click && nodeName(el, "input")) {
+                // dataPriv.set( el, "click", ... )
+                leverageNative(el, "click", returnTrue);
+              } // Return false to allow normal processing in the caller
+
+
+              return false;
             },
-            // For cross-browser consistency, don't fire native .click() on links
+            trigger: function trigger(data) {
+              // For mutual compressibility with _default, replace `this` access with a local var.
+              // `|| data` is dead code meant only to preserve the variable through minification.
+              var el = this || data; // Force setup before triggering a click
+
+              if (rcheckableType.test(el.type) && el.click && nodeName(el, "input")) {
+                leverageNative(el, "click");
+              } // Return non-false to allow normal event-path propagation
+
+
+              return true;
+            },
+            // For cross-browser consistency, suppress native .click() on links
+            // Also prevent it if we're currently inside a leveraged native-event stack
             _default: function _default(event) {
-              return nodeName(event.target, "a");
+              var target = event.target;
+              return rcheckableType.test(target.type) && target.click && nodeName(target, "input") && dataPriv.get(target, "click") || nodeName(target, "a");
             }
           },
           beforeunload: {
@@ -6075,7 +6174,83 @@ var UTAComponents = (function (exports) {
             }
           }
         }
-      };
+      }; // Ensure the presence of an event listener that handles manually-triggered
+      // synthetic events by interrupting progress until reinvoked in response to
+      // *native* events that it fires directly, ensuring that state changes have
+      // already occurred before other listeners are invoked.
+
+      function leverageNative(el, type, expectSync) {
+        // Missing expectSync indicates a trigger call, which must force setup through jQuery.event.add
+        if (!expectSync) {
+          if (dataPriv.get(el, type) === undefined) {
+            jQuery.event.add(el, type, returnTrue);
+          }
+
+          return;
+        } // Register the controller as a special universal handler for all event namespaces
+
+
+        dataPriv.set(el, type, false);
+        jQuery.event.add(el, type, {
+          namespace: false,
+          handler: function handler(event) {
+            var notAsync,
+                result,
+                saved = dataPriv.get(this, type);
+
+            if (event.isTrigger & 1 && this[type]) {
+              // Interrupt processing of the outer synthetic .trigger()ed event
+              // Saved data should be false in such cases, but might be a leftover capture object
+              // from an async native handler (gh-4350)
+              if (!saved.length) {
+                // Store arguments for use when handling the inner native event
+                // There will always be at least one argument (an event object), so this array
+                // will not be confused with a leftover capture object.
+                saved = _slice.call(arguments);
+                dataPriv.set(this, type, saved); // Trigger the native event and capture its result
+                // Support: IE <=9 - 11+
+                // focus() and blur() are asynchronous
+
+                notAsync = expectSync(this, type);
+                this[type]();
+                result = dataPriv.get(this, type);
+
+                if (saved !== result || notAsync) {
+                  dataPriv.set(this, type, false);
+                } else {
+                  result = {};
+                }
+
+                if (saved !== result) {
+                  // Cancel the outer synthetic event
+                  event.stopImmediatePropagation();
+                  event.preventDefault();
+                  return result.value;
+                } // If this is an inner synthetic event for an event with a bubbling surrogate
+                // (focus or blur), assume that the surrogate already propagated from triggering the
+                // native event and prevent that from happening again here.
+                // This technically gets the ordering wrong w.r.t. to `.trigger()` (in which the
+                // bubbling surrogate propagates *after* the non-bubbling base), but that seems
+                // less bad than duplication.
+
+              } else if ((jQuery.event.special[type] || {}).delegateType) {
+                event.stopPropagation();
+              } // If this is a native event triggered above, everything is now in order
+              // Fire an inner synthetic event with the original arguments
+
+            } else if (saved.length) {
+              // ...and capture the result
+              dataPriv.set(this, type, {
+                value: jQuery.event.trigger( // Support: IE <=9 - 11+
+                // Extend with the prototype to reset the above stopImmediatePropagation()
+                jQuery.extend(saved[0], jQuery.Event.prototype), saved.slice(1), this)
+              }); // Abort handling of the native event
+
+              event.stopImmediatePropagation();
+            }
+          }
+        });
+      }
 
       jQuery.removeEvent = function (elem, type, handle) {
         // This "if" is needed for plain objects
@@ -6169,6 +6344,7 @@ var UTAComponents = (function (exports) {
         shiftKey: true,
         view: true,
         "char": true,
+        code: true,
         charCode: true,
         key: true,
         keyCode: true,
@@ -6211,7 +6387,30 @@ var UTAComponents = (function (exports) {
 
           return event.which;
         }
-      }, jQuery.event.addProp); // Create mouseenter/leave events using mouseover/out and event-time checks
+      }, jQuery.event.addProp);
+      jQuery.each({
+        focus: "focusin",
+        blur: "focusout"
+      }, function (type, delegateType) {
+        jQuery.event.special[type] = {
+          // Utilize native event if possible so blur/focus sequence is correct
+          setup: function setup() {
+            // Claim the first handler
+            // dataPriv.set( this, "focus", ... )
+            // dataPriv.set( this, "blur", ... )
+            leverageNative(this, type, expectSync); // Return false to allow normal processing in the caller
+
+            return false;
+          },
+          trigger: function trigger() {
+            // Force setup before trigger
+            leverageNative(this, type); // Return non-false to allow normal event-path propagation
+
+            return true;
+          },
+          delegateType: delegateType
+        };
+      }); // Create mouseenter/leave events using mouseover/out and event-time checks
       // so that event delegation works in jQuery.
       // Do the same for pointerenter/pointerleave and pointerover/pointerout
       //
@@ -6438,11 +6637,13 @@ var UTAComponents = (function (exports) {
                 if (rscriptType.test(node.type || "") && !dataPriv.access(node, "globalEval") && jQuery.contains(doc, node)) {
                   if (node.src && (node.type || "").toLowerCase() !== "module") {
                     // Optional AJAX dependency, but won't run scripts if not present
-                    if (jQuery._evalUrl) {
-                      jQuery._evalUrl(node.src);
+                    if (jQuery._evalUrl && !node.noModule) {
+                      jQuery._evalUrl(node.src, {
+                        nonce: node.nonce || node.getAttribute("nonce")
+                      });
                     }
                   } else {
-                    DOMEval(node.textContent.replace(rcleanScript, ""), doc, node);
+                    DOMEval(node.textContent.replace(rcleanScript, ""), node, doc);
                   }
                 }
               }
@@ -6464,7 +6665,7 @@ var UTAComponents = (function (exports) {
           }
 
           if (node.parentNode) {
-            if (keepData && jQuery.contains(node.ownerDocument, node)) {
+            if (keepData && isAttached(node)) {
               setGlobalEval(getAll(node, "script"));
             }
 
@@ -6485,7 +6686,7 @@ var UTAComponents = (function (exports) {
               srcElements,
               destElements,
               clone = elem.cloneNode(true),
-              inPage = jQuery.contains(elem.ownerDocument, elem); // Fix IE cloning issues
+              inPage = isAttached(elem); // Fix IE cloning issues
 
           if (!support.noCloneChecked && (elem.nodeType === 1 || elem.nodeType === 11) && !jQuery.isXMLDoc(elem)) {
             // We eschew Sizzle here for performance reasons: https://jsperf.com/getall-vs-sizzle/2
@@ -6739,9 +6940,11 @@ var UTAComponents = (function (exports) {
 
           boxSizingReliableVal = roundPixelMeasures(divStyle.width) === 36; // Support: IE 9 only
           // Detect overflow:scroll screwiness (gh-3699)
+          // Support: Chrome <=64
+          // Don't get tricked when zoom affects offsetWidth (gh-4029)
 
           div.style.position = "absolute";
-          scrollboxSizeVal = div.offsetWidth === 36 || "absolute";
+          scrollboxSizeVal = roundPixelMeasures(div.offsetWidth / 3) === 12;
           documentElement.removeChild(container); // Nullify the div so it wouldn't be stored in the memory and
           // it will also be a sign that checks already performed
 
@@ -6810,7 +7013,7 @@ var UTAComponents = (function (exports) {
         if (computed) {
           ret = computed.getPropertyValue(name) || computed[name];
 
-          if (ret === "" && !jQuery.contains(elem.ownerDocument, elem)) {
+          if (ret === "" && !isAttached(elem)) {
             ret = jQuery.style(elem, name);
           } // A tribute to the "awesome hack by Dean Edwards"
           // Android Browser returns percentage for some values,
@@ -6856,6 +7059,39 @@ var UTAComponents = (function (exports) {
         };
       }
 
+      var cssPrefixes = ["Webkit", "Moz", "ms"],
+          emptyStyle = document.createElement("div").style,
+          vendorProps = {}; // Return a vendor-prefixed property or undefined
+
+      function vendorPropName(name) {
+        // Check for vendor prefixed names
+        var capName = name[0].toUpperCase() + name.slice(1),
+            i = cssPrefixes.length;
+
+        while (i--) {
+          name = cssPrefixes[i] + capName;
+
+          if (name in emptyStyle) {
+            return name;
+          }
+        }
+      } // Return a potentially-mapped jQuery.cssProps or vendor prefixed property
+
+
+      function finalPropName(name) {
+        var final = jQuery.cssProps[name] || vendorProps[name];
+
+        if (final) {
+          return final;
+        }
+
+        if (name in emptyStyle) {
+          return name;
+        }
+
+        return vendorProps[name] = vendorPropName(name) || name;
+      }
+
       var // Swappable if display is none or starts with table
       // except "table", "table-cell", or "table-caption"
       // See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
@@ -6869,40 +7105,7 @@ var UTAComponents = (function (exports) {
           cssNormalTransform = {
         letterSpacing: "0",
         fontWeight: "400"
-      },
-          cssPrefixes = ["Webkit", "Moz", "ms"],
-          emptyStyle = document.createElement("div").style; // Return a css property mapped to a potentially vendor prefixed property
-
-      function vendorPropName(name) {
-        // Shortcut for names that are not vendor prefixed
-        if (name in emptyStyle) {
-          return name;
-        } // Check for vendor prefixed names
-
-
-        var capName = name[0].toUpperCase() + name.slice(1),
-            i = cssPrefixes.length;
-
-        while (i--) {
-          name = cssPrefixes[i] + capName;
-
-          if (name in emptyStyle) {
-            return name;
-          }
-        }
-      } // Return a property mapped along what jQuery.cssProps suggests or to
-      // a vendor prefixed property.
-
-
-      function finalPropName(name) {
-        var ret = jQuery.cssProps[name];
-
-        if (!ret) {
-          ret = jQuery.cssProps[name] = vendorPropName(name) || name;
-        }
-
-        return ret;
-      }
+      };
 
       function setPositiveNumber(elem, value, subtract) {
         // Any relative (+/-) values have already been
@@ -6956,7 +7159,9 @@ var UTAComponents = (function (exports) {
         if (!isBorderBox && computedVal >= 0) {
           // offsetWidth/offsetHeight is a rounded sum of content, padding, scroll gutter, and border
           // Assuming integer scroll gutter, subtract the rest and round down
-          delta += Math.max(0, Math.ceil(elem["offset" + dimension[0].toUpperCase() + dimension.slice(1)] - computedVal - delta - extra - 0.5));
+          delta += Math.max(0, Math.ceil(elem["offset" + dimension[0].toUpperCase() + dimension.slice(1)] - computedVal - delta - extra - 0.5 // If offsetWidth/offsetHeight is unknown, then we can't determine content-box scroll gutter
+          // Use an explicit zero to avoid NaN (gh-3964)
+          )) || 0;
         }
 
         return delta;
@@ -6965,9 +7170,13 @@ var UTAComponents = (function (exports) {
       function getWidthOrHeight(elem, dimension, extra) {
         // Start with computed style
         var styles = getStyles(elem),
+            // To avoid forcing a reflow, only fetch boxSizing if we need it (gh-4322).
+        // Fake content-box until we know it's needed to know the true value.
+        boxSizingNeeded = !support.boxSizingReliable() || extra,
+            isBorderBox = boxSizingNeeded && jQuery.css(elem, "boxSizing", false, styles) === "border-box",
+            valueIsBorderBox = isBorderBox,
             val = curCSS(elem, dimension, styles),
-            isBorderBox = jQuery.css(elem, "boxSizing", false, styles) === "border-box",
-            valueIsBorderBox = isBorderBox; // Support: Firefox <=54
+            offsetProp = "offset" + dimension[0].toUpperCase() + dimension.slice(1); // Support: Firefox <=54
         // Return a confounding non-pixel value or feign ignorance, as appropriate.
 
         if (rnumnonpx.test(val)) {
@@ -6976,19 +7185,26 @@ var UTAComponents = (function (exports) {
           }
 
           val = "auto";
-        } // Check for style in case a browser which returns unreliable values
-        // for getComputedStyle silently falls back to the reliable elem.style
-
-
-        valueIsBorderBox = valueIsBorderBox && (support.boxSizingReliable() || val === elem.style[dimension]); // Fall back to offsetWidth/offsetHeight when value is "auto"
+        } // Fall back to offsetWidth/offsetHeight when value is "auto"
         // This happens for inline elements with no explicit setting (gh-3571)
         // Support: Android <=4.1 - 4.3 only
         // Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
+        // Support: IE 9-11 only
+        // Also use offsetWidth/offsetHeight for when box sizing is unreliable
+        // We use getClientRects() to check for hidden/disconnected.
+        // In those cases, the computed value can be trusted to be border-box
 
-        if (val === "auto" || !parseFloat(val) && jQuery.css(elem, "display", false, styles) === "inline") {
-          val = elem["offset" + dimension[0].toUpperCase() + dimension.slice(1)]; // offsetWidth/offsetHeight provide border-box values
 
-          valueIsBorderBox = true;
+        if ((!support.boxSizingReliable() && isBorderBox || val === "auto" || !parseFloat(val) && jQuery.css(elem, "display", false, styles) === "inline") && elem.getClientRects().length) {
+          isBorderBox = jQuery.css(elem, "boxSizing", false, styles) === "border-box"; // Where available, offsetWidth/offsetHeight approximate border box dimensions.
+          // Where not available (e.g., SVG), assume unreliable box-sizing and interpret the
+          // retrieved value as a content box dimension.
+
+          valueIsBorderBox = offsetProp in elem;
+
+          if (valueIsBorderBox) {
+            val = elem[offsetProp];
+          }
         } // Normalize "" and auto
 
 
@@ -7020,6 +7236,13 @@ var UTAComponents = (function (exports) {
           "flexGrow": true,
           "flexShrink": true,
           "fontWeight": true,
+          "gridArea": true,
+          "gridColumn": true,
+          "gridColumnEnd": true,
+          "gridColumnStart": true,
+          "gridRow": true,
+          "gridRowEnd": true,
+          "gridRowStart": true,
           "lineHeight": true,
           "opacity": true,
           "order": true,
@@ -7068,9 +7291,11 @@ var UTAComponents = (function (exports) {
             if (value == null || value !== value) {
               return;
             } // If a number was passed in, add the unit (except for certain CSS properties)
+            // The isCustomProp check can be removed in jQuery 4.0 when we only auto-append
+            // "px" to a few hardcoded values.
 
 
-            if (type === "number") {
+            if (type === "number" && !isCustomProp) {
               value += ret && ret[3] || (jQuery.cssNumber[origName] ? "" : "px");
             } // background-* props affect original clone's values
 
@@ -7156,11 +7381,16 @@ var UTAComponents = (function (exports) {
           set: function set(elem, value, extra) {
             var matches,
                 styles = getStyles(elem),
-                isBorderBox = jQuery.css(elem, "boxSizing", false, styles) === "border-box",
-                subtract = extra && boxModelAdjustment(elem, dimension, extra, isBorderBox, styles); // Account for unreliable border-box dimensions by comparing offset* to computed and
+                // Only read styles.position if the test has a chance to fail
+            // to avoid forcing a reflow.
+            scrollboxSizeBuggy = !support.scrollboxSize() && styles.position === "absolute",
+                // To avoid forcing a reflow, only fetch boxSizing if we need it (gh-3991)
+            boxSizingNeeded = scrollboxSizeBuggy || extra,
+                isBorderBox = boxSizingNeeded && jQuery.css(elem, "boxSizing", false, styles) === "border-box",
+                subtract = extra ? boxModelAdjustment(elem, dimension, extra, isBorderBox, styles) : 0; // Account for unreliable border-box dimensions by comparing offset* to computed and
             // faking a content-box to get border and padding (gh-3699)
 
-            if (isBorderBox && support.scrollboxSize() === styles.position) {
+            if (isBorderBox && scrollboxSizeBuggy) {
               subtract -= Math.ceil(elem["offset" + dimension[0].toUpperCase() + dimension.slice(1)] - parseFloat(styles[dimension]) - boxModelAdjustment(elem, dimension, "border", false, styles) - 0.5);
             } // Convert to pixels if value adjustment is needed
 
@@ -7302,7 +7532,7 @@ var UTAComponents = (function (exports) {
             // Use .style if available and use plain properties where available.
             if (jQuery.fx.step[tween.prop]) {
               jQuery.fx.step[tween.prop](tween);
-            } else if (tween.elem.nodeType === 1 && (tween.elem.style[jQuery.cssProps[tween.prop]] != null || jQuery.cssHooks[tween.prop])) {
+            } else if (tween.elem.nodeType === 1 && (jQuery.cssHooks[tween.prop] || tween.elem.style[finalPropName(tween.prop)] != null)) {
               jQuery.style(tween.elem, tween.prop, tween.now + tween.unit);
             } else {
               tween.elem[tween.prop] = tween.now;
@@ -8874,7 +9104,11 @@ var UTAComponents = (function (exports) {
           // If value is a function, invoke it and use its return value
           var value = isFunction(valueOrFunction) ? valueOrFunction() : valueOrFunction;
           s[s.length] = encodeURIComponent(key) + "=" + encodeURIComponent(value == null ? "" : value);
-        }; // If an array was passed in, assume that it is an array of form elements.
+        };
+
+        if (a == null) {
+          return "";
+        } // If an array was passed in, assume that it is an array of form elements.
 
 
         if (Array.isArray(a) || a.jquery && !jQuery.isPlainObject(a)) {
@@ -9322,14 +9556,14 @@ var UTAComponents = (function (exports) {
                   responseHeaders = {};
 
                   while (match = rheaders.exec(responseHeadersString)) {
-                    responseHeaders[match[1].toLowerCase()] = match[2];
+                    responseHeaders[match[1].toLowerCase() + " "] = (responseHeaders[match[1].toLowerCase() + " "] || []).concat(match[2]);
                   }
                 }
 
-                match = responseHeaders[key.toLowerCase()];
+                match = responseHeaders[key.toLowerCase() + " "];
               }
 
-              return match == null ? null : match;
+              return match == null ? null : match.join(", ");
             },
             // Raw string
             getAllResponseHeaders: function getAllResponseHeaders() {
@@ -9671,7 +9905,7 @@ var UTAComponents = (function (exports) {
         };
       });
 
-      jQuery._evalUrl = function (url) {
+      jQuery._evalUrl = function (url, options) {
         return jQuery.ajax({
           url: url,
           // Make this explicit, since user can override this through ajaxSetup (#11264)
@@ -9680,7 +9914,15 @@ var UTAComponents = (function (exports) {
           cache: true,
           async: false,
           global: false,
-          "throws": true
+          // Only evaluate the response if it is successful (gh-4126)
+          // dataFilter is not invoked for failure responses, so using it instead
+          // of the default converter is kludgy but it works.
+          converters: {
+            "text script": function textScript() {}
+          },
+          dataFilter: function dataFilter(response) {
+            jQuery.globalEval(response, options);
+          }
         });
       };
 
@@ -9916,13 +10158,13 @@ var UTAComponents = (function (exports) {
       }); // Bind script tag hack transport
 
       jQuery.ajaxTransport("script", function (s) {
-        // This transport only deals with cross domain requests
-        if (s.crossDomain) {
+        // This transport only deals with cross domain or forced-by-attrs requests
+        if (s.crossDomain || s.scriptAttrs) {
           var script, _callback2;
 
           return {
             send: function send(_, complete) {
-              script = jQuery("<script>").prop({
+              script = jQuery("<script>").attr(s.scriptAttrs || {}).prop({
                 charset: s.scriptCharset,
                 src: s.url
               }).on("load error", _callback2 = function callback(evt) {
@@ -10497,17 +10739,17 @@ var UTAComponents = (function (exports) {
   jquery.noConflict();
   var homepageUrls = ['/', '/homepage.html', 'index.html', '/index'];
 
-  var Header =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Header = /*#__PURE__*/function (_mixin) {
     _inherits(Header, _mixin);
+
+    var _super = _createSuper(Header);
 
     function Header(element, options) {
       var _this;
 
       _classCallCheck(this, Header);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, element, options)); // cache elements
+      _this = _super.call(this, element, options); // cache elements
 
       _this.utilityNav = _this.element.querySelector(_this.options.utilityNavSelectorInit);
       _this.globalNav = _this.element.querySelector(_this.options.globalNavSelectorInit);
@@ -10523,8 +10765,8 @@ var UTAComponents = (function (exports) {
       _this.searchFormGroup = _this.searchForm.querySelector('.form-group'); // variables
 
       _this.height = _this.element.offsetHeight;
-      _this.lastScroll = 0;
-      _this.delta = 50;
+      _this.lastScroll = 250;
+      _this.delta = 250;
       _this.isInterior = homepageUrls.find(function (url) {
         return url === location.pathname;
       }) === undefined;
@@ -10537,6 +10779,8 @@ var UTAComponents = (function (exports) {
       _this.attachEvents();
 
       _this.attachBsEvents('on');
+
+      _this.attachLinkEvents();
 
       _this.setup();
 
@@ -10715,6 +10959,8 @@ var UTAComponents = (function (exports) {
           listbox.id = 'coveo-magicbox-suggestions';
           listbox.setAttribute('aria-role', 'listbox');
           listbox.setAttribute('aria-labelledby', "".concat(id, "-label"));
+          listbox.setAttribute('title', 'search suggestions');
+          suggestions.setAttribute('aria-labelledby', 'coveo-magicbox-suggestions');
           suggestions.appendChild(listbox);
         });
       }
@@ -10758,6 +11004,44 @@ var UTAComponents = (function (exports) {
               event.preventDefault();
             } else {
               _this6.toggleDropdown('remove');
+            }
+          });
+        });
+      }
+    }, {
+      key: "attachLinkEvents",
+      value: function attachLinkEvents() {
+        jquery(document).ready(function () {
+          // Select all links with hashes
+          jquery('a[href*="#"]') // Remove links that don't actually link to anything
+          .not('[href="#"]').not('[href="#0"]').click(function (event) {
+            // On-page links
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+              // Figure out element to scroll to
+              var target = jquery(this.hash);
+              target = target.length ? target : jquery('[name=' + this.hash.slice(1) + ']'); // Does a scroll target exist?
+
+              if (target.length) {
+                // Only prevent default if animation is actually gonna happen
+                event.preventDefault();
+                jquery('html, body').animate({
+                  scrollTop: target.offset().top - 225
+                }, 1000, 'swing', function () {
+                  // Callback after animation
+                  // Must change focus!
+                  var $target = jquery(target);
+                  $target.focus();
+
+                  if ($target.is(':focus')) {
+                    // Checking if the target was focused
+                    return false;
+                  } else {
+                    $target.attr('tabindex', '-1'); // Adding tabindex for elements not focusable
+
+                    $target.focus(); // Set focus again
+                  }
+                });
+              }
             }
           });
         });
@@ -10806,17 +11090,17 @@ var UTAComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var History =
-  /*#__PURE__*/
-  function (_mixin) {
+  var History = /*#__PURE__*/function (_mixin) {
     _inherits(History, _mixin);
+
+    var _super = _createSuper(History);
 
     function History(element, options) {
       var _this;
 
       _classCallCheck(this, History);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(History).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.decades = toArray(_this.element.querySelectorAll(_this.options.selectorDecade));
 
       _this.setup();
@@ -10878,17 +11162,17 @@ var UTAComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var InfoBlockLinks =
-  /*#__PURE__*/
-  function (_mixin) {
+  var InfoBlockLinks = /*#__PURE__*/function (_mixin) {
     _inherits(InfoBlockLinks, _mixin);
+
+    var _super = _createSuper(InfoBlockLinks);
 
     function InfoBlockLinks(element, options) {
       var _this;
 
       _classCallCheck(this, InfoBlockLinks);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(InfoBlockLinks).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.setup();
 
@@ -10933,17 +11217,19 @@ var UTAComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var Navigation =
-  /*#__PURE__*/
-  function (_mixin) {
+  jquery.noConflict();
+
+  var Navigation = /*#__PURE__*/function (_mixin) {
     _inherits(Navigation, _mixin);
+
+    var _super = _createSuper(Navigation);
 
     function Navigation(element, options) {
       var _this;
 
       _classCallCheck(this, Navigation);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Navigation).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.global = document.querySelector('[data-globalnav]');
       _this.title = _this.element.querySelector(_this.options.selectorTitle);
       _this.setup = _this.setup.bind(_assertThisInitialized(_this));
@@ -10954,7 +11240,8 @@ var UTAComponents = (function (exports) {
         _this.header();
 
         _this.observer();
-      }
+      } // this.attachLinkEvents();
+
 
       return _this;
     }
@@ -11035,17 +11322,17 @@ var UTAComponents = (function (exports) {
 
   jquery.noConflict();
 
-  var ImageCarousel =
-  /*#__PURE__*/
-  function (_mixin) {
+  var ImageCarousel = /*#__PURE__*/function (_mixin) {
     _inherits(ImageCarousel, _mixin);
+
+    var _super = _createSuper(ImageCarousel);
 
     function ImageCarousel(element, options) {
       var _this;
 
       _classCallCheck(this, ImageCarousel);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ImageCarousel).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.setup();
 
@@ -11055,12 +11342,35 @@ var UTAComponents = (function (exports) {
     _createClass(ImageCarousel, [{
       key: "setup",
       value: function setup() {
-        this.$slider = jquery(this.element).slick({
+        // this.$slider = jQuery(this.element).slick({
+        this.$slider = jquery('.slider-single').slick({
           arrows: true,
           dots: true,
           infinite: true,
           lazyLoad: 'ondemand',
           slidesToShow: 1
+        });
+        this.$sliderFor = jquery('.slider-for').slick({
+          arrows: true,
+          asNavFor: '.slider-nav',
+          fade: true,
+          infinite: true,
+          lazyLoad: 'ondemand',
+          slidesToShow: 1,
+          slidesToScroll: 1 // dots: false
+
+        });
+        this.$sliderNav = jquery('.slider-nav').slick({
+          arrows: false,
+          asNavFor: this.$sliderFor,
+          centerMode: true,
+          centerPadding: '40px',
+          dots: false,
+          focusOnSelect: true,
+          lazyLoad: 'ondemand',
+          slidesToScroll: 1,
+          slidesToShow: 5,
+          swipeToSlide: true
         });
       }
       /**
@@ -11093,9 +11403,7 @@ var UTAComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var LazyLoad =
-  /*#__PURE__*/
-  function () {
+  var LazyLoad = /*#__PURE__*/function () {
     function LazyLoad() {
       _classCallCheck(this, LazyLoad);
 
@@ -11258,17 +11566,17 @@ var UTAComponents = (function (exports) {
 
   var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-  var NewsListing =
-  /*#__PURE__*/
-  function (_mixin) {
+  var NewsListing = /*#__PURE__*/function (_mixin) {
     _inherits(NewsListing, _mixin);
+
+    var _super = _createSuper(NewsListing);
 
     function NewsListing(element, options) {
       var _this;
 
       _classCallCheck(this, NewsListing);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(NewsListing).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.footer = _this.element.querySelector(_this.options.selectorFooter);
       _this.button = _this.footer.querySelector(_this.options.selectorButton);
       _this.sections = toArray(_this.element.querySelectorAll(_this.options.selectorListing));
@@ -11362,9 +11670,10 @@ var UTAComponents = (function (exports) {
         var _this2 = this;
 
         var category = this.button.dataset.category;
+        var pageId = this.button.dataset.pageid;
         var count = parseInt(this.button.dataset.count, 10);
         var start = this.loaded + count;
-        window.fetch("/api/news/ArticleListingResults/GetMoreResults?count=".concat(count, "&start=").concat(start, "&category=").concat(category), {
+        window.fetch("/api/news/NewsListingResults/GetMoreResults?count=".concat(count, "&start=").concat(start, "&category=").concat(category, "&pageId=").concat(pageId), {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -11432,17 +11741,105 @@ var UTAComponents = (function (exports) {
 
   jquery.noConflict();
 
-  var StoryCarrier =
-  /*#__PURE__*/
-  function (_mixin) {
+  var ProfileCards = /*#__PURE__*/function (_mixin) {
+    _inherits(ProfileCards, _mixin);
+
+    var _super = _createSuper(ProfileCards);
+
+    function ProfileCards(element, options) {
+      var _this;
+
+      _classCallCheck(this, ProfileCards);
+
+      _this = _super.call(this, element, options);
+      _this.global = document.querySelector('[data-profile-cards]');
+      _this.setup = _this.setup.bind(_assertThisInitialized(_this));
+
+      if (!settings.isiFrame) {
+        _this.setup();
+      }
+
+      return _this;
+    }
+
+    _createClass(ProfileCards, [{
+      key: "setup",
+      value: function setup() {
+        jquery(document).ready(function () {
+          jquery('.toggle-info-btn').click(function () {
+            var activeCard = jquery(this).parent().parent().parent();
+
+            function resetCards() {
+              jquery('.card').removeClass('open');
+              jquery('.card-actions span').text('Profile Info');
+              jquery('.card-actions button').addClass('uta-btn-inverse-compact-secondary');
+              jquery('.card-actions button').removeClass('uta-btn-inverse-compact');
+            }
+
+            if (activeCard.hasClass('open')) {
+              activeCard.removeClass('open');
+              jquery('span', this).text('Profile Info');
+              jquery(this, '.card-actions button').addClass('uta-btn-inverse-compact-secondary');
+              jquery(this, '.card-actions button').removeClass('uta-btn-inverse-compact');
+            } else {
+              resetCards();
+              activeCard.addClass('open');
+              jquery('span', this).text('Close Info');
+              jquery(this, '.card-actions button').removeClass('uta-btn-inverse-compact-secondary');
+              jquery(this, '.card-actions button').addClass('uta-btn-inverse-compact');
+            }
+
+            if (jquery('.card').hasClass('open')) {
+              jquery('.profile-cards').addClass('showing');
+            } else {
+              jquery('.profile-cards').removeClass('showing');
+            }
+          });
+        });
+      }
+      /**
+       * The component options.
+       * If `options` is specified in the constructor,
+       * {@linkcode ProfileCards.create .create()}, or {@linkcode ProfileCards.init .init()},
+       * properties in this object are overriden for the instance being create and how {@linkcode ProfileCards.init .init()} works.
+       * @property {string} selectorInit The CSS selector to find profile cards UI.
+      //  * @property {string} selectorTitle The CSS selector to find the title element.
+       */
+
+    }], [{
+      key: "options",
+      get: function get() {
+        return {
+          selectorInit: '[data-profile-cards]'
+        };
+      }
+      /**
+       * The map associating DOM element and accordion UI instance.
+       * @type {WeakMap}
+       */
+
+    }]);
+
+    return ProfileCards;
+  }(mixin(createComponent, initComponentBySearch, handles));
+
+  _defineProperty(ProfileCards, "components",
+  /* #__PURE_CLASS_PROPERTY__ */
+  new WeakMap());
+
+  jquery.noConflict();
+
+  var StoryCarrier = /*#__PURE__*/function (_mixin) {
     _inherits(StoryCarrier, _mixin);
+
+    var _super = _createSuper(StoryCarrier);
 
     function StoryCarrier(element, options) {
       var _this;
 
       _classCallCheck(this, StoryCarrier);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(StoryCarrier).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.slides = toArray(_this.element.querySelectorAll(_this.options.selectorSlides));
       _this.isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
       _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
@@ -11530,7 +11927,7 @@ var UTAComponents = (function (exports) {
           var story = slide.querySelector('.story-carrier-story');
           var div = document.createElement('div');
           div.className = 'ie11-grayscale-fix';
-          var img = story.style.backgroundImage.slice(4, -1).replace(/['"]/g, "");
+          var img = story.style.backgroundImage.slice(4, -1).replace(/['"]/g, '');
           var template = ['<svg>', '<defs>', '<filter id="grayscale">', '<feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0" />', '</filter>', '</defs>', '<image xlink:href="' + img + '" width="100%" height="100%" x="0" y="0" filter="url(#grayscale)" preserveAspectRatio="xMinYMin slice" />', '</svg>'].join('');
           div.innerHTML = template;
           story.appendChild(div);
@@ -11569,17 +11966,17 @@ var UTAComponents = (function (exports) {
 
   jquery.noConflict();
 
-  var SubjectCarousel =
-  /*#__PURE__*/
-  function (_mixin) {
+  var SubjectCarousel = /*#__PURE__*/function (_mixin) {
     _inherits(SubjectCarousel, _mixin);
+
+    var _super = _createSuper(SubjectCarousel);
 
     function SubjectCarousel(element, options) {
       var _this;
 
       _classCallCheck(this, SubjectCarousel);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(SubjectCarousel).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.carousel = _this.element.querySelector(_this.options.selectorCarousel);
       _this.navigation = _this.element.querySelector(_this.options.selectorNavigation);
       _this.links = toArray(_this.navigation.querySelectorAll('a'));
@@ -11587,6 +11984,7 @@ var UTAComponents = (function (exports) {
       _this.label = _this.element.querySelector(_this.options.selectorCurrentLabel);
       _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
       _this.onDropdownClick = _this.onDropdownClick.bind(_assertThisInitialized(_this));
+      _this.isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 
       _this.setup();
 
@@ -11598,6 +11996,12 @@ var UTAComponents = (function (exports) {
     _createClass(SubjectCarousel, [{
       key: "setup",
       value: function setup() {
+        if (this.isIE11) {
+          jquery(this.carousel).on('init', function (slick) {
+            jquery(window).trigger('resize');
+          });
+        }
+
         this.$slider = jquery(this.carousel).slick({
           arrows: false,
           dots: false,
@@ -11710,17 +12114,17 @@ var UTAComponents = (function (exports) {
 
   jquery.noConflict();
 
-  var VerticalSubjectCarousel =
-  /*#__PURE__*/
-  function (_mixin) {
+  var VerticalSubjectCarousel = /*#__PURE__*/function (_mixin) {
     _inherits(VerticalSubjectCarousel, _mixin);
+
+    var _super = _createSuper(VerticalSubjectCarousel);
 
     function VerticalSubjectCarousel(element, options) {
       var _this;
 
       _classCallCheck(this, VerticalSubjectCarousel);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(VerticalSubjectCarousel).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.carousel = _this.element.querySelector(_this.options.selectorCarousel);
       _this.slides = toArray(_this.element.querySelectorAll(_this.options.selectorSlides));
       _this.list = _this.element.querySelector(_this.options.selectorList);
@@ -11870,9 +12274,99 @@ var UTAComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
+  jquery.noConflict();
+
+  var HeroVideo = /*#__PURE__*/function (_mixin) {
+    _inherits(HeroVideo, _mixin);
+
+    var _super = _createSuper(HeroVideo);
+
+    function HeroVideo(element, options) {
+      var _this;
+
+      _classCallCheck(this, HeroVideo);
+
+      _this = _super.call(this, element, options);
+      _this.player = document.getElementById('video-bg');
+      _this.video = _this.element.querySelector(_this.options.selectorVideo);
+      _this.btnPlayPause = document.getElementById('btnPlayPause');
+      _this.playPauseVideo = _this.playPauseVideo.bind(_assertThisInitialized(_this));
+      _this.btnPlayPause.className = 'pause';
+      _this.btnPlayPause.title = 'pause';
+      _this.btnPlayPause.innerHTML = 'pause';
+
+      _this.attachVideoEvents();
+
+      _this.changeButtonType();
+
+      _this.playPauseVideo();
+
+      return _this;
+    }
+
+    _createClass(HeroVideo, [{
+      key: "attachVideoEvents",
+      value: function attachVideoEvents() {
+        this.btnPlayPause.addEventListener('click', this.playPauseVideo, false);
+        this.video.addEventListener('play', this.changeButtonType, false);
+        this.video.addEventListener('pause', this.changeButtonType, false);
+        this.video.addEventListener('ended', this.video.pause(), false);
+      } // Updates a button's title, innerHTML and CSS class
+
+    }, {
+      key: "changeButtonType",
+      value: function changeButtonType(value) {
+        this.btnPlayPause.title = value;
+        this.btnPlayPause.innerHTML = value;
+        this.btnPlayPause.className = value;
+      }
+    }, {
+      key: "playPauseVideo",
+      value: function playPauseVideo() {
+        if (this.video.paused || this.video.ended) {
+          // Change the button to a pause button
+          this.changeButtonType('pause');
+          this.video.play();
+        } else {
+          // Change the button to a play button
+          this.changeButtonType('play');
+          this.video.pause();
+        }
+      }
+      /**
+       * The component options.
+       * If `options` is specified in the constructor,
+       * {@linkcode HeroVideo.create .create()}, or {@linkcode HeroVideo.init .init()},
+       * properties in this object are overriden for the instance being create and how {@linkcode HeroVideo.init .init()} works.
+       * @property {string} selectorInit The CSS selector to find video UI.
+       */
+
+    }], [{
+      key: "options",
+      get: function get() {
+        return {
+          selectorInit: '[data-hero-video]',
+          selectorVideo: '#video-bg'
+        };
+      }
+      /**
+       * The map associating DOM element and accordion UI instance.
+       * @type {WeakMap}
+       */
+
+    }]);
+
+    return HeroVideo;
+  }(mixin(createComponent, initComponentBySearch, handles));
+
+  _defineProperty(HeroVideo, "components",
+  /* #__PURE_CLASS_PROPERTY__ */
+  new WeakMap());
+
 
 
   var components = /*#__PURE__*/Object.freeze({
+    __proto__: null,
     ComponentSubjectCarousel: ComponentSubjectCarousel,
     Header: Header,
     History: History,
@@ -11880,9 +12374,11 @@ var UTAComponents = (function (exports) {
     Navigation: Navigation,
     ImageCarousel: ImageCarousel,
     NewsListing: NewsListing,
+    ProfileCards: ProfileCards,
     StoryCarrier: StoryCarrier,
     SubjectCarousel: SubjectCarousel,
-    VerticalSubjectCarousel: VerticalSubjectCarousel
+    VerticalSubjectCarousel: VerticalSubjectCarousel,
+    HeaderVideo: HeroVideo
   });
 
   /*!
@@ -11914,17 +12410,17 @@ var UTAComponents = (function (exports) {
     return parents;
   };
 
-  var InteriorNav =
-  /*#__PURE__*/
-  function (_mixin) {
+  var InteriorNav = /*#__PURE__*/function (_mixin) {
     _inherits(InteriorNav, _mixin);
+
+    var _super = _createSuper(InteriorNav);
 
     function InteriorNav(element, options) {
       var _this;
 
       _classCallCheck(this, InteriorNav);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(InteriorNav).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.isEE = _this.element.classList.contains('scEnabledChrome') || getParents(_this.element, '.scEnabledChrome').length > 0;
       _this.isHeader = getParents(_this.element, '[data-horizontal-header-nav]').length > 0;
 
@@ -12042,6 +12538,7 @@ var UTAComponents = (function (exports) {
   // export { default as GhostHeader } from './templates/ghost-header';
 
   var templates = /*#__PURE__*/Object.freeze({
+    __proto__: null,
     InteriorNav: InteriorNav
   });
 
@@ -12108,7 +12605,7 @@ var UTAComponents = (function (exports) {
 
   var _core = createCommonjsModule(function (module) {
     var core = module.exports = {
-      version: '2.6.9'
+      version: '2.6.11'
     };
     if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
   });
@@ -12201,7 +12698,7 @@ var UTAComponents = (function (exports) {
       return store[key] || (store[key] = value !== undefined ? value : {});
     })('versions', []).push({
       version: _core.version,
-      mode: 'global',
+      mode:  'global',
       copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
     });
   });
@@ -12424,7 +12921,7 @@ var UTAComponents = (function (exports) {
   var defineProperty = _objectDp.f;
 
   var _wksDefine = function _wksDefine(name) {
-    var $Symbol = _core.Symbol || (_core.Symbol = _global.Symbol || {});
+    var $Symbol = _core.Symbol || (_core.Symbol =  _global.Symbol || {});
     if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, {
       value: _wksExt.f(name)
     });
@@ -13327,7 +13824,7 @@ var UTAComponents = (function (exports) {
   var proto = $Number.prototype; // Opera ~12 has broken Object#toString
 
   var BROKEN_COF = _cof(_objectCreate(proto)) == NUMBER;
-  var TRIM = 'trim' in String.prototype; // 7.1.3 ToNumber(argument)
+  var TRIM = ('trim' in String.prototype); // 7.1.3 ToNumber(argument)
 
   var toNumber = function toNumber(argument) {
     var it = _toPrimitive(argument, false);
@@ -13919,7 +14416,7 @@ var UTAComponents = (function (exports) {
         // Set @@toStringTag to native iterators
         _setToStringTag(IteratorPrototype, TAG, true); // fix for some old engines
 
-        if (typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
+        if ( typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
       }
     } // fix Array#{values, @@iterator}.name in V8 / FF
 
@@ -13933,7 +14430,7 @@ var UTAComponents = (function (exports) {
     } // Define iterator
 
 
-    if (BUGGY || VALUES_BUG || !proto[ITERATOR]) {
+    if ( (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
       _hide(proto, ITERATOR, $default);
     } // Plug for library
 
@@ -14268,6 +14765,11 @@ var UTAComponents = (function (exports) {
     riter['return'] = function () {
       SAFE_CLOSING = true;
     }; // eslint-disable-next-line no-throw-literal
+
+
+    Array.from(riter, function () {
+      throw 2;
+    });
   } catch (e) {
     /* empty */
   }
@@ -14299,6 +14801,7 @@ var UTAComponents = (function (exports) {
   };
 
   _export(_export.S + _export.F * !_iterDetect(function (iter) {
+    Array.from(iter);
   }), 'Array', {
     // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
     from: function from(arrayLike
@@ -15256,6 +15759,7 @@ var UTAComponents = (function (exports) {
   var MAX_UINT32 = 0xffffffff; // babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
 
   var SUPPORTS_Y = !_fails(function () {
+    RegExp(MAX_UINT32, 'y');
   }); // @@split logic
 
   _fixReWks('split', 2, function (defined, SPLIT, $split, maybeCallNative) {
@@ -15890,10 +16394,10 @@ var UTAComponents = (function (exports) {
       return capability.promise;
     }
   });
-  _export(_export.S + _export.F * (!USE_NATIVE$1), PROMISE, {
+  _export(_export.S + _export.F * ( !USE_NATIVE$1), PROMISE, {
     // 25.4.4.6 Promise.resolve(x)
     resolve: function resolve(x) {
-      return _promiseResolve(this, x);
+      return _promiseResolve( this, x);
     }
   });
   _export(_export.S + _export.F * !(USE_NATIVE$1 && _iterDetect(function (iter) {
@@ -17851,7 +18355,7 @@ var UTAComponents = (function (exports) {
     }
   });
 
-  var _objectForcedPam = !_fails(function () {
+  var _objectForcedPam =  !_fails(function () {
     var K = Math.random(); // In FF throws only define methods
     // eslint-disable-next-line no-undef, no-useless-call
 
@@ -18664,7 +19168,7 @@ var UTAComponents = (function (exports) {
       // module.exports (if we're in a module) or a new, empty object.
 
 
-      runtime = global.regeneratorRuntime = module.exports;
+      runtime = global.regeneratorRuntime =  module.exports ;
 
       function wrap(innerFn, outerFn, self, tryLocsList) {
         // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
@@ -19386,7 +19890,7 @@ var UTAComponents = (function (exports) {
 
   /**!
    * @fileOverview Kickass library to create and place poppers near their reference elements.
-   * @version 1.14.7
+   * @version 1.16.1
    * @license
    * Copyright (c) 2016 Federico Zivolo and contributors
    *
@@ -19408,16 +19912,19 @@ var UTAComponents = (function (exports) {
    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    * SOFTWARE.
    */
-  var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-  var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
-  var timeoutDuration = 0;
+  var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && typeof navigator !== 'undefined';
 
-  for (var i$3 = 0; i$3 < longerTimeoutBrowsers.length; i$3 += 1) {
-    if (isBrowser && navigator.userAgent.indexOf(longerTimeoutBrowsers[i$3]) >= 0) {
-      timeoutDuration = 1;
-      break;
+  var timeoutDuration = function () {
+    var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
+
+    for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {
+      if (isBrowser && navigator.userAgent.indexOf(longerTimeoutBrowsers[i]) >= 0) {
+        return 1;
+      }
     }
-  }
+
+    return 0;
+  }();
 
   function microtaskDebounce(fn) {
     var called = false;
@@ -19541,6 +20048,18 @@ var UTAComponents = (function (exports) {
     }
 
     return getScrollParent(getParentNode(element));
+  }
+  /**
+   * Returns the reference node of the reference object, or the reference object itself.
+   * @method
+   * @memberof Popper.Utils
+   * @param {Element|Object} reference - the reference element (the popper will be relative to this)
+   * @returns {Element} parent
+   */
+
+
+  function getReferenceNode(reference) {
+    return reference && reference.referenceNode ? reference.referenceNode : reference;
   }
 
   var isIE11 = isBrowser && !!(window.MSInputMethodContext && document.documentMode);
@@ -19728,7 +20247,7 @@ var UTAComponents = (function (exports) {
   function getBordersSize(styles, axis) {
     var sideA = axis === 'x' ? 'Left' : 'Top';
     var sideB = sideA === 'Left' ? 'Right' : 'Bottom';
-    return parseFloat(styles['border' + sideA + 'Width'], 10) + parseFloat(styles['border' + sideB + 'Width'], 10);
+    return parseFloat(styles['border' + sideA + 'Width']) + parseFloat(styles['border' + sideB + 'Width']);
   }
 
   function getSize(axis, body, html, computedStyle) {
@@ -19848,8 +20367,8 @@ var UTAComponents = (function (exports) {
     }; // subtract scrollbar size from sizes
 
     var sizes = element.nodeName === 'HTML' ? getWindowSizes(element.ownerDocument) : {};
-    var width = sizes.width || element.clientWidth || result.right - result.left;
-    var height = sizes.height || element.clientHeight || result.bottom - result.top;
+    var width = sizes.width || element.clientWidth || result.width;
+    var height = sizes.height || element.clientHeight || result.height;
     var horizScrollbar = element.offsetWidth - width;
     var vertScrollbar = element.offsetHeight - height; // if an hypothetical scrollbar is detected, we must be sure it's not a `border`
     // we make this check conditional for performance reasons
@@ -19873,8 +20392,8 @@ var UTAComponents = (function (exports) {
     var parentRect = getBoundingClientRect(parent);
     var scrollParent = getScrollParent(children);
     var styles = getStyleComputedProperty(parent);
-    var borderTopWidth = parseFloat(styles.borderTopWidth, 10);
-    var borderLeftWidth = parseFloat(styles.borderLeftWidth, 10); // In cases where the parent is fixed, we must ignore negative scroll in offset calc
+    var borderTopWidth = parseFloat(styles.borderTopWidth);
+    var borderLeftWidth = parseFloat(styles.borderLeftWidth); // In cases where the parent is fixed, we must ignore negative scroll in offset calc
 
     if (fixedPosition && isHTML) {
       parentRect.top = Math.max(parentRect.top, 0);
@@ -19894,8 +20413,8 @@ var UTAComponents = (function (exports) {
     // the box of the documentElement, in the other cases not.
 
     if (!isIE10 && isHTML) {
-      var marginTop = parseFloat(styles.marginTop, 10);
-      var marginLeft = parseFloat(styles.marginLeft, 10);
+      var marginTop = parseFloat(styles.marginTop);
+      var marginLeft = parseFloat(styles.marginLeft);
       offsets.top -= borderTopWidth - marginTop;
       offsets.bottom -= borderTopWidth - marginTop;
       offsets.left -= borderLeftWidth - marginLeft;
@@ -20000,7 +20519,7 @@ var UTAComponents = (function (exports) {
       top: 0,
       left: 0
     };
-    var offsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, reference); // Handle viewport case
+    var offsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, getReferenceNode(reference)); // Handle viewport case
 
     if (boundariesElement === 'viewport') {
       boundaries = getViewportOffsetRectRelativeToArtbitraryNode(offsetParent, fixedPosition);
@@ -20121,7 +20640,7 @@ var UTAComponents = (function (exports) {
 
   function getReferenceOffsets(state, popper, reference) {
     var fixedPosition = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-    var commonOffsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, reference);
+    var commonOffsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, getReferenceNode(reference));
     return getOffsetRectRelativeToArbitraryNode(reference, commonOffsetParent, fixedPosition);
   }
   /**
@@ -20385,7 +20904,7 @@ var UTAComponents = (function (exports) {
       this.popper.style[getSupportedPropertyName('transform')] = '';
     }
 
-    this.disableEventListeners(); // remove the popper if user explicity asked for the deletion on destroy
+    this.disableEventListeners(); // remove the popper if user explicitly asked for the deletion on destroy
     // do not use `remove` because IE11 doesn't support it
 
     if (this.options.removeOnDestroy) {
@@ -20835,8 +21354,8 @@ var UTAComponents = (function (exports) {
     // take popper margin in account because we don't have this info available
 
     var css = getStyleComputedProperty(data.instance.popper);
-    var popperMarginSide = parseFloat(css['margin' + sideCapitalized], 10);
-    var popperBorderSide = parseFloat(css['border' + sideCapitalized + 'Width'], 10);
+    var popperMarginSide = parseFloat(css['margin' + sideCapitalized]);
+    var popperBorderSide = parseFloat(css['border' + sideCapitalized + 'Width']);
     var sideValue = center - data.offsets.popper[side] - popperMarginSide - popperBorderSide; // prevent arrowElement from being placed not contiguously to its popper
 
     sideValue = Math.max(Math.min(popper[len] - arrowElementSize, sideValue), 0);
@@ -20981,8 +21500,12 @@ var UTAComponents = (function (exports) {
       var overflowsBottom = floor(popperOffsets.bottom) > floor(boundaries.bottom);
       var overflowsBoundaries = placement === 'left' && overflowsLeft || placement === 'right' && overflowsRight || placement === 'top' && overflowsTop || placement === 'bottom' && overflowsBottom; // flip the variation if required
 
-      var isVertical = ['top', 'bottom'].indexOf(placement) !== -1;
-      var flippedVariation = !!options.flipVariations && (isVertical && variation === 'start' && overflowsLeft || isVertical && variation === 'end' && overflowsRight || !isVertical && variation === 'start' && overflowsTop || !isVertical && variation === 'end' && overflowsBottom);
+      var isVertical = ['top', 'bottom'].indexOf(placement) !== -1; // flips variation if reference element overflows boundaries
+
+      var flippedVariationByRef = !!options.flipVariations && (isVertical && variation === 'start' && overflowsLeft || isVertical && variation === 'end' && overflowsRight || !isVertical && variation === 'start' && overflowsTop || !isVertical && variation === 'end' && overflowsBottom); // flips variation if popper content overflows boundaries
+
+      var flippedVariationByContent = !!options.flipVariationsByContent && (isVertical && variation === 'start' && overflowsRight || isVertical && variation === 'end' && overflowsLeft || !isVertical && variation === 'start' && overflowsBottom || !isVertical && variation === 'end' && overflowsTop);
+      var flippedVariation = flippedVariationByRef || flippedVariationByContent;
 
       if (overlapsRef || overflowsBoundaries || flippedVariation) {
         // this boolean to detect any flip loop
@@ -21597,7 +22120,25 @@ var UTAComponents = (function (exports) {
        * The popper will never be placed outside of the defined boundaries
        * (except if `keepTogether` is enabled)
        */
-      boundariesElement: 'viewport'
+      boundariesElement: 'viewport',
+
+      /**
+       * @prop {Boolean} flipVariations=false
+       * The popper will switch placement variation between `-start` and `-end` when
+       * the reference element overlaps its boundaries.
+       *
+       * The original placement should have a set variation.
+       */
+      flipVariations: false,
+
+      /**
+       * @prop {Boolean} flipVariationsByContent=false
+       * The popper will switch placement variation between `-start` and `-end` when
+       * the popper element overlaps its reference boundaries.
+       *
+       * The original placement should have a set variation.
+       */
+      flipVariationsByContent: false
     },
 
     /**
@@ -21826,8 +22367,8 @@ var UTAComponents = (function (exports) {
     /**
      * Creates a new Popper.js instance.
      * @class Popper
-     * @param {HTMLElement|referenceObject} reference - The reference element used to position the popper
-     * @param {HTMLElement} popper - The HTML element used as the popper
+     * @param {Element|referenceObject} reference - The reference element used to position the popper
+     * @param {Element} popper - The HTML / XML element used as the popper
      * @param {Object} options - Your custom options to override the ones defined in [Defaults](#defaults)
      * @return {Object} instance - The generated Popper.js instance
      */
@@ -21969,7 +22510,7 @@ var UTAComponents = (function (exports) {
       * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
       */
     (function (global, factory) {
-      factory(exports, jquery, Popper);
+       factory(exports, jquery, Popper) ;
     })(commonjsGlobal, function (exports, $, Popper) {
 
       $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
@@ -22218,9 +22759,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Alert =
-      /*#__PURE__*/
-      function () {
+      var Alert = /*#__PURE__*/function () {
         function Alert(element) {
           this._element = element;
         } // Getters
@@ -22385,9 +22924,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Button =
-      /*#__PURE__*/
-      function () {
+      var Button = /*#__PURE__*/function () {
         function Button(element) {
           this._element = element;
         } // Getters
@@ -22591,9 +23128,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Carousel =
-      /*#__PURE__*/
-      function () {
+      var Carousel = /*#__PURE__*/function () {
         function Carousel(element, config) {
           this._items = null;
           this._interval = null;
@@ -22846,8 +23381,6 @@ var UTAComponents = (function (exports) {
               event.preventDefault();
               this.next();
               break;
-
-            default:
           }
         };
 
@@ -23150,9 +23683,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Collapse =
-      /*#__PURE__*/
-      function () {
+      var Collapse = /*#__PURE__*/function () {
         function Collapse(element, config) {
           this._isTransitioning = false;
           this._element = element;
@@ -23544,9 +24075,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Dropdown =
-      /*#__PURE__*/
-      function () {
+      var Dropdown = /*#__PURE__*/function () {
         function Dropdown(element, config) {
           this._element = element;
           this._popper = null;
@@ -23780,9 +24309,9 @@ var UTAComponents = (function (exports) {
               },
               preventOverflow: {
                 boundariesElement: this._config.boundary
-              } // Disable Popper.js if we have a static display
+              }
+            } // Disable Popper.js if we have a static display
 
-            }
           };
 
           if (this._config.display === 'static') {
@@ -24048,9 +24577,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Modal =
-      /*#__PURE__*/
-      function () {
+      var Modal = /*#__PURE__*/function () {
         function Modal(element, config) {
           this._config = this._getConfig(config);
           this._element = element;
@@ -24681,7 +25208,7 @@ var UTAComponents = (function (exports) {
         };
 
         for (var i = 0, len = elements.length; i < len; i++) {
-          var _ret = _loop(i, len);
+          var _ret = _loop(i);
 
           if (_ret === "continue") continue;
         }
@@ -24782,9 +25309,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Tooltip =
-      /*#__PURE__*/
-      function () {
+      var Tooltip = /*#__PURE__*/function () {
         function Tooltip(element, config) {
           /**
            * Check for Popper dependency
@@ -25457,9 +25982,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Popover =
-      /*#__PURE__*/
-      function (_Tooltip) {
+      var Popover = /*#__PURE__*/function (_Tooltip) {
         _inheritsLoose(Popover, _Tooltip);
 
         function Popover() {
@@ -25645,9 +26168,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var ScrollSpy =
-      /*#__PURE__*/
-      function () {
+      var ScrollSpy = /*#__PURE__*/function () {
         function ScrollSpy(element, config) {
           var _this = this;
 
@@ -25939,9 +26460,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Tab =
-      /*#__PURE__*/
-      function () {
+      var Tab = /*#__PURE__*/function () {
         function Tab(element) {
           this._element = element;
         } // Getters
@@ -26175,9 +26694,7 @@ var UTAComponents = (function (exports) {
 
       };
 
-      var Toast =
-      /*#__PURE__*/
-      function () {
+      var Toast = /*#__PURE__*/function () {
         function Toast(element, config) {
           this._element = element;
           this._config = this._getConfig(config);
@@ -28788,8 +29305,6 @@ var UTAComponents = (function (exports) {
               slideCount = _.options.swipeToSlide ? _.checkNavigable(_.currentSlide - _.getSlideCount()) : _.currentSlide - _.getSlideCount();
               _.currentDirection = 1;
               break;
-
-            default:
           }
 
           if (direction != 'vertical') {
@@ -29046,18 +29561,54 @@ var UTAComponents = (function (exports) {
     });
   });
 
-  var hasOwnProperty$1 = {}.hasOwnProperty;
+  var check$1 = function check(it) {
+    return it && it.Math == Math && it;
+  }; // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 
-  var has = function has(it, key) {
-    return hasOwnProperty$1.call(it, key);
-  };
+
+  var global_1 = // eslint-disable-next-line no-undef
+  check$1((typeof globalThis === "undefined" ? "undefined" : _typeof(globalThis)) == 'object' && globalThis) || check$1((typeof window === "undefined" ? "undefined" : _typeof(window)) == 'object' && window) || check$1((typeof self === "undefined" ? "undefined" : _typeof(self)) == 'object' && self) || check$1(_typeof(commonjsGlobal) == 'object' && commonjsGlobal) || // eslint-disable-next-line no-new-func
+  Function('return this')();
 
   var fails = function fails(exec) {
     try {
       return !!exec();
-    } catch (e) {
+    } catch (error) {
       return true;
     }
+  };
+
+  var descriptors = !fails(function () {
+    return Object.defineProperty({}, 1, {
+      get: function get() {
+        return 7;
+      }
+    })[1] != 7;
+  });
+
+  var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
+  var getOwnPropertyDescriptor$2 = Object.getOwnPropertyDescriptor; // Nashorn ~ JDK8 bug
+
+  var NASHORN_BUG = getOwnPropertyDescriptor$2 && !nativePropertyIsEnumerable.call({
+    1: 2
+  }, 1); // `Object.prototype.propertyIsEnumerable` method implementation
+  // https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
+
+  var f$8 = NASHORN_BUG ? function propertyIsEnumerable(V) {
+    var descriptor = getOwnPropertyDescriptor$2(this, V);
+    return !!descriptor && descriptor.enumerable;
+  } : nativePropertyIsEnumerable;
+  var objectPropertyIsEnumerable = {
+    f: f$8
+  };
+
+  var createPropertyDescriptor = function createPropertyDescriptor(bitmap, value) {
+    return {
+      enumerable: !(bitmap & 1),
+      configurable: !(bitmap & 2),
+      writable: !(bitmap & 4),
+      value: value
+    };
   };
 
   var toString$2 = {}.toString;
@@ -29066,7 +29617,8 @@ var UTAComponents = (function (exports) {
     return toString$2.call(it).slice(8, -1);
   };
 
-  var split = ''.split;
+  var split = ''.split; // fallback for non-array-like ES3 and non-enumerable old V8 strings
+
   var indexedObject = fails(function () {
     // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
     // eslint-disable-next-line no-prototype-builtins
@@ -29086,192 +29638,35 @@ var UTAComponents = (function (exports) {
     return indexedObject(requireObjectCoercible(it));
   };
 
-  var ceil$1 = Math.ceil;
-  var floor$4 = Math.floor; // `ToInteger` abstract operation
-  // https://tc39.github.io/ecma262/#sec-tointeger
-
-  var toInteger = function toInteger(argument) {
-    return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor$4 : ceil$1)(argument);
-  };
-
-  var min$3 = Math.min; // `ToLength` abstract operation
-  // https://tc39.github.io/ecma262/#sec-tolength
-
-  var toLength = function toLength(argument) {
-    return argument > 0 ? min$3(toInteger(argument), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
-  };
-
-  var max$2 = Math.max;
-  var min$4 = Math.min; // Helper for a popular repeating case of the spec:
-  // Let integer be ? ToInteger(index).
-  // If integer < 0, let result be max((length + integer), 0); else let result be min(length, length).
-
-  var toAbsoluteIndex = function toAbsoluteIndex(index, length) {
-    var integer = toInteger(index);
-    return integer < 0 ? max$2(integer + length, 0) : min$4(integer, length);
-  };
-
-  // false -> Array#indexOf
-  // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
-  // true  -> Array#includes
-  // https://tc39.github.io/ecma262/#sec-array.prototype.includes
-
-  var arrayIncludes = function arrayIncludes(IS_INCLUDES) {
-    return function ($this, el, fromIndex) {
-      var O = toIndexedObject($this);
-      var length = toLength(O.length);
-      var index = toAbsoluteIndex(fromIndex, length);
-      var value; // Array#includes uses SameValueZero equality algorithm
-      // eslint-disable-next-line no-self-compare
-
-      if (IS_INCLUDES && el != el) while (length > index) {
-        value = O[index++]; // eslint-disable-next-line no-self-compare
-
-        if (value != value) return true; // Array#indexOf ignores holes, Array#includes - not
-      } else for (; length > index; index++) {
-        if (IS_INCLUDES || index in O) {
-          if (O[index] === el) return IS_INCLUDES || index || 0;
-        }
-      }
-      return !IS_INCLUDES && -1;
-    };
-  };
-
-  var hiddenKeys$1 = {};
-
-  var arrayIndexOf$1 = arrayIncludes(false);
-
-  var objectKeysInternal = function objectKeysInternal(object, names) {
-    var O = toIndexedObject(object);
-    var i = 0;
-    var result = [];
-    var key;
-
-    for (key in O) {
-      !has(hiddenKeys$1, key) && has(O, key) && result.push(key);
-    } // Don't enum bug & hidden keys
-
-
-    while (names.length > i) {
-      if (has(O, key = names[i++])) {
-        ~arrayIndexOf$1(result, key) || result.push(key);
-      }
-    }
-
-    return result;
-  };
-
-  // IE8- don't enum bug keys
-  var enumBugKeys = ['constructor', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf'];
-
-  var objectKeys = Object.keys || function keys(O) {
-    return objectKeysInternal(O, enumBugKeys);
-  };
-
-  var f$8 = Object.getOwnPropertySymbols;
-  var objectGetOwnPropertySymbols = {
-    f: f$8
-  };
-
-  var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
-  var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor; // Nashorn ~ JDK8 bug
-
-  var NASHORN_BUG = nativeGetOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({
-    1: 2
-  }, 1);
-  var f$9 = NASHORN_BUG ? function propertyIsEnumerable(V) {
-    var descriptor = nativeGetOwnPropertyDescriptor(this, V);
-    return !!descriptor && descriptor.enumerable;
-  } : nativePropertyIsEnumerable;
-  var objectPropertyIsEnumerable = {
-    f: f$9
-  };
-
-  // https://tc39.github.io/ecma262/#sec-toobject
-
-  var toObject = function toObject(argument) {
-    return Object(requireObjectCoercible(argument));
-  };
-
-  var nativeAssign = Object.assign; // should work with symbols and should have deterministic property order (V8 bug)
-
-  var objectAssign = !nativeAssign || fails(function () {
-    var A = {};
-    var B = {}; // eslint-disable-next-line no-undef
-
-    var symbol = Symbol();
-    var alphabet = 'abcdefghijklmnopqrst';
-    A[symbol] = 7;
-    alphabet.split('').forEach(function (chr) {
-      B[chr] = chr;
-    });
-    return nativeAssign({}, A)[symbol] != 7 || objectKeys(nativeAssign({}, B)).join('') != alphabet;
-  }) ? function assign(target, source) {
-    // eslint-disable-line no-unused-vars
-    var T = toObject(target);
-    var argumentsLength = arguments.length;
-    var index = 1;
-    var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
-    var propertyIsEnumerable = objectPropertyIsEnumerable.f;
-
-    while (argumentsLength > index) {
-      var S = indexedObject(arguments[index++]);
-      var keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S);
-      var length = keys.length;
-      var j = 0;
-      var key;
-
-      while (length > j) {
-        if (propertyIsEnumerable.call(S, key = keys[j++])) T[key] = S[key];
-      }
-    }
-
-    return T;
-  } : nativeAssign;
-
-  // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-  var global$1 = (typeof window === "undefined" ? "undefined" : _typeof(window)) == 'object' && window && window.Math == Math ? window : (typeof self === "undefined" ? "undefined" : _typeof(self)) == 'object' && self && self.Math == Math ? self // eslint-disable-next-line no-new-func
-  : Function('return this')();
-
-  var descriptors = !fails(function () {
-    return Object.defineProperty({}, 'a', {
-      get: function get() {
-        return 7;
-      }
-    }).a != 7;
-  });
-
-  var createPropertyDescriptor = function createPropertyDescriptor(bitmap, value) {
-    return {
-      enumerable: !(bitmap & 1),
-      configurable: !(bitmap & 2),
-      writable: !(bitmap & 4),
-      value: value
-    };
-  };
-
   var isObject = function isObject(it) {
     return _typeof(it) === 'object' ? it !== null : typeof it === 'function';
   };
 
+  // https://tc39.github.io/ecma262/#sec-toprimitive
   // instead of the ES6 spec version, we didn't implement @@toPrimitive case
   // and the second argument - flag - preferred type is a string
 
-  var toPrimitive = function toPrimitive(it, S) {
-    if (!isObject(it)) return it;
+  var toPrimitive = function toPrimitive(input, PREFERRED_STRING) {
+    if (!isObject(input)) return input;
     var fn, val;
-    if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-    if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
-    if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+    if (PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+    if (typeof (fn = input.valueOf) == 'function' && !isObject(val = fn.call(input))) return val;
+    if (!PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
     throw TypeError("Can't convert object to primitive value");
   };
 
-  var document$3 = global$1.document; // typeof document.createElement is 'object' in old IE
+  var hasOwnProperty$1 = {}.hasOwnProperty;
 
-  var exist = isObject(document$3) && isObject(document$3.createElement);
+  var has = function has(it, key) {
+    return hasOwnProperty$1.call(it, key);
+  };
+
+  var document$3 = global_1.document; // typeof document.createElement is 'object' in old IE
+
+  var EXISTS = isObject(document$3) && isObject(document$3.createElement);
 
   var documentCreateElement = function documentCreateElement(it) {
-    return exist ? document$3.createElement(it) : {};
+    return EXISTS ? document$3.createElement(it) : {};
   };
 
   var ie8DomDefine = !descriptors && !fails(function () {
@@ -29282,19 +29677,21 @@ var UTAComponents = (function (exports) {
     }).a != 7;
   });
 
-  var nativeGetOwnPropertyDescriptor$1 = Object.getOwnPropertyDescriptor;
-  var f$a = descriptors ? nativeGetOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
+  var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor; // `Object.getOwnPropertyDescriptor` method
+  // https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
+
+  var f$9 = descriptors ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
     O = toIndexedObject(O);
     P = toPrimitive(P, true);
     if (ie8DomDefine) try {
-      return nativeGetOwnPropertyDescriptor$1(O, P);
-    } catch (e) {
+      return nativeGetOwnPropertyDescriptor(O, P);
+    } catch (error) {
       /* empty */
     }
     if (has(O, P)) return createPropertyDescriptor(!objectPropertyIsEnumerable.f.call(O, P), O[P]);
   };
   var objectGetOwnPropertyDescriptor = {
-    f: f$a
+    f: f$9
   };
 
   var anObject = function anObject(it) {
@@ -29305,14 +29702,16 @@ var UTAComponents = (function (exports) {
     return it;
   };
 
-  var nativeDefineProperty = Object.defineProperty;
-  var f$b = descriptors ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
+  var nativeDefineProperty = Object.defineProperty; // `Object.defineProperty` method
+  // https://tc39.github.io/ecma262/#sec-object.defineproperty
+
+  var f$a = descriptors ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
     anObject(O);
     P = toPrimitive(P, true);
     anObject(Attributes);
     if (ie8DomDefine) try {
       return nativeDefineProperty(O, P, Attributes);
-    } catch (e) {
+    } catch (error) {
       /* empty */
     }
     if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
@@ -29320,10 +29719,10 @@ var UTAComponents = (function (exports) {
     return O;
   };
   var objectDefineProperty = {
-    f: f$b
+    f: f$a
   };
 
-  var hide$1 = descriptors ? function (object, key, value) {
+  var createNonEnumerableProperty = descriptors ? function (object, key, value) {
     return objectDefineProperty.f(object, key, createPropertyDescriptor(1, value));
   } : function (object, key, value) {
     object[key] = value;
@@ -29332,45 +29731,57 @@ var UTAComponents = (function (exports) {
 
   var setGlobal = function setGlobal(key, value) {
     try {
-      hide$1(global$1, key, value);
-    } catch (e) {
-      global$1[key] = value;
+      createNonEnumerableProperty(global_1, key, value);
+    } catch (error) {
+      global_1[key] = value;
     }
 
     return value;
   };
 
+  var SHARED = '__core-js_shared__';
+  var store$2 = global_1[SHARED] || setGlobal(SHARED, {});
+  var sharedStore = store$2;
+
+  var functionToString = Function.toString; // this helper broken in `3.4.1-3.4.4`, so we can't use `shared` helper
+
+  if (typeof sharedStore.inspectSource != 'function') {
+    sharedStore.inspectSource = function (it) {
+      return functionToString.call(it);
+    };
+  }
+
+  var inspectSource = sharedStore.inspectSource;
+
+  var WeakMap$1 = global_1.WeakMap;
+  var nativeWeakMap = typeof WeakMap$1 === 'function' && /native code/.test(inspectSource(WeakMap$1));
+
   var shared$2 = createCommonjsModule(function (module) {
-    var SHARED = '__core-js_shared__';
-    var store = global$1[SHARED] || setGlobal(SHARED, {});
     (module.exports = function (key, value) {
-      return store[key] || (store[key] = value !== undefined ? value : {});
+      return sharedStore[key] || (sharedStore[key] = value !== undefined ? value : {});
     })('versions', []).push({
-      version: '3.0.0',
-      mode: 'global',
-      copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+      version: '3.6.5',
+      mode:  'global',
+      copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
     });
   });
-
-  var functionToString = shared$2('native-function-to-string', Function.toString);
-
-  var WeakMap$1 = global$1.WeakMap;
-  var nativeWeakMap = typeof WeakMap$1 === 'function' && /native code/.test(functionToString.call(WeakMap$1));
 
   var id$2 = 0;
   var postfix = Math.random();
 
   var uid = function uid(key) {
-    return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id$2 + postfix).toString(36));
+    return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id$2 + postfix).toString(36);
   };
 
-  var shared$3 = shared$2('keys');
+  var keys$2 = shared$2('keys');
 
   var sharedKey = function sharedKey(key) {
-    return shared$3[key] || (shared$3[key] = uid(key));
+    return keys$2[key] || (keys$2[key] = uid(key));
   };
 
-  var WeakMap$2 = global$1.WeakMap;
+  var hiddenKeys$1 = {};
+
+  var WeakMap$2 = global_1.WeakMap;
   var set$1, get$1, has$1;
 
   var enforce = function enforce(it) {
@@ -29390,29 +29801,29 @@ var UTAComponents = (function (exports) {
   };
 
   if (nativeWeakMap) {
-    var store$2 = new WeakMap$2();
-    var wmget = store$2.get;
-    var wmhas = store$2.has;
-    var wmset = store$2.set;
+    var store$3 = new WeakMap$2();
+    var wmget = store$3.get;
+    var wmhas = store$3.has;
+    var wmset = store$3.set;
 
     set$1 = function set(it, metadata) {
-      wmset.call(store$2, it, metadata);
+      wmset.call(store$3, it, metadata);
       return metadata;
     };
 
     get$1 = function get(it) {
-      return wmget.call(store$2, it) || {};
+      return wmget.call(store$3, it) || {};
     };
 
     has$1 = function has(it) {
-      return wmhas.call(store$2, it);
+      return wmhas.call(store$3, it);
     };
   } else {
     var STATE = sharedKey('state');
     hiddenKeys$1[STATE] = true;
 
     set$1 = function set(it, metadata) {
-      hide$1(it, STATE, metadata);
+      createNonEnumerableProperty(it, STATE, metadata);
       return metadata;
     };
 
@@ -29436,21 +29847,18 @@ var UTAComponents = (function (exports) {
   var redefine = createCommonjsModule(function (module) {
     var getInternalState = internalState.get;
     var enforceInternalState = internalState.enforce;
-    var TEMPLATE = String(functionToString).split('toString');
-    shared$2('inspectSource', function (it) {
-      return functionToString.call(it);
-    });
+    var TEMPLATE = String(String).split('String');
     (module.exports = function (O, key, value, options) {
       var unsafe = options ? !!options.unsafe : false;
       var simple = options ? !!options.enumerable : false;
       var noTargetGet = options ? !!options.noTargetGet : false;
 
       if (typeof value == 'function') {
-        if (typeof key == 'string' && !has(value, 'name')) hide$1(value, 'name', key);
+        if (typeof key == 'string' && !has(value, 'name')) createNonEnumerableProperty(value, 'name', key);
         enforceInternalState(value).source = TEMPLATE.join(typeof key == 'string' ? key : '');
       }
 
-      if (O === global$1) {
+      if (O === global_1) {
         if (simple) O[key] = value;else setGlobal(key, value);
         return;
       } else if (!unsafe) {
@@ -29459,25 +29867,117 @@ var UTAComponents = (function (exports) {
         simple = true;
       }
 
-      if (simple) O[key] = value;else hide$1(O, key, value); // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+      if (simple) O[key] = value;else createNonEnumerableProperty(O, key, value); // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
     })(Function.prototype, 'toString', function toString() {
-      return typeof this == 'function' && getInternalState(this).source || functionToString.call(this);
+      return typeof this == 'function' && getInternalState(this).source || inspectSource(this);
     });
   });
 
-  var hiddenKeys$2 = enumBugKeys.concat('length', 'prototype');
+  var path = global_1;
 
-  var f$c = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  var aFunction = function aFunction(variable) {
+    return typeof variable == 'function' ? variable : undefined;
+  };
+
+  var getBuiltIn = function getBuiltIn(namespace, method) {
+    return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global_1[namespace]) : path[namespace] && path[namespace][method] || global_1[namespace] && global_1[namespace][method];
+  };
+
+  var ceil$1 = Math.ceil;
+  var floor$4 = Math.floor; // `ToInteger` abstract operation
+  // https://tc39.github.io/ecma262/#sec-tointeger
+
+  var toInteger = function toInteger(argument) {
+    return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor$4 : ceil$1)(argument);
+  };
+
+  var min$3 = Math.min; // `ToLength` abstract operation
+  // https://tc39.github.io/ecma262/#sec-tolength
+
+  var toLength = function toLength(argument) {
+    return argument > 0 ? min$3(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+  };
+
+  var max$2 = Math.max;
+  var min$4 = Math.min; // Helper for a popular repeating case of the spec:
+  // Let integer be ? ToInteger(index).
+  // If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
+
+  var toAbsoluteIndex = function toAbsoluteIndex(index, length) {
+    var integer = toInteger(index);
+    return integer < 0 ? max$2(integer + length, 0) : min$4(integer, length);
+  };
+
+  var createMethod = function createMethod(IS_INCLUDES) {
+    return function ($this, el, fromIndex) {
+      var O = toIndexedObject($this);
+      var length = toLength(O.length);
+      var index = toAbsoluteIndex(fromIndex, length);
+      var value; // Array#includes uses SameValueZero equality algorithm
+      // eslint-disable-next-line no-self-compare
+
+      if (IS_INCLUDES && el != el) while (length > index) {
+        value = O[index++]; // eslint-disable-next-line no-self-compare
+
+        if (value != value) return true; // Array#indexOf ignores holes, Array#includes - not
+      } else for (; length > index; index++) {
+        if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
+      }
+      return !IS_INCLUDES && -1;
+    };
+  };
+
+  var arrayIncludes = {
+    // `Array.prototype.includes` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.includes
+    includes: createMethod(true),
+    // `Array.prototype.indexOf` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
+    indexOf: createMethod(false)
+  };
+
+  var indexOf = arrayIncludes.indexOf;
+
+  var objectKeysInternal = function objectKeysInternal(object, names) {
+    var O = toIndexedObject(object);
+    var i = 0;
+    var result = [];
+    var key;
+
+    for (key in O) {
+      !has(hiddenKeys$1, key) && has(O, key) && result.push(key);
+    } // Don't enum bug & hidden keys
+
+
+    while (names.length > i) {
+      if (has(O, key = names[i++])) {
+        ~indexOf(result, key) || result.push(key);
+      }
+    }
+
+    return result;
+  };
+
+  // IE8- don't enum bug keys
+  var enumBugKeys = ['constructor', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf'];
+
+  var hiddenKeys$2 = enumBugKeys.concat('length', 'prototype'); // `Object.getOwnPropertyNames` method
+  // https://tc39.github.io/ecma262/#sec-object.getownpropertynames
+
+  var f$b = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
     return objectKeysInternal(O, hiddenKeys$2);
   };
 
   var objectGetOwnPropertyNames = {
+    f: f$b
+  };
+
+  var f$c = Object.getOwnPropertySymbols;
+  var objectGetOwnPropertySymbols = {
     f: f$c
   };
 
-  var Reflect$2 = global$1.Reflect; // all object keys, includes non-enumerable and symbols
-
-  var ownKeys = Reflect$2 && Reflect$2.ownKeys || function ownKeys(it) {
+  var ownKeys = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
     var keys = objectGetOwnPropertyNames.f(anObject(it));
     var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
     return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
@@ -29510,7 +30010,7 @@ var UTAComponents = (function (exports) {
   var POLYFILL = isForced.POLYFILL = 'P';
   var isForced_1 = isForced;
 
-  var getOwnPropertyDescriptor$2 = objectGetOwnPropertyDescriptor.f;
+  var getOwnPropertyDescriptor$3 = objectGetOwnPropertyDescriptor.f;
   /*
     options.target      - name of the target object
     options.global      - target is the global object
@@ -29533,18 +30033,18 @@ var UTAComponents = (function (exports) {
     var FORCED, target, key, targetProperty, sourceProperty, descriptor;
 
     if (GLOBAL) {
-      target = global$1;
+      target = global_1;
     } else if (STATIC) {
-      target = global$1[TARGET] || setGlobal(TARGET, {});
+      target = global_1[TARGET] || setGlobal(TARGET, {});
     } else {
-      target = (global$1[TARGET] || {}).prototype;
+      target = (global_1[TARGET] || {}).prototype;
     }
 
     if (target) for (key in source) {
       sourceProperty = source[key];
 
       if (options.noTargetGet) {
-        descriptor = getOwnPropertyDescriptor$2(target, key);
+        descriptor = getOwnPropertyDescriptor$3(target, key);
         targetProperty = descriptor && descriptor.value;
       } else targetProperty = target[key];
 
@@ -29557,13 +30057,79 @@ var UTAComponents = (function (exports) {
 
 
       if (options.sham || targetProperty && targetProperty.sham) {
-        hide$1(sourceProperty, 'sham', true);
+        createNonEnumerableProperty(sourceProperty, 'sham', true);
       } // extend global
 
 
       redefine(target, key, sourceProperty, options);
     }
   };
+
+  // https://tc39.github.io/ecma262/#sec-object.keys
+
+  var objectKeys = Object.keys || function keys(O) {
+    return objectKeysInternal(O, enumBugKeys);
+  };
+
+  // https://tc39.github.io/ecma262/#sec-toobject
+
+  var toObject = function toObject(argument) {
+    return Object(requireObjectCoercible(argument));
+  };
+
+  var nativeAssign = Object.assign;
+  var defineProperty$2 = Object.defineProperty; // `Object.assign` method
+  // https://tc39.github.io/ecma262/#sec-object.assign
+
+  var objectAssign = !nativeAssign || fails(function () {
+    // should have correct order of operations (Edge bug)
+    if (descriptors && nativeAssign({
+      b: 1
+    }, nativeAssign(defineProperty$2({}, 'a', {
+      enumerable: true,
+      get: function get() {
+        defineProperty$2(this, 'b', {
+          value: 3,
+          enumerable: false
+        });
+      }
+    }), {
+      b: 2
+    })).b !== 1) return true; // should work with symbols and should have deterministic property order (V8 bug)
+
+    var A = {};
+    var B = {}; // eslint-disable-next-line no-undef
+
+    var symbol = Symbol();
+    var alphabet = 'abcdefghijklmnopqrst';
+    A[symbol] = 7;
+    alphabet.split('').forEach(function (chr) {
+      B[chr] = chr;
+    });
+    return nativeAssign({}, A)[symbol] != 7 || objectKeys(nativeAssign({}, B)).join('') != alphabet;
+  }) ? function assign(target, source) {
+    // eslint-disable-line no-unused-vars
+    var T = toObject(target);
+    var argumentsLength = arguments.length;
+    var index = 1;
+    var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
+    var propertyIsEnumerable = objectPropertyIsEnumerable.f;
+
+    while (argumentsLength > index) {
+      var S = indexedObject(arguments[index++]);
+      var keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S);
+      var length = keys.length;
+      var j = 0;
+      var key;
+
+      while (length > j) {
+        key = keys[j++];
+        if (!descriptors || propertyIsEnumerable.call(S, key)) T[key] = S[key];
+      }
+    }
+
+    return T;
+  } : nativeAssign;
 
   // https://tc39.github.io/ecma262/#sec-object.assign
 
@@ -29575,11 +30141,9 @@ var UTAComponents = (function (exports) {
     assign: objectAssign
   });
 
-  var path = global$1;
-
   var assign = path.Object.assign;
 
-  var aFunction = function aFunction(it) {
+  var aFunction$1 = function aFunction(it) {
     if (typeof it != 'function') {
       throw TypeError(String(it) + ' is not a function');
     }
@@ -29587,8 +30151,8 @@ var UTAComponents = (function (exports) {
     return it;
   };
 
-  var bindContext = function bindContext(fn, that, length) {
-    aFunction(fn);
+  var functionBindContext = function functionBindContext(fn, that, length) {
+    aFunction$1(fn);
     if (that === undefined) return fn;
 
     switch (length) {
@@ -29626,14 +30190,26 @@ var UTAComponents = (function (exports) {
     return classofRaw(arg) == 'Array';
   };
 
-  var nativeSymbol = !fails(function () {
+  var nativeSymbol = !!Object.getOwnPropertySymbols && !fails(function () {
+    // Chrome 38 Symbol has incorrect toString conversion
+    // eslint-disable-next-line no-undef
+    return !String(Symbol());
   });
 
-  var store$3 = shared$2('wks');
-  var _Symbol = global$1.Symbol;
+  var useSymbolAsUid = nativeSymbol // eslint-disable-next-line no-undef
+  && !Symbol.sham // eslint-disable-next-line no-undef
+  && _typeof(Symbol.iterator) == 'symbol';
+
+  var WellKnownSymbolsStore = shared$2('wks');
+  var _Symbol = global_1.Symbol;
+  var createWellKnownSymbol = useSymbolAsUid ? _Symbol : _Symbol && _Symbol.withoutSetter || uid;
 
   var wellKnownSymbol = function wellKnownSymbol(name) {
-    return store$3[name] || (store$3[name] = nativeSymbol && _Symbol[name] || (nativeSymbol ? _Symbol : uid)('Symbol.' + name));
+    if (!has(WellKnownSymbolsStore, name)) {
+      if (nativeSymbol && has(_Symbol, name)) WellKnownSymbolsStore[name] = _Symbol[name];else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
+    }
+
+    return WellKnownSymbolsStore[name];
   };
 
   var SPECIES$4 = wellKnownSymbol('species'); // `ArraySpeciesCreate` abstract operation
@@ -29654,35 +30230,22 @@ var UTAComponents = (function (exports) {
     return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
   };
 
-  // 0 -> Array#forEach
-  // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-  // 1 -> Array#map
-  // https://tc39.github.io/ecma262/#sec-array.prototype.map
-  // 2 -> Array#filter
-  // https://tc39.github.io/ecma262/#sec-array.prototype.filter
-  // 3 -> Array#some
-  // https://tc39.github.io/ecma262/#sec-array.prototype.some
-  // 4 -> Array#every
-  // https://tc39.github.io/ecma262/#sec-array.prototype.every
-  // 5 -> Array#find
-  // https://tc39.github.io/ecma262/#sec-array.prototype.find
-  // 6 -> Array#findIndex
-  // https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
+  var push = [].push; // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex }` methods implementation
 
-  var arrayMethods = function arrayMethods(TYPE, specificCreate) {
+  var createMethod$1 = function createMethod(TYPE) {
     var IS_MAP = TYPE == 1;
     var IS_FILTER = TYPE == 2;
     var IS_SOME = TYPE == 3;
     var IS_EVERY = TYPE == 4;
     var IS_FIND_INDEX = TYPE == 6;
     var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-    var create = specificCreate || arraySpeciesCreate;
-    return function ($this, callbackfn, that) {
+    return function ($this, callbackfn, that, specificCreate) {
       var O = toObject($this);
       var self = indexedObject(O);
-      var boundFunction = bindContext(callbackfn, that, 3);
+      var boundFunction = functionBindContext(callbackfn, that, 3);
       var length = toLength(self.length);
       var index = 0;
+      var create = specificCreate || arraySpeciesCreate;
       var target = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
       var value, result;
 
@@ -29707,7 +30270,7 @@ var UTAComponents = (function (exports) {
                 // findIndex
 
                 case 2:
-                  target.push(value);
+                  push.call(target, value);
                 // filter
               } else if (IS_EVERY) return false; // every
           }
@@ -29718,78 +30281,140 @@ var UTAComponents = (function (exports) {
     };
   };
 
+  var arrayIteration = {
+    // `Array.prototype.forEach` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+    forEach: createMethod$1(0),
+    // `Array.prototype.map` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.map
+    map: createMethod$1(1),
+    // `Array.prototype.filter` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.filter
+    filter: createMethod$1(2),
+    // `Array.prototype.some` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.some
+    some: createMethod$1(3),
+    // `Array.prototype.every` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.every
+    every: createMethod$1(4),
+    // `Array.prototype.find` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.find
+    find: createMethod$1(5),
+    // `Array.prototype.findIndex` method
+    // https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
+    findIndex: createMethod$1(6)
+  };
+
+  // https://tc39.github.io/ecma262/#sec-object.defineproperties
+
   var objectDefineProperties = descriptors ? Object.defineProperties : function defineProperties(O, Properties) {
     anObject(O);
     var keys = objectKeys(Properties);
     var length = keys.length;
-    var i = 0;
+    var index = 0;
     var key;
 
-    while (length > i) {
-      objectDefineProperty.f(O, key = keys[i++], Properties[key]);
+    while (length > index) {
+      objectDefineProperty.f(O, key = keys[index++], Properties[key]);
     }
 
     return O;
   };
 
-  var document$4 = global$1.document;
-  var html = document$4 && document$4.documentElement;
+  var html = getBuiltIn('document', 'documentElement');
 
-  var IE_PROTO$3 = sharedKey('IE_PROTO');
+  var GT = '>';
+  var LT = '<';
   var PROTOTYPE$3 = 'prototype';
+  var SCRIPT = 'script';
+  var IE_PROTO$3 = sharedKey('IE_PROTO');
 
-  var Empty$1 = function Empty() {
+  var EmptyConstructor = function EmptyConstructor() {
     /* empty */
+  };
+
+  var scriptTag = function scriptTag(content) {
+    return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
+  }; // Create object with fake `null` prototype: use ActiveX Object with cleared prototype
+
+
+  var NullProtoObjectViaActiveX = function NullProtoObjectViaActiveX(activeXDocument) {
+    activeXDocument.write(scriptTag(''));
+    activeXDocument.close();
+    var temp = activeXDocument.parentWindow.Object;
+    activeXDocument = null; // avoid memory leak
+
+    return temp;
   }; // Create object with fake `null` prototype: use iframe Object with cleared prototype
 
 
-  var _createDict$1 = function createDict() {
+  var NullProtoObjectViaIFrame = function NullProtoObjectViaIFrame() {
     // Thrash, waste and sodomy: IE GC bug
     var iframe = documentCreateElement('iframe');
-    var length = enumBugKeys.length;
-    var lt = '<';
-    var script = 'script';
-    var gt = '>';
-    var js = 'java' + script + ':';
+    var JS = 'java' + SCRIPT + ':';
     var iframeDocument;
     iframe.style.display = 'none';
-    html.appendChild(iframe);
-    iframe.src = String(js);
+    html.appendChild(iframe); // https://github.com/zloirock/core-js/issues/475
+
+    iframe.src = String(JS);
     iframeDocument = iframe.contentWindow.document;
     iframeDocument.open();
-    iframeDocument.write(lt + script + gt + 'document.F=Object' + lt + '/' + script + gt);
+    iframeDocument.write(scriptTag('document.F=Object'));
     iframeDocument.close();
-    _createDict$1 = iframeDocument.F;
+    return iframeDocument.F;
+  }; // Check for document.domain and active x support
+  // No need to use active x approach when document.domain is not set
+  // see https://github.com/es-shims/es5-shim/issues/150
+  // variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
+  // avoid IE GC bug
 
-    while (length--) {
-      delete _createDict$1[PROTOTYPE$3][enumBugKeys[length]];
+
+  var activeXDocument;
+
+  var _NullProtoObject = function NullProtoObject() {
+    try {
+      /* global ActiveXObject */
+      activeXDocument = document.domain && new ActiveXObject('htmlfile');
+    } catch (error) {
+      /* ignore */
     }
 
-    return _createDict$1();
+    _NullProtoObject = activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame();
+    var length = enumBugKeys.length;
+
+    while (length--) {
+      delete _NullProtoObject[PROTOTYPE$3][enumBugKeys[length]];
+    }
+
+    return _NullProtoObject();
   };
+
+  hiddenKeys$1[IE_PROTO$3] = true; // `Object.create` method
+  // https://tc39.github.io/ecma262/#sec-object.create
 
   var objectCreate = Object.create || function create(O, Properties) {
     var result;
 
     if (O !== null) {
-      Empty$1[PROTOTYPE$3] = anObject(O);
-      result = new Empty$1();
-      Empty$1[PROTOTYPE$3] = null; // add "__proto__" for Object.getPrototypeOf polyfill
+      EmptyConstructor[PROTOTYPE$3] = anObject(O);
+      result = new EmptyConstructor();
+      EmptyConstructor[PROTOTYPE$3] = null; // add "__proto__" for Object.getPrototypeOf polyfill
 
       result[IE_PROTO$3] = O;
-    } else result = _createDict$1();
+    } else result = _NullProtoObject();
 
     return Properties === undefined ? result : objectDefineProperties(result, Properties);
   };
-
-  hiddenKeys$1[IE_PROTO$3] = true;
 
   var UNSCOPABLES$1 = wellKnownSymbol('unscopables');
   var ArrayPrototype = Array.prototype; // Array.prototype[@@unscopables]
   // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
 
   if (ArrayPrototype[UNSCOPABLES$1] == undefined) {
-    hide$1(ArrayPrototype, UNSCOPABLES$1, objectCreate(null));
+    objectDefineProperty.f(ArrayPrototype, UNSCOPABLES$1, {
+      configurable: true,
+      value: objectCreate(null)
+    });
   } // add a key to Array.prototype[@@unscopables]
 
 
@@ -29797,9 +30422,37 @@ var UTAComponents = (function (exports) {
     ArrayPrototype[UNSCOPABLES$1][key] = true;
   };
 
-  var internalFind = arrayMethods(5);
+  var defineProperty$3 = Object.defineProperty;
+  var cache = {};
+
+  var thrower = function thrower(it) {
+    throw it;
+  };
+
+  var arrayMethodUsesToLength = function arrayMethodUsesToLength(METHOD_NAME, options) {
+    if (has(cache, METHOD_NAME)) return cache[METHOD_NAME];
+    if (!options) options = {};
+    var method = [][METHOD_NAME];
+    var ACCESSORS = has(options, 'ACCESSORS') ? options.ACCESSORS : false;
+    var argument0 = has(options, 0) ? options[0] : thrower;
+    var argument1 = has(options, 1) ? options[1] : undefined;
+    return cache[METHOD_NAME] = !!method && !fails(function () {
+      if (ACCESSORS && !descriptors) return true;
+      var O = {
+        length: -1
+      };
+      if (ACCESSORS) defineProperty$3(O, 1, {
+        enumerable: true,
+        get: thrower
+      });else O[1] = 1;
+      method.call(O, argument0, argument1);
+    });
+  };
+
+  var $find$2 = arrayIteration.find;
   var FIND = 'find';
-  var SKIPS_HOLES = true; // Shouldn't skip holes
+  var SKIPS_HOLES = true;
+  var USES_TO_LENGTH = arrayMethodUsesToLength(FIND); // Shouldn't skip holes
 
   if (FIND in []) Array(1)[FIND](function () {
     SKIPS_HOLES = false;
@@ -29809,12 +30462,12 @@ var UTAComponents = (function (exports) {
   _export$1({
     target: 'Array',
     proto: true,
-    forced: SKIPS_HOLES
+    forced: SKIPS_HOLES || !USES_TO_LENGTH
   }, {
     find: function find(callbackfn
     /* , that = undefined */
     ) {
-      return internalFind(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+      return $find$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   }); // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
 
@@ -29823,14 +30476,15 @@ var UTAComponents = (function (exports) {
   var call = Function.call;
 
   var entryUnbind = function entryUnbind(CONSTRUCTOR, METHOD, length) {
-    return bindContext(call, global$1[CONSTRUCTOR].prototype[METHOD], length);
+    return functionBindContext(call, global_1[CONSTRUCTOR].prototype[METHOD], length);
   };
 
   var find$1 = entryUnbind('Array', 'find');
 
-  var internalFindIndex = arrayMethods(6);
+  var $findIndex = arrayIteration.findIndex;
   var FIND_INDEX = 'findIndex';
-  var SKIPS_HOLES$1 = true; // Shouldn't skip holes
+  var SKIPS_HOLES$1 = true;
+  var USES_TO_LENGTH$1 = arrayMethodUsesToLength(FIND_INDEX); // Shouldn't skip holes
 
   if (FIND_INDEX in []) Array(1)[FIND_INDEX](function () {
     SKIPS_HOLES$1 = false;
@@ -29840,12 +30494,12 @@ var UTAComponents = (function (exports) {
   _export$1({
     target: 'Array',
     proto: true,
-    forced: SKIPS_HOLES$1
+    forced: SKIPS_HOLES$1 || !USES_TO_LENGTH$1
   }, {
     findIndex: function findIndex(callbackfn
     /* , that = undefined */
     ) {
-      return internalFindIndex(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+      return $findIndex(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   }); // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
 
@@ -31367,10 +32021,11 @@ var UTAComponents = (function (exports) {
     })(window, document);
   });
 
+  var global$1 = typeof globalThis !== 'undefined' && globalThis || typeof self !== 'undefined' && self || typeof global$1 !== 'undefined' && global$1;
   var support = {
-    searchParams: 'URLSearchParams' in self,
-    iterable: 'Symbol' in self && 'iterator' in Symbol,
-    blob: 'FileReader' in self && 'Blob' in self && function () {
+    searchParams: 'URLSearchParams' in global$1,
+    iterable: 'Symbol' in global$1 && 'iterator' in Symbol,
+    blob: 'FileReader' in global$1 && 'Blob' in global$1 && function () {
       try {
         new Blob();
         return true;
@@ -31378,8 +32033,8 @@ var UTAComponents = (function (exports) {
         return false;
       }
     }(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
+    formData: 'FormData' in global$1,
+    arrayBuffer: 'ArrayBuffer' in global$1
   };
 
   function isDataView(obj) {
@@ -31399,7 +32054,7 @@ var UTAComponents = (function (exports) {
       name = String(name);
     }
 
-    if (/[^a-z0-9\-#$%&'*+.^_`|~]/i.test(name)) {
+    if (/[^a-z0-9\-#$%&'*+.^_`|~!]/i.test(name) || name === '') {
       throw new TypeError('Invalid character in header field name');
     }
 
@@ -31572,6 +32227,17 @@ var UTAComponents = (function (exports) {
     this.bodyUsed = false;
 
     this._initBody = function (body) {
+      /*
+        fetch-mock wraps the Response object in an ES6 Proxy to
+        provide useful test harness features such as flush. However, on
+        ES5 browsers without fetch or Proxy support pollyfills must be used;
+        the proxy-pollyfill is unable to proxy an attribute unless it exists
+        on the object before the Proxy is created. This change ensures
+        Response.bodyUsed exists on the instance, while maintaining the
+        semantic of setting Request.bodyUsed in the constructor before
+        _initBody is called.
+      */
+      this.bodyUsed = this.bodyUsed;
       this._bodyInit = body;
 
       if (!body) {
@@ -31626,7 +32292,17 @@ var UTAComponents = (function (exports) {
 
       this.arrayBuffer = function () {
         if (this._bodyArrayBuffer) {
-          return consumed(this) || Promise.resolve(this._bodyArrayBuffer);
+          var isConsumed = consumed(this);
+
+          if (isConsumed) {
+            return isConsumed;
+          }
+
+          if (ArrayBuffer.isView(this._bodyArrayBuffer)) {
+            return Promise.resolve(this._bodyArrayBuffer.buffer.slice(this._bodyArrayBuffer.byteOffset, this._bodyArrayBuffer.byteOffset + this._bodyArrayBuffer.byteLength));
+          } else {
+            return Promise.resolve(this._bodyArrayBuffer);
+          }
         } else {
           return this.blob().then(readBlobAsArrayBuffer);
         }
@@ -31673,6 +32349,10 @@ var UTAComponents = (function (exports) {
   }
 
   function Request(input, options) {
+    if (!(this instanceof Request)) {
+      throw new TypeError('Please use the "new" operator, this DOM object constructor cannot be called as a function.');
+    }
+
     options = options || {};
     var body = options.body;
 
@@ -31716,6 +32396,22 @@ var UTAComponents = (function (exports) {
     }
 
     this._initBody(body);
+
+    if (this.method === 'GET' || this.method === 'HEAD') {
+      if (options.cache === 'no-store' || options.cache === 'no-cache') {
+        // Search for a '_' parameter in the query string
+        var reParamSearch = /([?&])_=[^&]*/;
+
+        if (reParamSearch.test(this.url)) {
+          // If it already exists then set the value with the current time
+          this.url = this.url.replace(reParamSearch, '$1_=' + new Date().getTime());
+        } else {
+          // Otherwise add a new '_' parameter to the end with the current time
+          var reQueryString = /\?/;
+          this.url += (reQueryString.test(this.url) ? '&' : '?') + '_=' + new Date().getTime();
+        }
+      }
+    }
   }
 
   Request.prototype.clone = function () {
@@ -31756,6 +32452,10 @@ var UTAComponents = (function (exports) {
 
   Body.call(Request.prototype);
   function Response(bodyInit, options) {
+    if (!(this instanceof Response)) {
+      throw new TypeError('Please use the "new" operator, this DOM object constructor cannot be called as a function.');
+    }
+
     if (!options) {
       options = {};
     }
@@ -31763,7 +32463,7 @@ var UTAComponents = (function (exports) {
     this.type = 'default';
     this.status = options.status === undefined ? 200 : options.status;
     this.ok = this.status >= 200 && this.status < 300;
-    this.statusText = 'statusText' in options ? options.statusText : 'OK';
+    this.statusText = 'statusText' in options ? options.statusText : '';
     this.headers = new Headers(options.headers);
     this.url = options.url || '';
 
@@ -31804,7 +32504,7 @@ var UTAComponents = (function (exports) {
     });
   };
 
-  var DOMException = self.DOMException;
+  var DOMException = global$1.DOMException;
 
   try {
     new DOMException();
@@ -31842,22 +32542,38 @@ var UTAComponents = (function (exports) {
         };
         options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL');
         var body = 'response' in xhr ? xhr.response : xhr.responseText;
-        resolve(new Response(body, options));
+        setTimeout(function () {
+          resolve(new Response(body, options));
+        }, 0);
       };
 
       xhr.onerror = function () {
-        reject(new TypeError('Network request failed'));
+        setTimeout(function () {
+          reject(new TypeError('Network request failed'));
+        }, 0);
       };
 
       xhr.ontimeout = function () {
-        reject(new TypeError('Network request failed'));
+        setTimeout(function () {
+          reject(new TypeError('Network request failed'));
+        }, 0);
       };
 
       xhr.onabort = function () {
-        reject(new DOMException('Aborted', 'AbortError'));
+        setTimeout(function () {
+          reject(new DOMException('Aborted', 'AbortError'));
+        }, 0);
       };
 
-      xhr.open(request.method, request.url, true);
+      function fixUrl(url) {
+        try {
+          return url === '' && global$1.location.href ? global$1.location.href : url;
+        } catch (e) {
+          return url;
+        }
+      }
+
+      xhr.open(request.method, fixUrl(request.url), true);
 
       if (request.credentials === 'include') {
         xhr.withCredentials = true;
@@ -31865,13 +32581,23 @@ var UTAComponents = (function (exports) {
         xhr.withCredentials = false;
       }
 
-      if ('responseType' in xhr && support.blob) {
-        xhr.responseType = 'blob';
+      if ('responseType' in xhr) {
+        if (support.blob) {
+          xhr.responseType = 'blob';
+        } else if (support.arrayBuffer && request.headers.get('Content-Type') && request.headers.get('Content-Type').indexOf('application/octet-stream') !== -1) {
+          xhr.responseType = 'arraybuffer';
+        }
       }
 
-      request.headers.forEach(function (value, name) {
-        xhr.setRequestHeader(name, value);
-      });
+      if (init && _typeof(init.headers) === 'object' && !(init.headers instanceof Headers)) {
+        Object.getOwnPropertyNames(init.headers).forEach(function (name) {
+          xhr.setRequestHeader(name, normalizeValue(init.headers[name]));
+        });
+      } else {
+        request.headers.forEach(function (value, name) {
+          xhr.setRequestHeader(name, value);
+        });
+      }
 
       if (request.signal) {
         request.signal.addEventListener('abort', abortXhr);
@@ -31889,11 +32615,11 @@ var UTAComponents = (function (exports) {
   }
   fetch.polyfill = true;
 
-  if (!self.fetch) {
-    self.fetch = fetch;
-    self.Headers = Headers;
-    self.Request = Request;
-    self.Response = Response;
+  if (!global$1.fetch) {
+    global$1.fetch = fetch;
+    global$1.Headers = Headers;
+    global$1.Request = Request;
+    global$1.Response = Response;
   }
 
   if (window.Element && !Element.prototype.closest) {
@@ -31941,15 +32667,13 @@ var UTAComponents = (function (exports) {
   }
 
   String.toLocaleString({
-    'en': {
-      'autoCorrectedQueryTo': 'Showing results for {0}' // Overrides an existing string.
+    en: {
+      autoCorrectedQueryTo: 'Showing results for {0}' // Overrides an existing string.
 
     }
   });
 
-  var Waypoints =
-  /*#__PURE__*/
-  function () {
+  var Waypoints = /*#__PURE__*/function () {
     function Waypoints(options) {
       _classCallCheck(this, Waypoints);
 
@@ -32028,9 +32752,7 @@ var UTAComponents = (function (exports) {
 
   jquery.noConflict();
 
-  var CMSOnly =
-  /*#__PURE__*/
-  function () {
+  var CMSOnly = /*#__PURE__*/function () {
     function CMSOnly() {
       _classCallCheck(this, CMSOnly);
 
@@ -32130,8 +32852,6 @@ var UTAComponents = (function (exports) {
     setTimeout(init$2, 0);
   }
 
-  // ====================//
-
   var forEach = Array.prototype.forEach;
 
   var createAndReleaseComponentsUponDOMMutation = function createAndReleaseComponentsUponDOMMutation(records, componentClasses, componentClassesForWatchInit, options) {
@@ -32216,6 +32936,7 @@ var UTAComponents = (function (exports) {
 
   exports.ComponentSubjectCarousel = ComponentSubjectCarousel;
   exports.Header = Header;
+  exports.HeaderVideo = HeroVideo;
   exports.History = History;
   exports.ImageCarousel = ImageCarousel;
   exports.InfoBlockLinks = InfoBlockLinks;
@@ -32223,6 +32944,7 @@ var UTAComponents = (function (exports) {
   exports.LazyLoad = LazyLoad;
   exports.Navigation = Navigation;
   exports.NewsListing = NewsListing;
+  exports.ProfileCards = ProfileCards;
   exports.StoryCarrier = StoryCarrier;
   exports.SubjectCarousel = SubjectCarousel;
   exports.VerticalSubjectCarousel = VerticalSubjectCarousel;

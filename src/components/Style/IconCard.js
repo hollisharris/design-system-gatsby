@@ -1,5 +1,5 @@
 import React from 'react';
-import './iconcard.scss';
+// import './iconcard.scss';
 
 const IconCard = ({ classname, name }) => {
 

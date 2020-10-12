@@ -6,19 +6,20 @@ import Container from "../components/Container"
 import SEO from "../components/seo"
 import Hero from "../components/Hero"
 import CtaRightRailAccent from "../components/CtaRightRailAccent"
-import './tutorials.scss'
+// import './tutorials.scss'
 
 import { graphql } from 'gatsby';
 
 export const query = graphql`
   {
-    allContentfulTutorialPage {
+    allContentfulTutorialPage(sort: {fields: updatedAt, order: DESC}) {
         edges {
             node {
                 pageContent {
                     json
                 }
                 title
+                updatedAt(formatString: "dddd, MMMM Do, YYYY")
                 description {
                     description
                 }
@@ -31,19 +32,16 @@ export const query = graphql`
 
 const Tutorials = ({data}) => {
   const doc = data.allContentfulTutorialPage
-  console.log(doc)
+//   console.log(doc)
 
   if (!doc) return null;
 
     const tutorialsList = doc.edges.map((item, index)  => {
         return (
-            <div className="row align-items-center" key={index}>
-                <div className="col-md-7">
-                    <Link to={`/tutorials/${item.node.slug}/`}><h2 className="vertical-listing-title">{item.node.title}</h2>
-                        {item.node.description && <p className="description">{item.node.description.description}</p>}
-                    </Link>
-                </div>
-            </div>
+            <Link key={index} className="d-block py-4 border-bottom" to={`/tutorials/${item.node.slug}/`}>
+                <h2 className="vertical-listing-title mt-2">{item.node.title}</h2>
+                <p className="mb-1 description">{item.node.updatedAt} {item.node.description && <>&mdash; {item.node.description.description}</>}</p>
+            </Link>
         )
     })
   
@@ -56,9 +54,7 @@ const Tutorials = ({data}) => {
                 <Hero title="Tutorials" description="Quick guides to help you work efficiently in UTA's Sitecore CMS"/>
 
                 <div className="col-lg-9 vertical-listing">
-                    <div className="container-fluid">
                         {tutorialsList}
-                    </div>
                 </div>
 
                 <div className="col-lg-3">

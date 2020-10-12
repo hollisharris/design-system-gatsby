@@ -5,6 +5,7 @@ import Container from "../components/Container"
 import SEO from "../components/seo"
 import Hero from "../components/Hero"
 import VerticalListing from "../components/VerticalListing"
+import LatestUpdate from "../components/LatestUpdate"
 
 import { graphql } from 'gatsby';
 
@@ -20,6 +21,15 @@ export const query = graphql`
         path
         sectionDescription {
           sectionDescription
+        }
+        sectionImage {
+          title
+          fluid(maxWidth: 300) {
+              ...GatsbyContentfulFluid_tracedSVG
+          }
+          file {
+            url
+          }
         }
       }
     }
@@ -39,7 +49,8 @@ const IndexPage = ({data}) => {
         <div className="row">
             <Hero title={doc.headline} description={doc.description.description}/>
            
-            <div className="col-lg-9">
+            <div className="col-lg-9  mx-auto">
+              <LatestUpdate />
               <VerticalListing list={doc.featuredLinks} />
             </div>
         </div>

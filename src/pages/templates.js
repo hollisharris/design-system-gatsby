@@ -5,7 +5,7 @@ import Container from "../components/Container"
 import SEO from "../components/seo"
 import Hero from "../components/Hero"
 import CtaRightRailAccent from "../components/CtaRightRailAccent"
-import ComponentListItem from '../components/ComponentListItem'
+import TemplateCard from '../components/TemplateCard'
 
 import { graphql } from 'gatsby';
 
@@ -40,13 +40,22 @@ const Templates = ({data}) => {
 
   const marketingTemplatesList = doc.edges.map((item, index)  => {
     return (
-        <ComponentListItem key={index} slug={`templates/${item.node.slug}`} name={item.node.name}/>
+        <TemplateCard key={index} slug={`/templates/${item.node.slug}`} name={item.node.name}/>
     )
   })
 
+  const alphabetizeList = (list) => {
+    let newList = list.sort(function(a, b){
+      if(a.props.name < b.props.name) { return -1; }
+      if(a.props.name > b.props.name) { return 1; }
+      return 0;
+    })
+    return newList
+  }
+
   const deptTemplatesList = docDept.edges.map((item, index)  => {
     return (
-        <ComponentListItem key={index} slug={`templates/${item.node.slug}`} name={item.node.name}/>
+        <TemplateCard key={index} slug={`/templates/${item.node.slug}`} name={item.node.name}/>
     )
   })
     
@@ -59,11 +68,17 @@ const Templates = ({data}) => {
                 <Hero title="Templates" description="See examples and use cases of UTA's Sitecore templates"/>
 
                 <div className="col-lg-9">
-                  <h4>Marketing</h4>
-                  {marketingTemplatesList}
+                  <h2>Marketing</h2>
+                  <p className="text-mutd">Templates with either no navigation and prefooter placeholders or optional ones</p>
+                  <div className="marketing row d-flex">
+                    {alphabetizeList(marketingTemplatesList)}
+                  </div>  
 
-                  <h4 style={{marginTop: '2em'}}>Dept/College</h4>
-                  {deptTemplatesList}
+                  <h2 className="department mt-5">Dept/College</h2>
+                  <p className="text-mutd">Templates with navigation and prefooter placeholders</p>
+                  <div className="row">
+                    {alphabetizeList(deptTemplatesList)}
+                  </div>     
                 </div>     
 
                 <div className="col-lg-3">

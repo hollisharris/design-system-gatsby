@@ -1,8 +1,7 @@
-@import "../../scss/main.scss";
 $icon-box-size: rem(80px);
 
 .icon-container {
-    border-color: $ui-02;;
+    border-color: $color-gray;
     border-style: solid;
     border-width: 1px 0 0 1px;
     display: flex;
@@ -24,14 +23,14 @@ $icon-box-size: rem(80px);
         text-transform: uppercase;
         letter-spacing: 0.5px;
         line-height: 1.25;
-        color: $text-01;
-        font-weight: $font-weight-semibold;
+        color: $body-text;
+        @include font-weight(semibold);
         margin-top: rem(16px);
         margin-bottom: rem(5px);
     }
 
     span {
-        color: $text-02;
+        color: $color-gray;
         font-size: rem(16px);
         line-height: 1.5;
     }
@@ -55,18 +54,18 @@ $icon-box-size: rem(80px);
     opacity: 0;
     visibility: hidden;
     transition-property: opacity, visibility;
-    transition-duration: $uta--standard-duration, 0s;
-    transition-timing-function: $uta--standard-easing;
+    transition-duration: .3s;
+    transition-timing-function: ease;
 
     button {
         border: 0;
         font-size: rem(14px);
-        background-color: $brand-02;
-        font-weight: $font-weight-regular;
+        background-color: $color-blue;
+        @include font-weight(regular);
         text-align: center;
         cursor: pointer;
         display: block;
-        color: $ui-01;
+        color: $body-text;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -77,7 +76,7 @@ $icon-box-size: rem(80px);
 }
 
 .icon__card {
-    border-color: $ui-02;
+    border-color: $color-border;
     border-style: solid;
     border-width: 0 1px 1px 0;
     height: $icon-box-size;

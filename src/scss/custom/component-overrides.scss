@@ -62,14 +62,14 @@
         top: 50%;
         left: 0;
         right: 0;
-        border-bottom: 1px solid $ui-04;
+        border-bottom: 1px solid $color-border;
         z-index: -1;
     }
 
     .break--content {
         display: inline-block;
         padding: 0 rem(8px);
-        background: $color__white;
+        background: $color-white;
     }
 }
 
@@ -92,13 +92,13 @@ header.global-header {
 .page-layout__description .dropdown-menu {
     
     p.dropdown-item {
-        background-color: $color__white;
+        background-color: $color-white;
 
         &:hover,
         &:active,
         &:focus {
-            color: $text-02;
-            background-color: $color__white;
+            color: $color-gray;
+            background-color: $color-white;
         }
     }
 }

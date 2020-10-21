@@ -5,7 +5,6 @@ import Img from "gatsby-image"
 // import './ComponentListItem.scss'
     
 const Card = ({ slug, name, status, thumbnail }) => {
-    console.log(status)
 
     const convertToClass = (status) => {
         if(status === 'New') {

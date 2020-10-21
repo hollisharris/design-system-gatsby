@@ -231,7 +231,6 @@ query MyQuery($slug: String!) {
             json
         }
         status
-        version
         richtext
         listing
         listLimit

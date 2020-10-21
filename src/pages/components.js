@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 
 import Layout from "../components/layout"
 import Container from "../components/Container"
@@ -12,35 +12,29 @@ import { graphql } from 'gatsby'
 
 export const query = graphql`
 {
-    usableComponents: allContentfulComponentPage(filter: {globalComponent: {eq: false}, status: {nin: "Deprecated"}}) {
-        edges {
-            node {
-                name
-                slug
-                version
-                status
-                buttons
-                richtext
-                images
-                links
-                listing
-                listLimit
-                thumbnail {
-                    title
-                    fluid(maxWidth: 300) {
-                        ...GatsbyContentfulFluid
+    allContentfulComponentPage(filter: {globalComponent: {eq: false}, status: {nin: "Deprecated"}}) {
+        group(field: category) {
+            totalCount
+            fieldValue
+            edges {
+                node {
+                    name
+                    slug
+                    status
+                    category
+                    buttons
+                    richtext
+                    images
+                    links
+                    listing
+                    listLimit
+                    thumbnail {
+                        title
+                        fluid(maxWidth: 300) {
+                            ...GatsbyContentfulFluid
+                        }
                     }
                 }
-            }
-        }
-    }
-    globalComponents:allContentfulComponentPage(filter: {globalComponent: {eq: true}}) {
-        edges {
-            node {
-                name
-                slug
-                version
-                status
             }
         }
     }
@@ -48,22 +42,12 @@ export const query = graphql`
 `
 
 const ComponentsPage = ({data}) => {
-    const usableComponents = data.usableComponents;
-    let globalComponents = data.globalComponents;
-
-    const reset = event => {
-        if(event === 'all') {
-            setFormData(initialState);
-        } else {
-            setFormData({
-                ...formData,
-                [event]: 0
-            });
-        }
-    };
+    const doc = data.allContentfulComponentPage;
 
 //   Filters
     let [filteredList, setFilteredList] = useState([]);
+    let [filteredListLength, setFilteredListLength] = useState(0);
+    let [listLength, setListLength] = useState(0);
     let [formChanged, setFormChanged] = useState(false);
 
     const initialState = {
@@ -91,33 +75,14 @@ const ComponentsPage = ({data}) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        
+
         setFormData({
             ...formData,
             [name]: value
         });
     }
 
-    useEffect(() => {
-        let result = usableComponents.edges.filter(
-            component => 
-                (!formData.richtext || component.node.richtext === formData.richtext) &&
-                (!formData.links || component.node.links === "Links optional" || component.node.links === "Links required") &&
-                (!formData.buttonsCount || component.node.buttons >= formData.buttonsCount) &&
-                (!formData.searchTerm || component.node.name.toLowerCase().includes(formData.searchTerm.toLowerCase())) &&
-                (!formData.imagesCount || component.node.images >= formData.imagesCount) &&
-                (!formData.listing || component.node.listing === "Limited" || component.node.listing === "Unlimited")
-        );
-
-        let alphabetizeResult = result.sort(function(a, b){
-            if(a.node.slug < b.node.slug) { return -1; }
-            if(a.node.slug > b.node.slug) { return 1; }
-            return 0;
-        })
-        setFilteredList(alphabetizeResult);
-
-    }, [formData, usableComponents]);
-
+    // Did Form Change?
     useEffect(() => {
         // Compare object values
         // Ignoring Buttons and Images keys checkbox triggered dropdowns 
@@ -143,37 +108,117 @@ const ComponentsPage = ({data}) => {
         }
     }, [formData, initialState]);
 
-    if (!usableComponents || !globalComponents) return null;
+    // Reset
+    const reset = event => {
+        if(event === 'all') {
+            setFormData(initialState);
+        } else {
+            setFormData({
+                ...formData,
+                [event]: 0
+            });
+        }
+    };
 
-    let usableComponentsList = null;
-    if(filteredList.length > 0) {
-        usableComponentsList = filteredList.map((item, index)  => {
-            return (
-                <Card
-                    key={index}
-                    slug={`/components/${item.node.slug}`}
-                    name={item.node.name}
-                    version={item.node.version}
-                    status={item.node.status}
-                    thumbnail={item.node.thumbnail}/>
-            )
+
+
+    // Search + Filters
+    useEffect(() => {  
+        function filterLists(list) {
+            let result = list.edges.filter(
+                component => 
+                    (!formData.richtext || component.node.richtext === formData.richtext) &&
+                    (!formData.links || component.node.links === "Links optional" || component.node.links === "Links required") &&
+                    (!formData.buttonsCount || component.node.buttons >= formData.buttonsCount) &&
+                    (!formData.searchTerm || component.node.name.toLowerCase().includes(formData.searchTerm.toLowerCase())) &&
+                    (!formData.imagesCount || component.node.images >= formData.imagesCount) &&
+                    (!formData.listing || component.node.listing === "Limited" || component.node.listing === "Unlimited")
+            );
+
+            let alphabetizeResult = result.sort(function(a, b){
+                if(a.node.slug < b.node.slug) { return -1; }
+                if(a.node.slug > b.node.slug) { return 1; }
+                return 0;
+            })
+
+            // Update Count
+            setFilteredListLength(0)
+            
+            setFilteredList(f => ({
+                ...f,
+                [list.fieldValue]: {
+                    name: list.fieldValue,
+                    list: alphabetizeResult
+                }
+            }));
+        }
+
+        doc.group.forEach(element => {
+            filterLists(element)
+        });
+
+    }, [formData, doc]);
+
+    useEffect(() => {
+        // doc.group.forEach(element => {
+        //     setListLength(prevCount => prevCount + element.edges.length);
+        // });
+        Object.keys(doc.group).map(function(key) {
+            // console.log(doc.group[key])
+            setListLength(prevCount => prevCount + doc.group[key].edges.length)
         })
-    } else {
-        usableComponentsList = <p>No components found. Request a new component.</p>
-    }
 
-    // Alphabetize Results
-    globalComponents = globalComponents.edges.sort(function(a, b){
-        if(a.node.slug < b.node.slug) { return -1; }
-        if(a.node.slug > b.node.slug) { return 1; }
-        return 0;
-    })
+    }, [doc])
 
-    const globalComponentsList = globalComponents.map((item, index)  => {
-        return (
-            <Card key={index} slug={item.node.slug} name={item.node.name} version={item.node.version} status={item.node.status}/>
-        )
-    })
+    useEffect(() => {
+        Object.keys(filteredList).map(function(key) {
+            setFilteredListLength(prevCount => prevCount + filteredList[key].list.length)
+        })
+    }, [filteredList])
+
+    const componentsList = Object.keys(filteredList).map(function(key) {
+        const component = filteredList[key];
+        if(component.list.length > 0) {
+            return (
+                <div className="row mt-4" key={component.name}>
+                    <div className="col-12">
+                        <h2>{component.name}</h2>
+                    </div>
+                    {component.list.map(item => (
+                    <Card
+                        key={item.node.slug}
+                        slug={`/components/${item.node.slug}`}
+                        name={item.node.name}
+                        status={item.node.status}
+                        thumbnail={item.node.thumbnail}/>
+                    ))}
+                </div>
+            )
+        } else {
+            return null
+        }
+    });
+    
+
+    if (!doc) return null;
+
+    // let usableComponentsList = null;
+    // if(filteredList.length > 0) {
+    //     usableComponentsList = filteredList.map((item, index)  => {
+    //         return (
+    //             <Card
+    //                 key={index}
+    //                 slug={`/components/${item.node.slug}`}
+    //                 name={item.node.name}
+    //                 version={item.node.version}
+    //                 status={item.node.status}
+    //                 thumbnail={item.node.thumbnail}/>
+    //         )
+    //     })
+    // } else {
+    //     usableComponentsList = <p>No components found. Request a new component.</p>
+    // }
+
   
     return (
         <Layout>
@@ -253,16 +298,9 @@ const ComponentsPage = ({data}) => {
                         
 
                         <div className="col-lg-12">
-                            <h2 className="mt-5">Page Components</h2>
-                            <small className="text-muted text-small">{usableComponentsList.length} of {usableComponents.edges.length} components</small>
-                            <div className="row  mt-4">
-                                {usableComponentsList}
-                            </div>
-
-                            <h2 className="mt-5">Global Components</h2>
-                            <div className="row">
-                                {globalComponentsList}
-                            </div>
+                            {/* <h2 className="mt-5">Page Components</h2> */}
+                                        <small className="text-muted text-small">{filteredListLength} of {listLength} components</small>
+                            {componentsList}
                         </div>
 
                         

@@ -11,7 +11,6 @@ const IFrame = ({ html, htmlFile, styles, frameWidth }) => {
       setIframeHeight(iframeRef.current.node.contentWindow.document.body.scrollHeight)
   }, [iframeReady,iframeRef,frameWidth]);
 
-
   return (
     <Frame
       title="Component Example"
@@ -26,7 +25,7 @@ const IFrame = ({ html, htmlFile, styles, frameWidth }) => {
                         </head>
                         <body>
                             <div class="frame-root"></div>
-                            <script src="/assets/scripts/uta-prototype-components.min.js"></script>
+                            <script src="/assets/scripts/uta-prototype-components.js"></script>
                         </body>
                     </html>`
       }

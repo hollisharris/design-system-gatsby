@@ -58,6 +58,11 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
+        types: allContentfulComponentPage {
+          group(field: category) {
+            fieldValue
+          }
+        }
       }
     `
   ).then(result => {
@@ -69,6 +74,7 @@ exports.createPages = ({ graphql, actions }) => {
       const tutorialPageTemplate = path.resolve("./src/templates/tutorial.js");
       const templatePageTemplate = path.resolve("./src/templates/template-v2.js");
       const updatePageTemplate = path.resolve("./src/templates/update.js");
+      const typePageTemplate = path.resolve("./src/templates/type.js");
       // Then for each result we create a page.
       result.data.allContentfulComponentPage.edges.forEach(edge => {
         createPage({
@@ -107,6 +113,20 @@ exports.createPages = ({ graphql, actions }) => {
           context: {
             slug: edge.node.slug,
             id: edge.node.id
+          }
+        });
+      });
+      result.data.types.group.forEach(edge => {
+        const convertToSlug = (name) => {
+          var newSlug = name.toLowerCase();
+          newSlug = newSlug.replace(/\s+/g, '-');
+          return newSlug
+        }
+        createPage({
+          path: `/components/${convertToSlug(edge.fieldValue)}/`,
+          component: slash(typePageTemplate),
+          context: {
+            name: edge.fieldValue
           }
         });
       });

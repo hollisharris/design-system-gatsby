@@ -12274,6 +12274,60 @@ var UTAComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
+  jquery.noConflict(); // class RichTextTabContent extends mixin(createComponent, initComponentBySearch, handles) {
+
+  var RichTextTabContent = /*#__PURE__*/function (_VerticalSubjectCarou) {
+    _inherits(RichTextTabContent, _VerticalSubjectCarou);
+
+    var _super = _createSuper(RichTextTabContent);
+
+    function RichTextTabContent(element, options) {
+      _classCallCheck(this, RichTextTabContent);
+
+      return _super.call(this, element, options);
+    }
+    /**
+     * The component options.
+     * If `options` is specified in the constructor,
+     * {@linkcode RichTextTabContent.create .create()}, or {@linkcode RichTextTabContent.init .init()},
+     * properties in this object are overriden for the instance being create and how {@linkcode RichTextTabContent.init .init()} works.
+     * @property {string} selectorInit The CSS selector to find rich text tab content UI.
+     * @property {string} selectorCarousel The CSS selector to find the rich text tab content UI.
+     * @property {string} selectorLinks The CSS selector to find the rich text tab content links.
+     * @property {string} activeClass The CSS class to add to the active rich text tab content link.
+     */
+
+
+    _createClass(RichTextTabContent, null, [{
+      key: "options",
+      get: function get() {
+        return {
+          selectorInit: '[data-rich-text-tab-content]',
+          selectorCarousel: '.rich-text-tab-content-slides',
+          selectorSlides: '.rich-text-tab-content-slide',
+          selectorList: '.rich-text-tab-content-links',
+          selectorLinks: '.rich-text-tab-content-links a',
+          selectorSlideImage: '.rich-text-tab-content-slide-image',
+          selectorCurrentLabel: '.rich-text-tab-content-current',
+          activeClass: 'rich-text-tab-content-link__active',
+          dropdownClass: 'rich-text-tab-content-links__open',
+          openClass: 'rich-text-tab-content-current__open'
+        };
+      }
+      /**
+       * The map associating DOM element and accordion UI instance.
+       * @type {WeakMap}
+       */
+
+    }]);
+
+    return RichTextTabContent;
+  }(VerticalSubjectCarousel);
+
+  _defineProperty(RichTextTabContent, "components",
+  /* #__PURE_CLASS_PROPERTY__ */
+  new WeakMap());
+
   jquery.noConflict();
 
   var HeroVideo = /*#__PURE__*/function (_mixin) {
@@ -12378,6 +12432,7 @@ var UTAComponents = (function (exports) {
     StoryCarrier: StoryCarrier,
     SubjectCarousel: SubjectCarousel,
     VerticalSubjectCarousel: VerticalSubjectCarousel,
+    RichTextTabContent: RichTextTabContent,
     HeaderVideo: HeroVideo
   });
 
@@ -32945,6 +33000,7 @@ var UTAComponents = (function (exports) {
   exports.Navigation = Navigation;
   exports.NewsListing = NewsListing;
   exports.ProfileCards = ProfileCards;
+  exports.RichTextTabContent = RichTextTabContent;
   exports.StoryCarrier = StoryCarrier;
   exports.SubjectCarousel = SubjectCarousel;
   exports.VerticalSubjectCarousel = VerticalSubjectCarousel;

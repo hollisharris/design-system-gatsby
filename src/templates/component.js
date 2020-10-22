@@ -102,8 +102,6 @@ const ComponentPage = ({data}) => {
         }
     }
 
-    console.log(doc.defaultMobile )
-
     return (
         <Layout>
             <SEO title={doc.name} />
@@ -121,7 +119,7 @@ const ComponentPage = ({data}) => {
                                 <div className="row">
                                     <div className="col-lg-12 offset-lg-1">
                                         <h1 className="hero-title">{doc.name}</h1>
-                                        <div className="hero-description"><strong>Status:</strong> {doc.status}</div>
+                                        <div className="hero-description"><strong>Type:</strong> {doc.category} | <strong>Status:</strong> {doc.status}</div>
                                     </div>
                                 </div>
                             </div>
@@ -224,21 +222,12 @@ export default ComponentPage
 export const query = graphql`
 query MyQuery($slug: String!) {
     contentfulComponentPage(slug: { eq: $slug }) {
-        name
+        ...componentInfo
         uid
         componentUidVariation
         useCases {
             json
         }
-        status
-        version
-        richtext
-        listing
-        listLimit
-        links
-        images
-        buttons
-        globalComponent
         defaultMobile
         componentTutorial {
             tutorialVideoId

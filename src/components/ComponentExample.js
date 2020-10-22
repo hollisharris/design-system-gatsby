@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import IFrame from './Frame'
 
 const styles = require('!!css-loader!sass-loader!../scss/main.scss') // eslint-disable-line import/no-webpack-loader-syntax
-    
+
 
 const ComponentExample = ({ htmlFile, defaultMobile }) => {
     let [frameWidth, resizeFrame] = useState('100%');

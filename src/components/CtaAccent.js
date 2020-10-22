@@ -6,7 +6,7 @@ const CtaAccent = ({ headline, description, path, url, linkText }) => {
 
     return (
         <div className="cta-accent">
-            <div className="uta-lazy-bg cta-accent-bg uta-lazy-loaded" dataSrc="https://cdn.web.uta.edu/-/media/feature/cta/cta-accent.ashx?revision=025abb8c-3bcb-4671-8a30-0ffc9b02a20a" aria-hidden="true" style={{backgroundImage: 'url(https://cdn.web.uta.edu/-/media/feature/cta/cta-accent.ashx?revision=025abb8c-3bcb-4671-8a30-0ffc9b02a20a&quot)'}}></div>
+            <div className="uta-lazy-bg cta-accent-bg uta-lazy-loaded" data-src="https://cdn.web.uta.edu/-/media/feature/cta/cta-accent.ashx?revision=025abb8c-3bcb-4671-8a30-0ffc9b02a20a" aria-hidden="true" style={{backgroundImage: 'url(https://cdn.web.uta.edu/-/media/feature/cta/cta-accent.ashx?revision=025abb8c-3bcb-4671-8a30-0ffc9b02a20a&quot)'}}></div>
             <noscript><div className="uta-lazy-bg cta-accent-bg" style={{backgroundImage: 'url(https://cdn.web.uta.edu/-/media/feature/cta/cta-accent.ashx?revision=025abb8c-3bcb-4671-8a30-0ffc9b02a20a)'}}></div></noscript>
             <div className="container-fluid">
                 <div className="row">

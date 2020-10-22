@@ -353,12 +353,12 @@ const Template = ({data}) => {
                                 <h2>Placeholders</h2>
                                 {/* {documentToReactComponents(doc.placeholders.json, options)} */}
                                 <ul className="px-0 mx-0 list-group list-group-flush border-bottom">
-                                    {navigation.placeholder && <li style={{left:0}}class="px-0 mx-0 list-group-item">{navigation.placeholder}</li>}
-                                    {hero.placeholder && <li style={{left:0}}class="px-0 mx-0 list-group-item">{hero.placeholder}</li>}
-                                    {left.placeholder && <li style={{left:0}}class="px-0 mx-0 list-group-item">{left.placeholder}</li>}
-                                    {center.placeholder && <li style={{left:0}}class="px-0 mx-0 list-group-item">{center.placeholder}</li>}
-                                    {right.placeholder && <li style={{left:0}}class="px-0 mx-0 list-group-item">{right.placeholder}</li>}
-                                    {prefooter.placeholder && <li style={{left:0}}class="px-0 mx-0 list-group-item">{prefooter.placeholder}</li>}
+                                    {navigation.placeholder && <li style={{left:0}}className="px-0 mx-0 list-group-item">{navigation.placeholder}</li>}
+                                    {hero.placeholder && <li style={{left:0}}className="px-0 mx-0 list-group-item">{hero.placeholder}</li>}
+                                    {left.placeholder && <li style={{left:0}}className="px-0 mx-0 list-group-item">{left.placeholder}</li>}
+                                    {center.placeholder && <li style={{left:0}}className="px-0 mx-0 list-group-item">{center.placeholder}</li>}
+                                    {right.placeholder && <li style={{left:0}}className="px-0 mx-0 list-group-item">{right.placeholder}</li>}
+                                    {prefooter.placeholder && <li style={{left:0}}className="px-0 mx-0 list-group-item">{prefooter.placeholder}</li>}
                                 </ul>
                             </div>
                         </div>
